@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "The-fifth-group-FinalProject", "The-fifth-group-FinalProject\The-fifth-group-FinalProject.csproj", "{34EB1DDE-59F7-4794-80EB-4473AFFB09FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "The-fifth-group-FinalProject", "The-fifth-group-FinalProject\The-fifth-group-FinalProject.csproj", "{34EB1DDE-59F7-4794-80EB-4473AFFB09FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "The-fifth-group-FinalAPI", "The-fifth-group-FinalAPI\The-fifth-group-FinalAPI.csproj", "{0B56CC4B-0C5C-4FFE-BD3D-7C9112B5AD8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{34EB1DDE-59F7-4794-80EB-4473AFFB09FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34EB1DDE-59F7-4794-80EB-4473AFFB09FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34EB1DDE-59F7-4794-80EB-4473AFFB09FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B56CC4B-0C5C-4FFE-BD3D-7C9112B5AD8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B56CC4B-0C5C-4FFE-BD3D-7C9112B5AD8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B56CC4B-0C5C-4FFE-BD3D-7C9112B5AD8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B56CC4B-0C5C-4FFE-BD3D-7C9112B5AD8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
