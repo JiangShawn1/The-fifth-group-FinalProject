@@ -1,0 +1,176 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "TheFifthGroupOfTopicsContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "The_fifth_group_FinalAPI",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[AutoReplies]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AutoReplyKeyWords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Brands]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CartItems]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Categories]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ChatContents]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ChatRoomAutoReplies]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ChatRooms]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Colors]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CommonAnswers]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CommonQuestions]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Contest_Category]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Contests]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Coupons]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CustomerFeedbacks]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Employees]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Forum_SectionBranch1Topics]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Forum_SectionBranch1TopicsThread]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ForumSection]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ForumSectionBranches]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Information]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Members]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Members_Coupons]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OnSale]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Orders]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Products]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductsImages]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductSize]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QuestionTypes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QuickReplies]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QuickReplyKeyWords]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Registration]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Registration_Information]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Stocks]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Suppliers]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "DESKTOP-PAKSETB.TheFifthGroupOfTopics",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
