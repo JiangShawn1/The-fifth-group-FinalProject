@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language.CodeGeneration;
 using Microsoft.EntityFrameworkCore;
+using The_fifth_group_FinalAPI.DTOs;
 using The_fifth_group_FinalAPI.Models;
 
 namespace The_fifth_group_FinalAPI.Controllers
@@ -22,24 +25,51 @@ namespace The_fifth_group_FinalAPI.Controllers
 
         // GET: api/Contests
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Contests>>> GetContests()
+        public async Task<IEnumerable<ContestsDTO>> GetContests()
         {
-            return await _context.Contests.ToListAsync();
-        }
+            return _context.Contests.Select(con => new ContestsDTO
+			{
+                Id= con.Id,
+				Name = con.Name,
+				Area = con.Area,
+				ContestDate = con.ContestDate,
+				Distance = con.ContestCategory.Where(c => c.ContestId == con.Id).Select(c => c.Category.Distance).ToList(),
+                RegistrationDeadline = con.RegistrationDeadline,
+			});
+		}
 
         // GET: api/Contests/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Contests>> GetContests(int id)
+        public async Task<ContestsDTO> GetContests(int id)
         {
-            var contests = await _context.Contests.FindAsync(id);
+            var contestCategory = _context.ContestCategory.Include("Category").Include("Contest").Where(c=>c.ContestId==id);
+            var supplier = _context.Suppliers.Where(c=>c.SupplierId== contestCategory.First().Contest.SupplierId);
 
-            if (contests == null)
+
+			if (contestCategory == null)
             {
-                return NotFound();
+                return null;
             }
-
-            return contests;
-        }
+			ContestsDTO ConDTO = new ContestsDTO
+            {
+                Id= id,
+				Name = contestCategory.First().Contest.Name,
+				ContestDate = contestCategory.First().Contest.ContestDate,
+				RegistrationDeadline = contestCategory.First().Contest.RegistrationDeadline,
+				Area = contestCategory.First().Contest.Area,
+                Location = contestCategory.First().Contest.Location,
+                MapUrl = contestCategory.First().Contest.MapUrl,
+                Detail= contestCategory.First().Contest.Detail,
+                SupplierName= supplier.First().SupplierName,
+                CategoryName = contestCategory.Select(c => c.Category.Category).ToList(),
+                Quota = contestCategory.Select(c => c.Quota).ToList(),
+                EnterFee = contestCategory.Select(c => c.EnterFee).ToList(),
+                Distance =contestCategory.Select(c=> c.Category.Distance).ToList(),
+               
+            };
+         
+			return ConDTO;
+		}
 
         // PUT: api/Contests/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
