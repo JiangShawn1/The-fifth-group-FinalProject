@@ -14,6 +14,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+string MyAllowOrigins = "AllowAny";
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy(
+		name: MyAllowOrigins,
+		policy => policy.WithOrigins("*").WithHeaders("*").WithMethods("*"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,6 +31,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

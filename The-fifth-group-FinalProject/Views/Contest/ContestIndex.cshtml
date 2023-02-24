@@ -1,0 +1,197 @@
+﻿@section Styles{
+	<style>
+	.event-item {
+    position: relative;
+    display: inline-block;
+    font-size: .8125em;
+    color: #191823;
+			background-color: #E0E0E0;
+    padding: 4px 6px;
+    margin: 3px;
+    border-radius: 3px;
+    }
+	.event-item:hover {
+	color: white;
+	background-color: black;
+	}
+		
+	</style>
+}
+<div id="app">
+	@*篩選*@
+	<div class="row" style="width:50%;margin-left:auto;margin-right:5px">
+		<label class="col-lg-3">請輸入地區或活動名稱</label>
+		<input class="col-lg-7 form-control m-1" v-model="Filter" placeholder="請輸入地區或活動名稱" />
+		<button class="btn btn-outline-primary" @@click="filterContestsDTOs">篩選</button>
+	</div>
+
+
+	<button type="button" class="btn btn-success">新增賽事</button>
+	<div class="row">
+		<div class="col-12 mt-4">
+			<table class="table table-striped  table-hover">
+				<thead>
+					<tr>
+						<td>活動日期</td>
+						<td>地區</td>
+						<td>賽事/活動	</td>
+						<td>項目</td>
+						<td>活動狀態</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="item in ContestsDTOes" >
+						<td>{{item.date}}</td>
+							<td>{{item.area}}</td>
+						<td><a @@click="selectContest(item.id)">{{item.name}}</a></td>
+						<td><span class="event-item" v-for="d in item.distance"> {{d}}K </span> </td>
+						<td>{{item.status}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>
+@section Scripts
+	{
+	<script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+	<script>
+		var webApiBaseAddress = "https://localhost:7040";
+		var vueApp = {
+			data() {
+				return {
+					Filter: "",
+					ContestsDTOes:[],
+				};
+			},
+			mounted: function () {
+				let _this = this;
+				_this.getContestsDTOes();
+			},
+			methods: {
+				getContestsDTOes: function () {					
+					let _this = this;
+					axios.get(`${webApiBaseAddress}/api/Contests`).then(response => {
+						_this.ContestsDTOes = response.data;						
+						
+						for (var i = 0; i < _this.ContestsDTOes.length; i++) 
+						{
+							var contestDateS = _this.ContestsDTOes[i].contestDate.substr(0, 10)
+							_this.ContestsDTOes[i]['date'] = contestDateS;
+							var contestDate = new Date(contestDateS);
+							var today = new Date();
+							var DeadlineS= _this.ContestsDTOes[i].registrationDeadline.substr(0, 10)
+							var registrationDeadline = new Date(DeadlineS);
+							if (registrationDeadline > today)
+							{
+								_this.ContestsDTOes[i]['status'] = `報名中,${DeadlineS}截止`;								
+							}
+							else 
+							{								
+								_this.ContestsDTOes[i]['status'] = "已截止報名";								
+						    }
+						};
+					}
+					);										
+				},
+				selectContest: function (id) {
+					window.location.href = `https://localhost:7123/Contest/ContestDetail/${id}`;
+					
+				},
+				//showModel: function (event) {
+				//	alert("showModel");
+				//},
+				//update: function (item) {
+				//	//alert("update");
+				//	let _this = this;
+				//	var request = {};
+				//	request.EmployeeId = item.employeeId;
+				//	request.FirstName = item.firstName,
+				//		request.LastName = item.lastName,
+				//		request.Title = item.title,
+				//		axios.put(`${webApiBaseAddress}/api/Employees/${item.employeeId}`, request).then(response => {
+				//			alert(response.data);
+				//			_this.filterEmployeeDTOs();
+				//			_this.cancel();
+				//		}
+				//		);
+				//},
+				//cancel: function () {
+				//	//alert("cancel");
+				//	let _this = this;
+				//	var employeeList = [];
+				//	for (var i = 0; i < _this.EmployeeDTOes.length; i++) {
+				//		var item = {};
+				//		item = _this.EmployeeDTOes[i];
+				//		if (item.Edit == true) {
+				//			item.Edit = false
+				//			item.firstName = _this.firstNameOld;
+				//			item.lastName = _this.lastNameOld;
+				//			item.title = _this.titleOld;
+				//		}
+				//		employeeList.push(item);
+				//	}
+				//	_this.EmployeeDTOes = employeeList;
+				//},
+				//edit: function (employeeId) {
+				//	//alert("edit");
+				//	let _this = this;
+				//	var employeeList = [];
+				//	for (var i = 0; i < _this.EmployeeDTOes.length; i++) {
+				//		var item = {};
+				//		item = _this.EmployeeDTOes[i];
+				//		if (employeeId == item.employeeId) {
+				//			item.Edit = true;
+				//			_this.firstNameOld = item.firstName;
+				//			_this.lastNameOld = item.lastName;
+				//			_this.titleOld = item.title;
+				//		}
+				//		else { item.Edit = false; }
+				//		employeeList.push(item);
+				//	}
+				//	_this.EmployeeDTOes = employeeList;
+				//},
+				//deleteEmployee: function (employeeId) {
+				//	//alert("delete");
+				//	let _this = this;
+				//	var ret = confirm("確定要刪除嗎?");
+				//	if (ret == tuue) {
+				//		axios.delete(`${webApiBaseAddress}/api/Employees/${employeeId}`).then(response => {
+				//			alert(response.data);
+				//			_this.filterEmployeeDTOs();
+				//		}
+				//		);
+				//	}
+				//},
+				filterContestsDTOs: function () {
+					let _this = this;
+					var request = {};
+					request.Name = _this.Filter;
+					//alert(_this.Filter);
+					axios.post(`${webApiBaseAddress}/api/Contests/Filter`, request).then(response => {
+						_this.ContestsDTOes = response.data;
+						for (var i = 0; i < _this.ContestsDTOes.length; i++) {
+							var contestDateS = _this.ContestsDTOes[i].contestDate.substr(0, 10)
+							_this.ContestsDTOes[i]['date'] = contestDateS;
+							var contestDate = new Date(contestDateS);
+							var today = new Date();
+							var DeadlineS = _this.ContestsDTOes[i].registrationDeadline.substr(0, 10)
+							var registrationDeadline = new Date(DeadlineS);							
+							if (registrationDeadline > today) {
+								_this.ContestsDTOes[i]['status'] = `報名中,${DeadlineS}截止`;
+							}
+							else {
+								_this.ContestsDTOes[i]['status'] = "已截止報名";
+							}
+						};
+					}
+					);
+				},
+			},
+		};
+		var app = Vue.createApp(vueApp).mount("#app");
+
+	</script>
+}

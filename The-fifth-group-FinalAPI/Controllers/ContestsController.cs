@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.CodeGeneration;
@@ -12,7 +13,8 @@ using The_fifth_group_FinalAPI.Models;
 
 namespace The_fifth_group_FinalAPI.Controllers
 {
-    [Route("api/[controller]")]
+	[EnableCors("AllowAny")]
+	[Route("api/[controller]")]
     [ApiController]
     public class ContestsController : ControllerBase
     {
@@ -27,19 +29,47 @@ namespace The_fifth_group_FinalAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable<ContestsDTO>> GetContests()
         {
-            return _context.Contests.Select(con => new ContestsDTO
+            var contest = _context.Contests.Where(c=>c.Review==true);
+
+			return contest.Select(con=> new ContestsDTO
 			{
-                Id= con.Id,
+				Id = con.Id,
 				Name = con.Name,
 				Area = con.Area,
 				ContestDate = con.ContestDate,
-				Distance = con.ContestCategory.Where(c => c.ContestId == con.Id).Select(c => c.Category.Distance).ToList(),
-                RegistrationDeadline = con.RegistrationDeadline,
+				Distance = con.ContestCategory.Where(c => c.ContestId == con.Id).Select(c => c.Category.Distance).OrderBy(x=>x).ToList(),
+				RegistrationDeadline = con.RegistrationDeadline,
 			});
+			//return _context.Contests.Select(con => new ContestsDTO
+			//{
+   //             Id= con.Id,
+			//	Name = con.Name,
+			//	Area = con.Area,
+			//	ContestDate = con.ContestDate,
+			//	Distance = con.ContestCategory.Where(c => c.ContestId == con.Id).Select(c => c.Category.Distance).ToList(),
+   //             RegistrationDeadline = con.RegistrationDeadline,
+			//});
 		}
 
-        // GET: api/Contests/5
-        [HttpGet("{id}")]
+		[HttpPost("Filter")]
+		public async Task<IEnumerable<ContestsDTO>> FilterContests([FromBody] ContestsDTO contestDTO)
+		{
+			var contest = _context.Contests.Where(c => c.Review == true);
+			return contest.Where(
+				con => con.Name.Contains(contestDTO.Name!) || con.Area.Contains(contestDTO.Name!)).Select(con => new ContestsDTO
+				{
+					Id = con.Id,
+					Name = con.Name,
+					Area = con.Area,
+					ContestDate = con.ContestDate,
+					Distance = con.ContestCategory.Where(c => c.ContestId == con.Id).Select(c => c.Category.Distance).OrderBy(x => x).ToList(),
+					RegistrationDeadline = con.RegistrationDeadline,
+
+				});
+		}
+
+		// GET: api/Contests/5
+		[HttpGet("{id}")]
         public async Task<ContestsDTO> GetContests(int id)
         {
             var contestCategory = _context.ContestCategory.Include("Category").Include("Contest").Where(c=>c.ContestId==id);
