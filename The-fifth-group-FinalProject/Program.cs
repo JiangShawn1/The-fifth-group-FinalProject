@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using The_fifth_group_FinalProject.Controllers;
 using The_fifth_group_FinalProject.Data;
 using The_fifth_group_FinalProject.Models;
 
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(connectionString));
+
+builder.Services.AddSingleton<WebSocketController>();
 
 var TheFifthGroupOfTopicsConnectionString = builder.Configuration.GetConnectionString("TheFifthGroupOfTopics");
 builder.Services.AddDbContext<TheFifthGroupOfTopicsContext>(options =>
@@ -27,7 +30,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 	app.UseMigrationsEndPoint();
-}
+} 
 else
 {
 	app.UseExceptionHandler("/Home/Error");
@@ -41,6 +44,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+app.UseWebSockets(new WebSocketOptions
+{
+	KeepAliveInterval = TimeSpan.FromSeconds(30)
+});
 app.UseAuthorization();
 
 app.MapControllerRoute(
