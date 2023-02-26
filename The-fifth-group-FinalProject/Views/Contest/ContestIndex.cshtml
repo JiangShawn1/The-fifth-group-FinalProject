@@ -71,30 +71,29 @@
 				_this.getContestsDTOes();
 			},
 			methods: {
-				getContestsDTOes: function () {					
+				getContestsDTOes: function () {
 					let _this = this;
 					axios.get(`${webApiBaseAddress}/api/Contests`).then(response => {
-						_this.ContestsDTOes = response.data;						
-						
-						for (var i = 0; i < _this.ContestsDTOes.length; i++) 
+						_this.ContestsDTOes = response.data;
+						for (var i = 0; i < _this.ContestsDTOes.length; i++)
 						{
 							var contestDateS = _this.ContestsDTOes[i].contestDate.substr(0, 10)
 							_this.ContestsDTOes[i]['date'] = contestDateS;
-							var contestDate = new Date(contestDateS);
+							//var contestDate = new Date(contestDateS);
 							var today = new Date();
 							var DeadlineS= _this.ContestsDTOes[i].registrationDeadline.substr(0, 10)
 							var registrationDeadline = new Date(DeadlineS);
 							if (registrationDeadline > today)
 							{
-								_this.ContestsDTOes[i]['status'] = `報名中,${DeadlineS}截止`;								
+								_this.ContestsDTOes[i]['status'] = `報名中,${DeadlineS}截止`;
 							}
 							else 
 							{								
-								_this.ContestsDTOes[i]['status'] = "已截止報名";								
+								_this.ContestsDTOes[i]['status'] = "已截止報名";
 						    }
 						};
-					}
-					);										
+						_this.ContestsDTOes = _this.ContestsDTOes.sort((a, b) => new Date(a.contestDate) - new Date(b.contestDate));
+					});
 				},
 				selectContest: function (id) {
 					window.location.href = `https://localhost:7123/Contest/ContestDetail/${id}`;
@@ -186,8 +185,7 @@
 								_this.ContestsDTOes[i]['status'] = "已截止報名";
 							}
 						};
-					}
-					);
+					});
 				},
 			},
 		};
