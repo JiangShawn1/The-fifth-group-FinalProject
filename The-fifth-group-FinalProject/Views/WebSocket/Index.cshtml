@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="text-center">
+<h1 class="display-4">Welcome聊天室</h1>
+<p id="result"></p>
+<div class="container" id="app">
+    <div class="form-group">
+
+    </div>
+        <div class="form-group">
+            <label class="form-label">UserName</label>
+            <input type="text" class="form-control" id="userName" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Message</label>
+            <input type="text" class="form-control" id="Message" />
+        </div>
+        <div class="form-group">
+            <button id="send" class="btn-warning">送出</button>
+        </div>
+        <div class="form-group">
+            <ul id="messageList">
+            </ul>
+        </div>
+</div>
+ 
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script>
+    var socket;
+    var l = document.location;
+    var scheme = l.protocol === 'https:' ? 'wss' : "ws";
+    var port = l.port ? ':' + l.port : '';
+    var wsUrl = scheme + '://' + l.hostname + port + '/ws';
+
+    //connect();
+    $('#send').on("click", function(){
+        alert(wsUrl);
+     });
+    //send.addEventListener('click', function(){
+    //sendMessage(message.value);
+    //});
+    </script>
+    
+} 
