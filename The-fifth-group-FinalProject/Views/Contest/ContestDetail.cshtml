@@ -37,20 +37,6 @@
 				</tr>
 			</tbody>
 		</table>
-		
-
-		
-		
-		 
-		 
-		 
-		
-		 
-		
-		
-		
-		 
-		
 		 
 	</div>
 	@section Scripts
@@ -70,11 +56,11 @@
 				_this.getContestsDTOes();
 			},
 			methods: {
-				getContestsDTOes: function (id) {					
-					console.log(id);
+				getContestsDTOes: function (id) {
+					var id=location.hash.split('#')[1];
 					let _this = this;
 					var request = {};
-					axios.get(`${webApiBaseAddress}/api/Contests/1`, request).then(response => {
+					axios.get(`${webApiBaseAddress}/api/Contests/${id}`, request).then(response => {
 						_this.ContestsDTOes = response.data;						
 					});
 				},				

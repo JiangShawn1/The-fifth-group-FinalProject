@@ -39,16 +39,7 @@ namespace The_fifth_group_FinalAPI.Controllers
 				ContestDate = con.ContestDate,
 				Distance = con.ContestCategory.Where(c => c.ContestId == con.Id).Select(c => c.Category.Distance).OrderBy(x=>x).ToList(),
 				RegistrationDeadline = con.RegistrationDeadline,
-			});
-			//return _context.Contests.Select(con => new ContestsDTO
-			//{
-   //             Id= con.Id,
-			//	Name = con.Name,
-			//	Area = con.Area,
-			//	ContestDate = con.ContestDate,
-			//	Distance = con.ContestCategory.Where(c => c.ContestId == con.Id).Select(c => c.Category.Distance).ToList(),
-   //             RegistrationDeadline = con.RegistrationDeadline,
-			//});
+			});		
 		}
 
 		[HttpPost("Filter")]
@@ -93,8 +84,7 @@ namespace The_fifth_group_FinalAPI.Controllers
                 CategoryName = contestCategory.Select(c => c.Category.Category).ToList(),
                 Quota = contestCategory.Select(c => c.Quota).ToList(),
                 EnterFee = contestCategory.Select(c => c.EnterFee).ToList(),
-                Distance =contestCategory.Select(c=> c.Category.Distance).ToList(),
-               
+                Distance =contestCategory.Select(c=> c.Category.Distance).ToList(),               
             };
          
 			return ConDTO;
