@@ -75,7 +75,6 @@ namespace The_fifth_group_FinalAPI.Controllers
             var contestCategory = _context.ContestCategory.Include("Category").Include("Contest").Where(c=>c.ContestId==id);
             var supplier = _context.Suppliers.Where(c=>c.SupplierId== contestCategory.First().Contest.SupplierId);
 
-
 			if (contestCategory == null)
             {
                 return null;

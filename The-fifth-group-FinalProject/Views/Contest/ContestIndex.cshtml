@@ -17,7 +17,7 @@
 		
 	</style>
 }
-<div id="app">
+<div id="app">		
 	@*篩選*@
 	<div class="row" style="width:50%;margin-left:auto;margin-right:5px">
 		<label class="col-lg-3">請輸入地區或活動名稱</label>
@@ -95,75 +95,12 @@
 						_this.ContestsDTOes = _this.ContestsDTOes.sort((a, b) => new Date(a.contestDate) - new Date(b.contestDate));
 					});
 				},
+
 				selectContest: function (id) {
-					window.location.href = `https://localhost:7123/Contest/ContestDetail/${id}`;
-					
-				},
-				//showModel: function (event) {
-				//	alert("showModel");
-				//},
-				//update: function (item) {
-				//	//alert("update");
-				//	let _this = this;
-				//	var request = {};
-				//	request.EmployeeId = item.employeeId;
-				//	request.FirstName = item.firstName,
-				//		request.LastName = item.lastName,
-				//		request.Title = item.title,
-				//		axios.put(`${webApiBaseAddress}/api/Employees/${item.employeeId}`, request).then(response => {
-				//			alert(response.data);
-				//			_this.filterEmployeeDTOs();
-				//			_this.cancel();
-				//		}
-				//		);
-				//},
-				//cancel: function () {
-				//	//alert("cancel");
-				//	let _this = this;
-				//	var employeeList = [];
-				//	for (var i = 0; i < _this.EmployeeDTOes.length; i++) {
-				//		var item = {};
-				//		item = _this.EmployeeDTOes[i];
-				//		if (item.Edit == true) {
-				//			item.Edit = false
-				//			item.firstName = _this.firstNameOld;
-				//			item.lastName = _this.lastNameOld;
-				//			item.title = _this.titleOld;
-				//		}
-				//		employeeList.push(item);
-				//	}
-				//	_this.EmployeeDTOes = employeeList;
-				//},
-				//edit: function (employeeId) {
-				//	//alert("edit");
-				//	let _this = this;
-				//	var employeeList = [];
-				//	for (var i = 0; i < _this.EmployeeDTOes.length; i++) {
-				//		var item = {};
-				//		item = _this.EmployeeDTOes[i];
-				//		if (employeeId == item.employeeId) {
-				//			item.Edit = true;
-				//			_this.firstNameOld = item.firstName;
-				//			_this.lastNameOld = item.lastName;
-				//			_this.titleOld = item.title;
-				//		}
-				//		else { item.Edit = false; }
-				//		employeeList.push(item);
-				//	}
-				//	_this.EmployeeDTOes = employeeList;
-				//},
-				//deleteEmployee: function (employeeId) {
-				//	//alert("delete");
-				//	let _this = this;
-				//	var ret = confirm("確定要刪除嗎?");
-				//	if (ret == tuue) {
-				//		axios.delete(`${webApiBaseAddress}/api/Employees/${employeeId}`).then(response => {
-				//			alert(response.data);
-				//			_this.filterEmployeeDTOs();
-				//		}
-				//		);
-				//	}
-				//},
+					window.location = `ContestDetail/${id}`;
+
+				},	
+				
 				filterContestsDTOs: function () {
 					let _this = this;
 					var request = {};

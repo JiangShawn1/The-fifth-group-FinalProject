@@ -16,7 +16,7 @@ namespace The_fifth_group_FinalProject.Controllers
 
 		public IActionResult ContestDetail(int id)
 		{
-			return View();
+			return View(id);
 		}
 	}
 }
