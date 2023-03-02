@@ -4,46 +4,53 @@
 @{
 }
 
-<div class="text-center">
-<h1 class="display-4">Welcome聊天室</h1>
-<p id="result"></p>
 <div class="container" id="app">
-    <div class="form-group">
-
+    <div class="row">
+        <input class="col-4 m-1" id="userName" placeholder="User name" />
+        <input class="col-6 m-1" id="message" placeholder="Message" />
+        <button class="col-1 m-1" id="send">Send</button>
     </div>
-        <div class="form-group">
-            <label class="form-label">UserName</label>
-            <input type="text" class="form-control" id="userName" />
-        </div>
-        <div class="form-group">
-            <label class="form-label">Message</label>
-            <input type="text" class="form-control" id="Message" />
-        </div>
-        <div class="form-group">
-            <button id="send" class="btn-warning">送出</button>
-        </div>
-        <div class="form-group">
-            <ul id="messageList">
-            </ul>
-        </div>
+    <div class="p-2 chat">
+        <ul id="list">
+        </ul>
+    </div>
 </div>
- 
-@section Scripts{
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script>
-    var socket;
-    var l = document.location;
-    var scheme = l.protocol === 'https:' ? 'wss' : "ws";
-    var port = l.port ? ':' + l.port : '';
-    var wsUrl = scheme + '://' + l.hostname + port + '/ws';
 
-    //connect();
-    $('#send').on("click", function(){
-        alert(wsUrl);
-     });
-    //send.addEventListener('click', function(){
-    //sendMessage(message.value);
-    //});
-    </script>
-    
-} 
+    @section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+        <script>
+            var socket;
+            var wsUrl = `${document.location.href.replace("http", "ws")}/ws`;
+            //alert(wsUrl);
+            function connect() {
+                socket = new WebSocket(wsUrl);
+                socket.onmessage = function (e) {
+                    processMessage(e.data);
+                }
+            }
+            var list = document.getElementById('list');
+            function processMessage(data) {
+                let li = document.createElement('li');
+                var content = JSON.parse(data);
+                li.textContent = `${content["userName"]}說:${content["message"]}`;
+                list.appendChild(li);
+            }
+            function sendMessage(msg) {
+                if (socket && socket.readyState == WebSocket.OPEN)
+                    socket.send(msg);
+            }
+            connect();
+            var message = document.getElementById('message');
+            var send = document.getElementById('send');
+            message.addEventListener('keydown', function (e) {
+                if (e.keyCode === 13) send.click();
+            });
+            send.addEventListener('click', function () {
+                var data = {
+                    userName: $("#userName").val(),
+                    message: $("#message").val()
+                };
+                sendMessage(JSON.stringify(data));
+            });
+        </script>
+    }
