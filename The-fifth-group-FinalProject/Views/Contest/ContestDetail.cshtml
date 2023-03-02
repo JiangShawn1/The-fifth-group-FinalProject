@@ -3,40 +3,77 @@
 }
 	<div id="app">
 
-		<table class="table table-striped  table-hover">
-			<thead>
-				<tr>
-					<td>活動日期</td>
-					<td>地區</td>
-					<td>賽事/活動</td>
-					<td>項目</td>
-					<td>名額</td>
-					<td>金額</td>
-					<td>類別</td>
-					<td>地點</td>
-					<td>地圖</td>
-					<td>簡介</td>
-					<td>主辦單位</td>					
-					<td>報名截止</td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>{{ContestsDTOes.contestDate}}</td>
-					<td>{{ContestsDTOes.area}}</td>
-					<td>{{ContestsDTOes.name}}</td>
-					<td><span class="event-item" v-for="d in ContestsDTOes.distance"> {{d}}K </span> </td>
-					<td><span class="event-item" v-for="d in ContestsDTOes.quota"> {{d}} </span> </td>
-					<td><span class="event-item" v-for="d in ContestsDTOes.enterFee"> {{d}} </span> </td>
-					<td><span class="event-item" v-for="d in ContestsDTOes.categoryName"> {{d}} </span> </td>				
-					<td>{{ContestsDTOes.location}}</td>
-					<td>{{ContestsDTOes.mapUrl}}</td>
-					<td>{{ContestsDTOes.detail}}</td>
-					<td>{{ContestsDTOes.supplierName}}</td>					
-					<td>{{ContestsDTOes.registrationDeadline}}</td>					
-				</tr>
-			</tbody>
-		</table>
+	<section id="comp_intro" class="comp-intro shadow-z1 card--5">
+		
+		<h1 class="comp-title">{{ContestsDTOes.name}}</h1>
+		<ul class="stack-list stack-data-list">
+			<li class="stack-column-item">
+				<div class="data-title">活動日期</div>
+				<div class="data-content">{{ContestsDTOes.contestDate}}</div>
+			</li>
+			<li class="stack-column-item">
+				<div class="data-title">主辦單位</div>
+				<div class="data-content">{{ContestsDTOes.supplierName}}</div>
+			</li>
+			<li class="stack-column-item">
+				<div class="data-title">地點</div>
+				<div class="data-content">{{ContestsDTOes.location}} </div>
+			</li>
+			<li class="stack-column-item">
+				<div class="data-title">地圖</div>
+				<div class="data-content" v-html="`${ContestsDTOes.mapUrl}>`"></div>
+			</li>
+			<li class="stack-column-item">
+				<div class="data-title">其他時程</div>
+				<div class="data-content">【報名日期】{{ContestsDTOes.createDateTime}} ~ {{ContestsDTOes.registrationDeadline}}</div>
+			</li>
+			<li class="stack-column-item">
+				<div class="data-title">相關連結</div>
+				<div class="data-content comma-list">
+					<a href="" class="comma-item" target="_blank">報名頁面View</a>
+				</div>
+			</li>
+			<li class="stack-column-item">
+				<div class="data-title">簡介</div>
+				<div class="data-content comp-brief">
+					<div class="biji-news-format fr-view short_summery is-hidden"> 簡短內容 </div>
+					<div class="biji-news-format fr-view full_summery">{{ContestsDTOes.detail}}</div>
+					<a href="javascript:;" class="more-btn more_summery comp_tracking is-open" data-label="更多簡介">
+						<i id="summery_toggle_icon" class="fa fa-chevron-up"></i>
+					</a>
+				</div>
+			</li>
+		</ul>
+	</section>
+
+	<section id="comp_groups" class="comp-groups">
+		<h2 class="nake-title">項目</h2>			
+		<ul class="groups-list shadow-z1 card--5">
+			<li class="groups" v-for="item in ContestsDTOes.categoryGroups">
+				<h3 class="groups-title groups_toggle">
+					<i class="fa fa-caret-right toggle-icon"></i>{{item.categoryName}}
+				</h3>
+				<div class="groups-detail">
+					<ul class="stack-list stack-data-list">						
+						<li class="stack-column-item">
+							<div class="data-title">距離</div>
+							<div class="data-content">{{item.distance}}K </div>
+						</li>
+						<li class="stack-column-item">
+							<div class="data-title">名額</div>
+							<div class="data-content">{{item.quota}}人 </div>
+						</li>
+						<li class="stack-column-item">
+							<div class="data-title">費用</div>
+							<div class="data-content"> {{item.enterFee}}元 </div>
+						</li>						
+					</ul>
+				</div>
+			</li>
+			
+		</ul>
+	</section>
+
 		 
 	</div>
 	@section Scripts
@@ -48,7 +85,7 @@
 		var vueApp = {
 			data() {
 				return {					
-					ContestsDTOes: [],
+					ContestsDTOes:[],
 				};
 			},
 			mounted: function () {
@@ -56,17 +93,19 @@
 				_this.getContestsDTOes();
 			},
 			methods: {
-				getContestsDTOes: function (id) {
+				getContestsDTOes: function () {
 					var id=location.hash.split('#')[1];
 					let _this = this;
 					var request = {};
 					axios.get(`${webApiBaseAddress}/api/Contests/${id}`, request).then(response => {
-						_this.ContestsDTOes = response.data;						
-					});
+						_this.ContestsDTOes = response.data;
+						console.log(_this.ContestsDTOes.categoryGroups);
+					});					
 				},				
 			},
 		};
 		var app = Vue.createApp(vueApp).mount("#app");
+		
 
 	</script>
 }

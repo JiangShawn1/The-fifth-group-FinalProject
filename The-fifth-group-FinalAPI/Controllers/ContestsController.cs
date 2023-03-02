@@ -62,11 +62,26 @@ namespace The_fifth_group_FinalAPI.Controllers
 		// GET: api/Contests/5
 		[HttpGet("{id}")]
         public async Task<ContestsDTO> GetContests(int id)
-        {
-            var contestCategory = _context.ContestCategory.Include("Category").Include("Contest").Where(c=>c.ContestId==id);
+        {		
+			var contestCategory = _context.ContestCategory.Include("Category").Include("Contest").Where(c=>c.ContestId==id);
             var supplier = _context.Suppliers.Where(c=>c.SupplierId== contestCategory.First().Contest.SupplierId);
-
-			if (contestCategory == null)
+            var CategoryName = contestCategory.Select(c => c.Category.Category).ToList();
+			var Distance = contestCategory.Select(c => c.Category.Distance).ToList();
+            var Quota = contestCategory.Select(c => c.Quota).ToList();
+            var EnterFee = contestCategory.Select(c => c.EnterFee).ToList();
+            List<CategoryGroup> categoryGroupList= new List<CategoryGroup>();
+            for (int i = 0; i < CategoryName.Count; i++)
+            {
+                CategoryGroup categoryGroup = new CategoryGroup
+                { 
+                    CategoryName = CategoryName[i] ,
+                    Distance= Distance[i],
+                    Quota = Quota[i],
+                    EnterFee= EnterFee[i],
+                };
+				categoryGroupList.Add(categoryGroup);
+			};
+            if (contestCategory == null)
             {
                 return null;
             }
@@ -75,18 +90,15 @@ namespace The_fifth_group_FinalAPI.Controllers
                 Id= id,
 				Name = contestCategory.First().Contest.Name,
 				ContestDate = contestCategory.First().Contest.ContestDate,
+                CreateDateTime= contestCategory.First().Contest.CreateDateTime,
 				RegistrationDeadline = contestCategory.First().Contest.RegistrationDeadline,
 				Area = contestCategory.First().Contest.Area,
                 Location = contestCategory.First().Contest.Location,
                 MapUrl = contestCategory.First().Contest.MapUrl,
                 Detail= contestCategory.First().Contest.Detail,
-                SupplierName= supplier.First().SupplierName,
-                CategoryName = contestCategory.Select(c => c.Category.Category).ToList(),
-                Quota = contestCategory.Select(c => c.Quota).ToList(),
-                EnterFee = contestCategory.Select(c => c.EnterFee).ToList(),
-                Distance =contestCategory.Select(c=> c.Category.Distance).ToList(),               
-            };
-         
+                SupplierName= supplier.First().SupplierName,         
+                CategoryGroups= categoryGroupList.OrderBy(x=>x.Distance).ToList(),
+			};         
 			return ConDTO;
 		}
 
