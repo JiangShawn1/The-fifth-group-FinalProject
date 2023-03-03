@@ -1,15 +1,122 @@
 ﻿@section Styles{
-	
+	<style>
+		section, h1, h2,h3, ul, li, div,a {
+		 margin: 0;
+		 padding: 0;
+		 border: 0;
+		 font-size: 100%;
+		 font: inherit;
+		 vertical-align: baseline;			
+		}
+		section{
+		 display: block;
+		}
+		.comp-intro{
+		 line-height: 2;
+		 color: #95989a;
+		 position: relative;
+		 z-index: 2;
+		 margin-bottom: 30px;
+		 padding: 30px
+		}
+		.shadow-z1 {
+		 box-shadow: 1px 1px 1px 0 rgba(34,38,46,.1)
+		}
+		.card--5 {
+         border-radius: 5px;
+         background-color: #fff
+        }
+		.comp-title{
+		 margin-bottom: 10px;
+         font-size: 30px;
+         color: #4c4948;
+		 padding-right: 220px
+		}
+		.comp-groups .groups .stack-data-list {
+		 padding: 20px
+		}
+		.stack-list .stack-column-item + *, .stack-list .stack-row-item + * {
+		padding-top: 10px;
+		margin-top: 10px;
+		border-top: 1px solid #eaecf1
+		}
+		.stack-list .stack-column-item {
+		display: flex;
+		align-items: center
+		}
+
+		.stack-data-list .data-title {
+		flex: none;
+		color: #95989a
+		}
+
+		.comp-groups .stack-data-list .data-title, .comp-intro .stack-data-list .data-title {
+		width: 110px
+		}
+
+		.stack-data-list .data-content {
+		flex: 1;
+		font-size: 16px;
+		color: rgb(76, 73, 72);
+		}
+
+		.comp-groups .stack-data-list .data-content, .comp-intro .stack-data-list .data-content {
+		line-height: 2
+		}
+				
+		.comp-brief {
+        padding: 10px 0
+        }		
+		.comp-brief .more-btn {				
+		display: block;				
+		text-align: center
+		}		
+		.comp-brief .more-btn {
+        display: block;
+        text-align: center
+		}
+		.comp-groups {
+		margin-bottom: 15px
+		}
+		.nake-title {
+		margin-bottom: 10px;
+		font-size: 22px;
+		color: #6f7b8a;
+		letter-spacing: 1px
+		}
+		.comp-groups .groups-list {
+		overflow: hidden
+		}
+		.comp-groups .groups {
+		background-color: #fff
+		}			
+		.comp-groups .groups .groups-title {
+		background-color: #f7f7f7;
+		padding: 15px 20px;
+		font-size: 16px;
+		color: #6f7b8a;
+		border-top: 1px solid #eaecf1;
+		border-bottom: 1px solid #eaecf1;
+		cursor: pointer
+	    }		
+		.comp-groups .groups .groups-detail {
+         max-height: 0px;
+         overflow: hidden;
+         transition: max-height .5s ease
+        }				
+		#app{
+			background-color: #e5e9ec
+		}
+	</style>
 }
 	<div id="app">
 
-	<section id="comp_intro" class="comp-intro shadow-z1 card--5">
-		
+	<section class="comp-intro shadow-z1 card--5">		
 		<h1 class="comp-title">{{ContestsDTOes.name}}</h1>
 		<ul class="stack-list stack-data-list">
 			<li class="stack-column-item">
 				<div class="data-title">活動日期</div>
-				<div class="data-content">{{ContestsDTOes.contestDate}}</div>
+				<div class="data-content">{{ContestsDTOes.contestDateString}}</div>
 			</li>
 			<li class="stack-column-item">
 				<div class="data-title">主辦單位</div>
@@ -25,7 +132,7 @@
 			</li>
 			<li class="stack-column-item">
 				<div class="data-title">其他時程</div>
-				<div class="data-content">【報名日期】{{ContestsDTOes.createDateTime}} ~ {{ContestsDTOes.registrationDeadline}}</div>
+				<div class="data-content">【報名日期】{{ContestsDTOes.createDateTimeString}} ~ {{ContestsDTOes.registrationDeadlineString}}</div>
 			</li>
 			<li class="stack-column-item">
 				<div class="data-title">相關連結</div>
@@ -35,26 +142,20 @@
 			</li>
 			<li class="stack-column-item">
 				<div class="data-title">簡介</div>
-				<div class="data-content comp-brief">
-					<div class="biji-news-format fr-view short_summery is-hidden"> 簡短內容 </div>
-					<div class="biji-news-format fr-view full_summery">{{ContestsDTOes.detail}}</div>
-					<a href="javascript:;" class="more-btn more_summery comp_tracking is-open" data-label="更多簡介">
-						<i id="summery_toggle_icon" class="fa fa-chevron-up"></i>
-					</a>
-				</div>
+				<div class="data-content comp-brief">{{ContestsDTOes.detail}}</div>
 			</li>
 		</ul>
 	</section>
 
-	<section id="comp_groups" class="comp-groups">
+	<section class="comp-groups">
 		<h2 class="nake-title">項目</h2>			
 		<ul class="groups-list shadow-z1 card--5">
-			<li class="groups" v-for="item in ContestsDTOes.categoryGroups">
+			<li class="groups" @@click="selectgroup" v-for="item in ContestsDTOes.categoryGroups">
 				<h3 class="groups-title groups_toggle">
 					<i class="fa fa-caret-right toggle-icon"></i>{{item.categoryName}}
 				</h3>
 				<div class="groups-detail">
-					<ul class="stack-list stack-data-list">						
+					<ul class="stack-list stack-data-list">	
 						<li class="stack-column-item">
 							<div class="data-title">距離</div>
 							<div class="data-content">{{item.distance}}K </div>
@@ -69,12 +170,10 @@
 						</li>						
 					</ul>
 				</div>
-			</li>
-			
+			</li>	            
 		</ul>
 	</section>
-
-		 
+	
 	</div>
 	@section Scripts
 	{
@@ -99,13 +198,16 @@
 					var request = {};
 					axios.get(`${webApiBaseAddress}/api/Contests/${id}`, request).then(response => {
 						_this.ContestsDTOes = response.data;
-						console.log(_this.ContestsDTOes.categoryGroups);
+						_this.ContestsDTOes['contestDateString'] = _this.ContestsDTOes.contestDate.substr(0, 10);
+						_this.ContestsDTOes['createDateTimeString'] = _this.ContestsDTOes.createDateTime.substr(0, 10);
+						_this.ContestsDTOes['registrationDeadlineString'] = _this.ContestsDTOes.registrationDeadline.substr(0, 10);
 					});					
-				},				
+				},	
+				selectgroup:function(){
+					
+				}
 			},
 		};
 		var app = Vue.createApp(vueApp).mount("#app");
-		
-
 	</script>
 }
