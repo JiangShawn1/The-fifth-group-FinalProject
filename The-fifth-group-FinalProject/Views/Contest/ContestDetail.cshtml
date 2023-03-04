@@ -44,26 +44,21 @@
 		display: flex;
 		align-items: center
 		}
-
 		.stack-data-list .data-title {
 		flex: none;
 		color: #95989a
 		}
-
 		.comp-groups .stack-data-list .data-title, .comp-intro .stack-data-list .data-title {
 		width: 110px
 		}
-
 		.stack-data-list .data-content {
 		flex: 1;
 		font-size: 16px;
 		color: rgb(76, 73, 72);
 		}
-
 		.comp-groups .stack-data-list .data-content, .comp-intro .stack-data-list .data-content {
 		line-height: 2
-		}
-				
+		}				
 		.comp-brief {
         padding: 10px 0
         }		
@@ -102,7 +97,12 @@
 		.comp-groups .groups .groups-detail {
          max-height: 0px;
          overflow: hidden;
-         transition: max-height .5s ease
+         transition: max-height 1s ease
+        }			
+		.comp-groups .groups .active {
+         max-height: 500px;
+         overflow: hidden;
+         transition: max-height 1.5s ease
         }				
 		#app{
 			background-color: #e5e9ec
@@ -150,11 +150,11 @@
 	<section class="comp-groups">
 		<h2 class="nake-title">項目</h2>			
 		<ul class="groups-list shadow-z1 card--5">
-			<li class="groups" @@click="selectgroup" v-for="item in ContestsDTOes.categoryGroups">
+			<li class="groups" v-for="item in ContestsDTOes.categoryGroups"  @@click="selectgroup">
 				<h3 class="groups-title groups_toggle">
 					<i class="fa fa-caret-right toggle-icon"></i>{{item.categoryName}}
 				</h3>
-				<div class="groups-detail">
+				<div class="groups-detail" v-bind:class="{ active: isActive }">
 					<ul class="stack-list stack-data-list">	
 						<li class="stack-column-item">
 							<div class="data-title">距離</div>
@@ -185,6 +185,7 @@
 			data() {
 				return {					
 					ContestsDTOes:[],
+					isActive: false
 				};
 			},
 			mounted: function () {
@@ -204,7 +205,7 @@
 					});					
 				},	
 				selectgroup:function(){
-					
+                     this.isActive = !this.isActive;				
 				}
 			},
 		};
