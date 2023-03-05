@@ -18,6 +18,7 @@ namespace The_fifth_group_FinalAPI.Models
         public bool PaymentStatus { get; set; }
 
         public virtual ContestCategory ContestCategory { get; set; }
-        public virtual ICollection<RegistrationInformation> RegistrationInformation { get; set; }
+
+		public virtual ICollection<RegistrationInformation> RegistrationInformation { get; set; }
     }
 }
