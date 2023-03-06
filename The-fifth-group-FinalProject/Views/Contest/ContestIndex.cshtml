@@ -33,7 +33,7 @@
 	</div>
 
 
-	<button type="button" class="btn btn-success">新增賽事</button>
+	<button type="button" class="btn btn-success" @@click="showModal">新增賽事</button>
 	<div class="row">
 		<div class="col-12 mt-4">
 			<table class="table table-striped  table-hover">
@@ -59,6 +59,94 @@
 		</div>
 	</div>
 
+	
+	<div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">新增賽事/活動</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<div class="form-group">
+							<label class="form-label">活動名稱:</label>
+							<input type="text" class="form-control" v-model="name" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">活動日期:</label>
+							<input type="text" class="form-control" v-model="contestDate" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">報名截止日:</label>
+							<input type="text" class="form-control" v-model="registrationDeadline" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">活動地區:</label>
+							<input type="text" class="form-control" v-model="area" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">活動地點:</label>
+							<input type="text" class="form-control" v-model="location" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">地圖資訊:</label>
+							<input type="text" class="form-control" v-model="mapUrl" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">活動簡章:</label>
+							<input type="text" class="form-control" v-model="detail" />
+						</div>
+
+
+						<div class="form-group">
+							<label class="form-label">組別:</label>
+							<input type="text" class="form-control" v-model="categoryId" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">名額:</label>
+							<input type="text" class="form-control" v-model="quota" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">金額:</label>
+							<input type="text" class="form-control" v-model="enterFee" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">組別:</label>
+							<input type="text" class="form-control" v-model="categoryId" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">名額:</label>
+							<input type="text" class="form-control" v-model="quota" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">金額:</label>
+							<input type="text" class="form-control" v-model="enterFee" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">組別:</label>
+							<input type="text" class="form-control" v-model="categoryId" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">名額:</label>
+							<input type="text" class="form-control" v-model="quota" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">金額:</label>
+							<input type="text" class="form-control" v-model="enterFee" />
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-bs-dismiss="modal">關閉</button>
+					<button type="button" class="btn btn-primary" @@click="insert">新增</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 </div>
 @section Scripts
 	{
@@ -71,6 +159,7 @@
 				return {
 					Filter: "",
 					ContestsDTOes:[],
+					
 				};
 			},
 			mounted: function () {
@@ -95,7 +184,7 @@
 							else 
 							{								
 								_this.ContestsDTOes[i]['status'] = "已截止報名";
-						    }
+						    };
 						};
 						_this.ContestsDTOes = _this.ContestsDTOes.sort((a, b) => new Date(a.contestDate) - new Date(b.contestDate));
 					});
@@ -126,7 +215,35 @@
 						_this.ContestsDTOes = _this.ContestsDTOes.sort((a, b) => new Date(a.contestDate) - new Date(b.contestDate));
 					});
 				},
-			},
+
+				showModal: function () {					
+					$("#insertModal").modal('show');
+				},
+
+				insert:function(){                    
+                    var _this=this;
+                    var request={};
+					request.Id=0;
+					request.Name = _this.name;
+					request.ContestDate = new Date(_this.contestDate);
+					request.RegistrationDeadline = new Date(_this.registrationDeadline);
+					request.Area = _this.area;
+					request.Location = _this.location;
+					request.MapUrl = _this.mapUrl;
+					request.Detail = _this.detail;
+					
+					var CategoryIdList=[];CategoryIdList.push(_this.categoryId);
+					request.CategoryId = CategoryIdList;
+					request.Quota = CategoryIdList;
+					request.EnterFee = CategoryIdList;					
+					
+					axios.post(`${webApiBaseAddress}/api/Contests`, request).then(response=>{
+						alert(response.data);
+						//window.location = "/Contest/ContestIndex";
+                    
+					});
+                }
+	        },
 		};
 		var app = Vue.createApp(vueApp).mount("#app");
 

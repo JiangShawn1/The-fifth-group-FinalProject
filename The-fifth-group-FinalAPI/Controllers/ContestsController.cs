@@ -135,17 +135,57 @@ namespace The_fifth_group_FinalAPI.Controllers
 
         // POST: api/Contests
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Contests>> PostContests(Contests contests)
-        {
-            _context.Contests.Add(contests);
-            await _context.SaveChangesAsync();
+        //[HttpPost]
+        //public async Task<ActionResult<Contests>> PostContests(Contests contests)
+        //{
+        //    _context.Contests.Add(contests);
+        //    await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetContests", new { id = contests.Id }, contests);
-        }
+        //    return CreatedAtAction("GetContests", new { id = contests.Id }, contests);
+        //}
 
-        // DELETE: api/Contests/5
-        [HttpDelete("{id}")]
+		[HttpPost]
+		public async Task<string> PostContests(ContestsDTO contestDTO)
+		{
+			Contests contest = new Contests
+			{
+				Name = contestDTO.Name,
+				SupplierId = 1,
+				CreateDateTime = DateTime.Now,
+				ContestDate = contestDTO.ContestDate,
+				RegistrationDeadline = contestDTO.RegistrationDeadline,
+				Area = contestDTO.Area,
+				Location = contestDTO.Location,
+				MapUrl = contestDTO.MapUrl,
+				RegistrationUrl = "test",
+				Detail = contestDTO.Detail,                
+			};
+			_context.Contests.Add(contest);
+			await _context.SaveChangesAsync();
+
+			List<ContestCategory> list = new List<ContestCategory>();
+			for (int i = 0; i < contestDTO.Quota.Count; i++)
+			{
+				if (contestDTO.EnterFee[i] == 0) break;
+				list.Add(
+					new ContestCategory
+					{
+						ContestId = contest.Id,
+						CategoryId = contestDTO.CategoryId[i],
+						Quota = contestDTO.Quota[i],
+						EnterFee = contestDTO.EnterFee[i],
+					});
+			}		
+			foreach (var item in list)
+			{
+				_context.ContestCategory.Add(item);
+			}
+			await _context.SaveChangesAsync();
+			return "新增成功!";
+		}
+
+		// DELETE: api/Contests/5
+		[HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContests(int id)
         {
             var contests = await _context.Contests.FindAsync(id);

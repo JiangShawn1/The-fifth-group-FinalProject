@@ -20,6 +20,7 @@ namespace The_fifth_group_FinalAPI.DTOs
 		public string? Location { get; set; } 
 		
 		public string? MapUrl { get; set; }
+		public List<int>? CategoryId { get; set; }
 		public List<string>? CategoryName { get; set; }
 		public List<int>? Distance { get; set; }
 		public List<int>? Quota { get; set; }
