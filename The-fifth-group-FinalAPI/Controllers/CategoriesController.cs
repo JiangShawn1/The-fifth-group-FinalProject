@@ -36,17 +36,16 @@ namespace The_fifth_group_FinalAPI.Controllers
         }		
 
 		// GET: api/Categories/5
-		[HttpGet("{id}")]
-        public async Task<ActionResult<Categories>> GetCategories(int id)
+		[HttpGet("{ContestId}")]
+        public async Task<IEnumerable<CategoriesDTO>> GetCategories(int ContestId)
         {
-            var categories = await _context.Categories.FindAsync(id);
-
-            if (categories == null)
+            var categories = _context.ContestCategory.Where(c => c.ContestId == ContestId);
+            return categories.Include(c => c.Category).Select(c => new CategoriesDTO
             {
-                return NotFound();
-            }
-
-            return categories;
+                Id = c.Category.Id,
+                Category = c.Category.Category,
+                Distance = c.Category.Distance,
+            });
         }
 
         // PUT: api/Categories/5

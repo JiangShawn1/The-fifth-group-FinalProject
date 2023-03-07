@@ -1,0 +1,147 @@
+﻿@section Styles{
+	<style>
+		
+	</style>
+}
+<div id="app">
+
+	<div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">報名賽事/活動</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<div class="form-group">
+							<label class="form-label">活動名稱:</label>
+							<input type="text" class="form-control" v-model="name" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">活動日期:</label>
+							<input type="date" class="form-control" v-model="contestDate" :min="todayDate" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">報名截止日:</label>
+							<input type="date" class="form-control"
+								   v-model="registrationDeadline" :max="contestDate" :min="todayDate" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">活動地區:</label>
+							<input type="text" class="form-control" v-model="area" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">活動地點:</label>
+							<input type="text" class="form-control" v-model="location" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">地圖資訊:</label>
+							<input type="text" class="form-control" v-model="mapUrl" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">活動簡章:</label>
+							<textarea rows="3" class="form-control" v-model="detail"></textarea>
+						</div>
+						<div>
+							<h5>競賽項目</h5>
+							<div class="form-group">
+								<label class="form-label">項目1:</label>
+								<select class="form-control" v-model="categoryId1">
+									<option v-for="item in CategoriesDTOes" :value="item.id">
+										{{item.category}}{{item.distance}}K
+									</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label">名額:</label>
+								<input type="text" class="form-control" v-model="quota1" />
+							</div>
+							<div class="form-group">
+								<label class="form-label">金額:</label>
+								<input type="text" class="form-control" v-model="enterFee1" />
+							</div>
+							<div class="form-group">
+								<label class="form-label">項目2:</label>
+								<select class="form-control" v-model="categoryId2">
+									<option v-for="item in CategoriesDTOes" :value="item.id">
+										{{item.category}}{{item.distance}}K
+									</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label">名額:</label>
+								<input type="text" class="form-control" v-model="quota2" />
+							</div>
+							<div class="form-group">
+								<label class="form-label">金額:</label>
+								<input type="text" class="form-control" v-model="enterFee2" />
+							</div>
+							<div class="form-group">
+								<label class="form-label">項目3:</label>
+								<select class="form-control" v-model="categoryId3">
+									<option v-for="item in CategoriesDTOes" :value="item.id">
+										{{item.category}}{{item.distance}}K
+									</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label">名額:</label>
+								<input type="text" class="form-control" v-model="quota3" />
+							</div>
+							<div class="form-group">
+								<label class="form-label">金額:</label>
+								<input type="text" class="form-control" v-model="enterFee3" />
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-bs-dismiss="modal">關閉</button>
+					<button type="button" class="btn btn-primary" @@click="insert">新增</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+</div>
+@section Scripts
+	{
+	<script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+	<script>
+		var webApiBaseAddress = "https://localhost:7040";
+		var vueApp = {
+			data() {
+				return {
+					ContestsDTOes: [],
+					isActive: false
+				};
+			},
+			mounted: function () {
+				let _this = this;
+				_this.getContestsDTOes();
+			},
+			methods: {
+				getContestsDTOes: function () {
+					var id = location.hash.split('#')[1];
+					let _this = this;
+					var request = {};
+					axios.get(`${webApiBaseAddress}/api/Contests/${id}`, request).then(response => {
+						_this.ContestsDTOes = response.data;
+						_this.ContestsDTOes['contestDateString'] = _this.ContestsDTOes.contestDate.substr(0, 10);
+						_this.ContestsDTOes['createDateTimeString'] = _this.ContestsDTOes.createDateTime.substr(0, 10);
+						_this.ContestsDTOes['registrationDeadlineString'] = _this.ContestsDTOes.registrationDeadline.substr(0, 10);
+					});
+				},
+				selectgroup: function () {
+					this.isActive = !this.isActive;
+				}
+			},
+		};
+		var app = Vue.createApp(vueApp).mount("#app");
+	</script>
+}

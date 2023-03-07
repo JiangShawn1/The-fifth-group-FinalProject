@@ -181,7 +181,7 @@ namespace The_fifth_group_FinalAPI.Controllers
 				_context.ContestCategory.Add(item);
 			}
 			await _context.SaveChangesAsync();
-			return "新增成功!";
+			return "提交成功!";
 		}
 
 		// DELETE: api/Contests/5

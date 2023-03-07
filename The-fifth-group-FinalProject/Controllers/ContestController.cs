@@ -18,5 +18,11 @@ namespace The_fifth_group_FinalProject.Controllers
 		{
 			return View(id);
 		}
+
+		public IActionResult ContestRegistration(int id)
+		{
+			return View(id);
+		}
 	}
 }
+
