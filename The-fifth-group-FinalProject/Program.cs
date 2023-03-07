@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 using The_fifth_group_FinalProject.Controllers;
 using The_fifth_group_FinalProject.Data;
 using The_fifth_group_FinalProject.Models;
@@ -15,7 +16,7 @@ builder.Services.AddSingleton<WebSocketController>();
 
 var TheFifthGroupOfTopicsConnectionString = builder.Configuration.GetConnectionString("TheFifthGroupOfTopics");
 builder.Services.AddDbContext<TheFifthGroupOfTopicsContext>(options =>
-	options.UseSqlServer(TheFifthGroupOfTopicsConnectionString));
+	options.UseSqlServer(TheFifthGroupOfTopicsConnectionString), ServiceLifetime.Singleton);
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

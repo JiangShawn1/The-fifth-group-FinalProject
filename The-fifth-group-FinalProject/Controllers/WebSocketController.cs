@@ -2,17 +2,23 @@
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NuGet.Packaging.Signing;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks.Dataflow;
+using The_fifth_group_FinalProject.Models;
 
 namespace The_fifth_group_FinalProject.Controllers
 {
     public class WebSocketController : Controller
     {
+        private readonly TheFifthGroupOfTopicsContext _theFifthGroupOfTopicsContext;
+
+        public WebSocketController(TheFifthGroupOfTopicsContext theFifthGroupOfTopicsContext)
+        {
+            _theFifthGroupOfTopicsContext = theFifthGroupOfTopicsContext;
+        }
         static ConcurrentDictionary<int, WebSocket> WebSockets = new ConcurrentDictionary<int, WebSocket>();
 
         public IActionResult Index()
@@ -47,8 +53,6 @@ namespace The_fifth_group_FinalProject.Controllers
                 JObject data = JObject.Parse(cmd);
                 string? Name = Convert.ToString(data["userName"]);
                 string? Message = $"{Convert.ToString(data["message"])} at {DateTime.Now}";
-                string timestamp = Convert.ToString(data["sendTime"]);
-                DateTime messageTime = DateTime.Parse(timestamp);
                 if (!string.IsNullOrEmpty(Name))
                 {
                     UserName = Name;
@@ -58,21 +62,15 @@ namespace The_fifth_group_FinalProject.Controllers
                     userName = UserName,
                     message = Message
                 }));
-                using (var conn = new SqlConnection("Server=.\\mssqllocaldb;Database=TheFifthGroupOfTopics"))
+                await _theFifthGroupOfTopicsContext.ChatContents.AddAsync(new ChatContent
                 {
-                    await conn.OpenAsync();
-                    var cmdsql = new SqlCommand("INSERT INTO ChatContents (MemberId, ChatContent, SentTime, ChatRoomId, EmployeeId) SELECT j.MemberId, j.ChatContent, j.SentTime, j.ChatRoomId, j.EmployeeId FROM OPENJSON(@json) WITH (MemberId INT, ChatContent NVARCHAR(MAX), SentTime DATETIME, ChatRoomId INT, EmployeeId INT) as j", conn);
-                    var json = JsonConvert.SerializeObject(new
-                    {
-                        MemberId = 1,
-                        ChatContent = Message,
-                        SentTime = DateTime.Now,
-                        ChatRoomId = 1,
-                        EmployeeId = 1
-                    });
-                    cmdsql.Parameters.AddWithValue("@json", json);
-                    await cmdsql.ExecuteNonQueryAsync();
-                }
+                    MemberId = 1,
+                    ChatContent1 = Message,
+                    SentTime = DateTime.Now,
+                    ChatRoomId = 1,
+                    EmployeeId = 1,
+                });
+                await _theFifthGroupOfTopicsContext.SaveChangesAsync();
 
                 res = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             }

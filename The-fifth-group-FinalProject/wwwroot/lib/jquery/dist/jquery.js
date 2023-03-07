@@ -6452,7 +6452,8 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 	// so they're executed at the same time to save the second computation.
 	function computeStyleTests() {
 
-		// This is a singleton, we need to execute it only once
+		// This is a 
+, we need to execute it only once
 		if ( !div ) {
 			return;
 		}

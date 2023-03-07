@@ -48,8 +48,7 @@
             send.addEventListener('click', function () {
                 var data = {
                     userName: $("#userName").val(),
-                    message: $("#message").val(),
-                    sendTime: new Date().toISOString()
+                    message: $("#message").val()
                 };
                 sendMessage(JSON.stringify(data));
             });
