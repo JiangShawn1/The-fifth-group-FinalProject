@@ -102,45 +102,48 @@
 							<h5>競賽項目</h5>						
 							<div class="form-group">
 								<label class="form-label">項目1:</label>							
-								<select class="form-control" v-model="categoryId">
-									<option v-for="item in CategoriesDTOes" value="{{item.id}}">{{item.category}}{{item.distance}}</option>
+								<select class="form-control" v-model="categoryId1">
+									<option v-for="item in CategoriesDTOes" :value="item.id">
+										{{item.category}}{{item.distance}}K</option>
 								</select>
 							</div>
 							<div class="form-group">
 								<label class="form-label">名額:</label>
-								<input type="text" class="form-control" v-model="quota" />
+								<input type="text" class="form-control" v-model="quota1" />
 							</div>
 							<div class="form-group">
 								<label class="form-label">金額:</label>
-								<input type="text" class="form-control" v-model="enterFee" />
+								<input type="text" class="form-control" v-model="enterFee1" />
 							</div>
 							<div class="form-group">
 								<label class="form-label">項目2:</label>
-								<select class="form-control" v-model="categoryId">
-									<option v-for="item in CategoriesDTOes" value="{{item.id}}">{{item.category}}{{item.distance}}K</option>
+								<select class="form-control" v-model="categoryId2">
+									<option v-for="item in CategoriesDTOes" :value="item.id">
+										{{item.category}}{{item.distance}}K</option>
 								</select>
 							</div>
 							<div class="form-group">
 								<label class="form-label">名額:</label>
-								<input type="text" class="form-control" v-model="quota" />
+								<input type="text" class="form-control" v-model="quota2" />
 							</div>
 							<div class="form-group">
 								<label class="form-label">金額:</label>
-								<input type="text" class="form-control" v-model="enterFee" />
+								<input type="text" class="form-control" v-model="enterFee2" />
 							</div>
 							<div class="form-group">
 								<label class="form-label">項目3:</label>
-								<select class="form-control" v-model="categoryId">
-									<option v-for="item in CategoriesDTOes" value="{{item.id}}">{{item.category}}{{item.distance}}K</option>
+								<select class="form-control" v-model="categoryId3">
+									<option v-for="item in CategoriesDTOes" :value="item.id">
+										{{item.category}}{{item.distance}}K</option>
 								</select>
 							</div>
 							<div class="form-group">
 								<label class="form-label">名額:</label>
-								<input type="text" class="form-control" v-model="quota" />
+								<input type="text" class="form-control" v-model="quota3" />
 							</div>
 							<div class="form-group">
 								<label class="form-label">金額:</label>
-								<input type="text" class="form-control" v-model="enterFee" />
+								<input type="text" class="form-control" v-model="enterFee3" />
 							</div>
 						</div>
 
@@ -177,11 +180,15 @@
 					location: "",
 					mapUrl: "",
 					detail: "",
-
-					categoryId:"",
-
-					quota: "",
-					enterFee:"",
+					categoryId1: "",
+					categoryId2: "",
+					categoryId3: "",
+					quota1: "",
+					quota2: "",
+					quota3: "",
+					enterFee1:"",
+					enterFee2:"",
+					enterFee3:"",
 					
 				};
 			},
@@ -256,18 +263,15 @@
 					request.RegistrationDeadline = new Date(_this.registrationDeadline);
 					request.Area = _this.area;
 					request.Location = _this.location;
-					request.MapUrl = _this.mapUrl;
-					request.Detail = _this.detail;
-					
-					var CategoryIdList=[];CategoryIdList.push(_this.categoryId);
-					request.CategoryId = CategoryIdList;
-					request.Quota = CategoryIdList;
-					request.EnterFee = CategoryIdList;					
-					
+					request.MapUrl = _this.mapUrl.replace("<iframe ", "").replace("></iframe>", "");
+					request.Detail = _this.detail;					
+					request.CategoryId = [_this.categoryId1, _this.categoryId2, _this.categoryId3].filter((n)=>n);
+					request.Quota = [_this.quota1, _this.quota2, _this.quota3].filter((n) => n);
+					request.EnterFee = [_this.enterFee1, _this.enterFee2, _this.enterFee3].filter((n) => n);
+
 					axios.post(`${webApiBaseAddress}/api/Contests`, request).then(response=>{
 						alert(response.data);
-						//window.location = "/Contest/ContestIndex";
-                    
+						window.location = "/Contest/ContestIndex";                    
 					});
                 }
 	        },

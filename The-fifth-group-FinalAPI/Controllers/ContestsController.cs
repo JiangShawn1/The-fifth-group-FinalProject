@@ -146,7 +146,7 @@ namespace The_fifth_group_FinalAPI.Controllers
 
 		[HttpPost]
 		public async Task<string> PostContests(ContestsDTO contestDTO)
-		{
+		{		
 			Contests contest = new Contests
 			{
 				Name = contestDTO.Name,
@@ -166,7 +166,7 @@ namespace The_fifth_group_FinalAPI.Controllers
 			List<ContestCategory> list = new List<ContestCategory>();
 			for (int i = 0; i < contestDTO.Quota.Count; i++)
 			{
-				if (contestDTO.EnterFee[i] == 0) break;
+				if (contestDTO.EnterFee[i] == 0 ) break;
 				list.Add(
 					new ContestCategory
 					{
