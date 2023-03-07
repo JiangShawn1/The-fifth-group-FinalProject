@@ -51,7 +51,7 @@
 						<td>{{item.contestDateString}}</td>
 						<td>{{item.area}}</td>
 						<td ><a class="myMOUSE" @@click="selectContest(item.id)">{{item.name}}</a></td>
-						<td><span class="event-item" v-for="d in item.distance"> {{d}}K </span> </td>
+						<td><span class="event-item" v-for="distance in item.distance"> {{distance}}K </span> </td>
 						<td>{{item.status}}</td>
 					</tr>
 				</tbody>
@@ -75,11 +75,12 @@
 						</div>
 						<div class="form-group">
 							<label class="form-label">活動日期:</label>
-							<input type="text" class="form-control" v-model="contestDate" />
+							<input type="date" class="form-control" v-model="contestDate" :min="todayDate" />
 						</div>
 						<div class="form-group">
 							<label class="form-label">報名截止日:</label>
-							<input type="text" class="form-control" v-model="registrationDeadline" />
+							<input type="date" class="form-control" 
+							v-model="registrationDeadline" :max="contestDate" :min="todayDate" />
 						</div>
 						<div class="form-group">
 							<label class="form-label">活動地區:</label>
@@ -94,26 +95,16 @@
 							<input type="text" class="form-control" v-model="mapUrl" />
 						</div>
 						<div class="form-group">
-							<label class="form-label">活動簡章:</label>
-							<input type="text" class="form-control" v-model="detail" />
+							<label class="form-label">活動簡章:</label>							
+							<textarea rows="3" class="form-control" v-model="detail"></textarea>
 						</div>
-
-
+						<div>
+						<h5>競賽項目</h5>						
 						<div class="form-group">
-							<label class="form-label">組別:</label>
-							<input type="text" class="form-control" v-model="categoryId" />
-						</div>
-						<div class="form-group">
-							<label class="form-label">名額:</label>
-							<input type="text" class="form-control" v-model="quota" />
-						</div>
-						<div class="form-group">
-							<label class="form-label">金額:</label>
-							<input type="text" class="form-control" v-model="enterFee" />
-						</div>
-						<div class="form-group">
-							<label class="form-label">組別:</label>
-							<input type="text" class="form-control" v-model="categoryId" />
+							<label class="form-label">項目1:</label>							
+							<select class="form-control" v-model="categoryId">
+								<option v-for="item in ContestsDTOes" value="{{item.id}}">{{item.name}}</option>
+							</select>
 						</div>
 						<div class="form-group">
 							<label class="form-label">名額:</label>
@@ -124,8 +115,10 @@
 							<input type="text" class="form-control" v-model="enterFee" />
 						</div>
 						<div class="form-group">
-							<label class="form-label">組別:</label>
-							<input type="text" class="form-control" v-model="categoryId" />
+							<label class="form-label">項目2:</label>
+							<select class="form-control" v-model="categoryId">
+								<option v-for="item in ContestsDTOes" value="{{item.id}}">{{item.name}}</option>
+							</select>
 						</div>
 						<div class="form-group">
 							<label class="form-label">名額:</label>
@@ -134,6 +127,21 @@
 						<div class="form-group">
 							<label class="form-label">金額:</label>
 							<input type="text" class="form-control" v-model="enterFee" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">項目3:</label>
+							<select class="form-control" v-model="categoryId">
+								<option v-for="item in ContestsDTOes" value="{{item.id}}">{{item.name}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label class="form-label">名額:</label>
+							<input type="text" class="form-control" v-model="quota" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">金額:</label>
+							<input type="text" class="form-control" v-model="enterFee" />
+						</div>
 						</div>
 
 					</div>
@@ -159,6 +167,20 @@
 				return {
 					Filter: "",
 					ContestsDTOes:[],
+					id:null,
+					name:"",
+					todayDate:new Date().toISOString().split('T')[0],
+					contestDate: "",
+					registrationDeadline: "",
+					area: "",
+					location: "",
+					mapUrl: "",
+					detail: "",
+
+					categoryId:"",
+
+					quota: "",
+					enterFee:"",
 					
 				};
 			},
