@@ -12,7 +12,6 @@ namespace The_fifth_group_FinalAPI.DTOs
 		public string? SupplierName { get; set; } 
 		public DateTime ContestDate { get; set; }
 		public DateTime CreateDateTime { get; set; }
-
 		public DateTime RegistrationDeadline { get; set; }
 		
 		public string? Area { get; set; }

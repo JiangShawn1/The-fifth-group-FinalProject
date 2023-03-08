@@ -38,14 +38,14 @@ namespace The_fifth_group_FinalAPI.Controllers
 		// GET: api/Categories/5
 		[HttpGet("{ContestId}")]
         public async Task<IEnumerable<CategoriesDTO>> GetCategories(int ContestId)
-        {
+        {           
             var categories = _context.ContestCategory.Where(c => c.ContestId == ContestId);
             return categories.Include(c => c.Category).Select(c => new CategoriesDTO
             {
                 Id = c.Category.Id,
                 Category = c.Category.Category,
-                Distance = c.Category.Distance,
-            });
+                Distance = c.Category.Distance,                
+            }).OrderBy(c => c.Distance);
         }
 
         // PUT: api/Categories/5

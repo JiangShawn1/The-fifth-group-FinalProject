@@ -8,6 +8,7 @@
 		public int MemberId { get; set; }
 		public string? Member { get; set; }
 		public int ContestCategoryId { get; set; }
+		public int CategoryId { get; set; }
 		public string? CategoryName { get; set; }
 		public int ContestId { get; set; }
 		public DateTime ContestDate { get; set; }
@@ -17,6 +18,5 @@
 		public string? Phone { get; set; }
 		public bool Gender { get; set; }
 		public string? Address { get; set; }
-
 	}
 }

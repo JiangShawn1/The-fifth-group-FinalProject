@@ -129,17 +129,50 @@ namespace The_fifth_group_FinalAPI.Controllers
 
         // POST: api/RegistrationInformations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<RegistrationInformation>> PostRegistrationInformation(RegistrationInformation registrationInformation)
-        {
-            _context.RegistrationInformation.Add(registrationInformation);
-            await _context.SaveChangesAsync();
+        //[HttpPost]
+		//public async Task<ActionResult<RegistrationInformation>> PostRegistrationInformation(RegistrationInformation registrationInformation)
+		//{
+		//    _context.RegistrationInformation.Add(registrationInformation);
+		//    await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRegistrationInformation", new { id = registrationInformation.Id }, registrationInformation);
-        }
+		//    return CreatedAtAction("GetRegistrationInformation", new { id = registrationInformation.Id }, registrationInformation);
+		//}
+		[HttpPost]
+		public async Task<string> PostRegistrationInformation(RegistrationInformationsDTO RegInfDTO)
+		{
+			Information information = new Information
+			{
+				Name = RegInfDTO.Name,
+				Phone = RegInfDTO.Phone,
+				Gender = Convert.ToBoolean(RegInfDTO.Gender),
+				Address = RegInfDTO.Address,
+			};			 
+			_context.Information.Add(information);
 
-        // DELETE: api/RegistrationInformations/5
-        [HttpDelete("{id}")]
+            var contestCategoryId =_context.ContestCategory.Where(c=>
+            c.ContestId==RegInfDTO.ContestId&&
+            c.CategoryId == RegInfDTO.CategoryId).Select(c=>c.Id).First();
+
+            Registration registration = new Registration
+            {
+                MemberId= RegInfDTO.MemberId,
+				ContestCategoryId= contestCategoryId,               
+			};
+			_context.Registration.Add(registration);
+			await _context.SaveChangesAsync();
+
+			RegistrationInformation registrationInformation =new RegistrationInformation
+			{
+				InformationId= information.Id,
+                RegistrationId= registration.Id,
+			};
+			_context.RegistrationInformation.Add(registrationInformation);
+
+			await _context.SaveChangesAsync();
+			return "報名成功!";
+		}
+		// DELETE: api/RegistrationInformations/5
+		[HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRegistrationInformation(int id)
         {
             var registrationInformation = await _context.RegistrationInformation.FindAsync(id);
