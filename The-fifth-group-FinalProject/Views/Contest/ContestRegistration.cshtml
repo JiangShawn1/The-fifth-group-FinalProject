@@ -94,8 +94,8 @@
 					request.CategoryId = _this.categoryId;
 					request.MemberId=1;
 
-
-					console.log(typeof (request.Gender));
+					console.log(_this.gender);
+					console.log(request.Gender);
 
 					axios.post(`${webApiBaseAddress}/api/RegistrationInformations`, request).then(response => {
 						alert(response.data);
