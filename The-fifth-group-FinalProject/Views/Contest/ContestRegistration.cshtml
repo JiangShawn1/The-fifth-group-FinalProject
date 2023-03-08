@@ -4,109 +4,42 @@
 	</style>
 }
 <div id="app">
-
-	<div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">報名賽事/活動</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="container">
-						<div class="form-group">
-							<label class="form-label">活動名稱:</label>
-							<input type="text" class="form-control" v-model="name" />
-						</div>
-						<div class="form-group">
-							<label class="form-label">活動日期:</label>
-							<input type="date" class="form-control" v-model="contestDate" :min="todayDate" />
-						</div>
-						<div class="form-group">
-							<label class="form-label">報名截止日:</label>
-							<input type="date" class="form-control"
-								   v-model="registrationDeadline" :max="contestDate" :min="todayDate" />
-						</div>
-						<div class="form-group">
-							<label class="form-label">活動地區:</label>
-							<input type="text" class="form-control" v-model="area" />
-						</div>
-						<div class="form-group">
-							<label class="form-label">活動地點:</label>
-							<input type="text" class="form-control" v-model="location" />
-						</div>
-						<div class="form-group">
-							<label class="form-label">地圖資訊:</label>
-							<input type="text" class="form-control" v-model="mapUrl" />
-						</div>
-						<div class="form-group">
-							<label class="form-label">活動簡章:</label>
-							<textarea rows="3" class="form-control" v-model="detail"></textarea>
-						</div>
-						<div>
-							<h5>競賽項目</h5>
-							<div class="form-group">
-								<label class="form-label">項目1:</label>
-								<select class="form-control" v-model="categoryId1">
-									<option v-for="item in CategoriesDTOes" :value="item.id">
-										{{item.category}}{{item.distance}}K
-									</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label class="form-label">名額:</label>
-								<input type="text" class="form-control" v-model="quota1" />
-							</div>
-							<div class="form-group">
-								<label class="form-label">金額:</label>
-								<input type="text" class="form-control" v-model="enterFee1" />
-							</div>
-							<div class="form-group">
-								<label class="form-label">項目2:</label>
-								<select class="form-control" v-model="categoryId2">
-									<option v-for="item in CategoriesDTOes" :value="item.id">
-										{{item.category}}{{item.distance}}K
-									</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label class="form-label">名額:</label>
-								<input type="text" class="form-control" v-model="quota2" />
-							</div>
-							<div class="form-group">
-								<label class="form-label">金額:</label>
-								<input type="text" class="form-control" v-model="enterFee2" />
-							</div>
-							<div class="form-group">
-								<label class="form-label">項目3:</label>
-								<select class="form-control" v-model="categoryId3">
-									<option v-for="item in CategoriesDTOes" :value="item.id">
-										{{item.category}}{{item.distance}}K
-									</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label class="form-label">名額:</label>
-								<input type="text" class="form-control" v-model="quota3" />
-							</div>
-							<div class="form-group">
-								<label class="form-label">金額:</label>
-								<input type="text" class="form-control" v-model="enterFee3" />
-							</div>
-						</div>
-
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-warning" data-bs-dismiss="modal">關閉</button>
-					<button type="button" class="btn btn-primary" @@click="insert">新增</button>
-				</div>
+	<div>
+		<div class="modal-header">
+			<h1>{{ContestsDTOes.name}}</h1>
+		</div>
+		<div class="modal-body">
+			<div class="form-group">
+				<label class="form-label">報名項目:</label>
+				<select class="form-control" v-model="categoryId">
+					<option v-for="item in CategoriesDTOes" :value="item.id">
+					{{item.category}}{{item.distance}}K</option>				
+			    </select>
+			</div>
+			<h5 class="mt-5">參賽資料</h5>		
+			<div class="form-group">
+				<label class="form-label">姓名:</label>
+				<input type="text" class="form-control" v-model="name" />
+			</div>
+			<div class="form-group">
+				<label class="form-label">電話:</label>
+				<input type="tel" class="form-control" v-model="phone" />
+			</div>
+			<div class="form-group" >
+				<label class="form-label">姓別:</label><br />
+				<input type="radio" v-model="gender" value=true> 男
+				<input type="radio" v-model="gender" value=false> 女
+			</div>
+			<div class="form-group">
+				<label class="form-label">地址:</label>
+				<input type="text" class="form-control" v-model="address" />
 			</div>
 		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-warning" >關閉</button>
+			<button type="button" class="btn btn-primary" @@click="insert">新增</button>
+		</div>
 	</div>
-
-	
-
 </div>
 @section Scripts
 	{
@@ -117,29 +50,59 @@
 		var vueApp = {
 			data() {
 				return {
-					ContestsDTOes: [],
-					isActive: false
+					CategoriesDTOes: [],
+					ContestsDTOes:[],
+					categoryId:"",
+					gender:"",
+					name:"",
+					phone:"",
+					address:"",
 				};
 			},
 			mounted: function () {
 				let _this = this;
+				_this.getCategoriesDTOes();
 				_this.getContestsDTOes();
 			},
 			methods: {
-				getContestsDTOes: function () {
+				getCategoriesDTOes: function () {
 					var id = location.hash.split('#')[1];
 					let _this = this;
 					var request = {};
-					axios.get(`${webApiBaseAddress}/api/Contests/${id}`, request).then(response => {
-						_this.ContestsDTOes = response.data;
-						_this.ContestsDTOes['contestDateString'] = _this.ContestsDTOes.contestDate.substr(0, 10);
-						_this.ContestsDTOes['createDateTimeString'] = _this.ContestsDTOes.createDateTime.substr(0, 10);
-						_this.ContestsDTOes['registrationDeadlineString'] = _this.ContestsDTOes.registrationDeadline.substr(0, 10);
+					axios.get(`${webApiBaseAddress}/api/Categories/${id}`, request).then(response => {
+						_this.CategoriesDTOes = response.data;						
 					});
 				},
-				selectgroup: function () {
-					this.isActive = !this.isActive;
-				}
+				getContestsDTOes: function () {
+					var id=location.hash.split('#')[1];
+					let _this = this;
+					var request = {};
+					axios.get(`${webApiBaseAddress}/api/Contests/${id}`, request).then(response => {
+						_this.ContestsDTOes = response.data;						
+					});
+				},
+				insert: function () {
+					var contestId=location.hash.split('#')[1];
+					let _this = this;
+					var request={};
+
+					request.Name = _this.name;
+					request.Phone = _this.phone;
+					request.Gender = Boolean(_this.gender);
+					request.Address = _this.address;
+					request.ContestId=contestId;
+					request.CategoryId = _this.categoryId;
+					request.MemberId=1;
+
+
+					console.log(typeof (request.Gender));
+
+					axios.post(`${webApiBaseAddress}/api/RegistrationInformations`, request).then(response => {
+						alert(response.data);
+						window.location = "/Contest/ContestIndex";
+					});
+					
+				},
 			},
 		};
 		var app = Vue.createApp(vueApp).mount("#app");

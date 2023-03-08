@@ -107,6 +107,10 @@
 		#app{
 			background-color: #e5e9ec
 		}
+		.myMOUSE {
+			cursor: pointer;			
+			text-decoration: none
+		}		
 	</style>
 }
 	<div id="app">
@@ -136,8 +140,8 @@
 			</li>
 			<li class="stack-column-item">
 				<div class="data-title">相關連結</div>
-				<div class="data-content comma-list">
-					<a href="" class="comma-item" target="_blank">報名頁面View</a>
+				<div class="data-content comma-list">					
+					<a class="comma-item myMOUSE" @@click="gotoContestRegistration">報名頁面View</a>
 				</div>
 			</li>
 			<li class="stack-column-item">
@@ -202,11 +206,16 @@
 						_this.ContestsDTOes['contestDateString'] = _this.ContestsDTOes.contestDate.substr(0, 10);
 						_this.ContestsDTOes['createDateTimeString'] = _this.ContestsDTOes.createDateTime.substr(0, 10);
 						_this.ContestsDTOes['registrationDeadlineString'] = _this.ContestsDTOes.registrationDeadline.substr(0, 10);
-					});					
-				},	
+					});
+				},
 				selectgroup:function(){
                      this.isActive = !this.isActive;				
-				}
+				},
+				gotoContestRegistration: function () {
+					var id = location.hash.split('#')[1];
+					window.location = `https://localhost:7123/Contest/ContestRegistration/#${id}`;
+				},
+
 			},
 		};
 		var app = Vue.createApp(vueApp).mount("#app");
