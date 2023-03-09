@@ -1,19 +1,63 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
+@section Styles{
+    <style>
+.speech-bubble1 {
+	position: relative;
+	background: #ffff99;
+	border-radius: .4em;
+    margin-bottom: 5px;
+}
+
+.speech-bubble1:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 7px solid transparent;
+	border-right-color: #ffff99;
+	border-left: 0;
+	margin-top: -7px;
+	margin-left: -7px;
+}
+
+    .speech-bubble2 {
+	position: relative;
+	background: #c6ffb3;
+	border-radius: .4em;
+        margin-bottom: 5px;
+}
+
+.speech-bubble2:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 7px solid transparent;
+	border-left-color: #c6ffb3;
+	border-right: 0;
+	margin-top: -7px;
+	margin-right: -7px;
+}
+    </style>
 }
 
 <div class="container" id="app">
+    <div class="p-2 chat">
+        <ul id="list">
+        </ul>
+    </div>
     <div class="row">
         <input class="col-4 m-1" id="userName" placeholder="User name" />
         <input class="col-6 m-1" id="message" placeholder="Message" />
         <button class="col-1 m-1" id="send">Send</button>
     </div>
-    <div class="p-2 chat">
-        <ul id="list">
-        </ul>
-    </div>
+    
 </div>
 
     @section Scripts {
@@ -32,9 +76,15 @@
             function processMessage(data) {
                 let li = document.createElement('li');
                 var content = JSON.parse(data);
+                if (content["userName"] === $("#userName").val()) {
+                    li.className = "speech-bubble2";
+                } else {
+                    li.className = "speech-bubble1";
+                }
                 li.textContent = `${content["userName"]}說:${content["message"]}`;
                 list.appendChild(li);
             }
+
             function sendMessage(msg) {
                 if (socket && socket.readyState == WebSocket.OPEN)
                     socket.send(msg);

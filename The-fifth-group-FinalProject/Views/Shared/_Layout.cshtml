@@ -22,7 +22,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="https://localhost:7123/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
@@ -41,11 +41,13 @@
                                 <li><a class="dropdown-item" href="portfolio-item.html">Portfolio Item</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item"><a class="nav-link" href="https://localhost:7123/Websocket">客服</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        @RenderBody()
+        @RenderSection("Styles", required: false)
+        @RenderBody()     
         @RenderSection("Scripts", required: false)
     </main>
     <!-- Footer-->
