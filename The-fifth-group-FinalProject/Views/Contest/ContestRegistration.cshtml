@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-warning" >關閉</button>
+			<button type="button" class="btn btn-warning" @@click="close">關閉</button>
 			<button type="button" class="btn btn-primary" @@click="insert">新增</button>
 		</div>
 	</div>
@@ -84,13 +84,11 @@
 				insert: function () {
 					var contestId=location.hash.split('#')[1];
 					let _this = this;
-					var request={};					
-
+					var request={};	
 					request.Name = _this.name;
 					request.Phone = _this.phone;					
 					request.Gender = _this.gender=="true"? true:false
 					request.Address = _this.address;
-
 					request.ContestId=contestId;
 					request.CategoryId = _this.categoryId;
 					request.MemberId=1;					
@@ -99,8 +97,10 @@
 						alert(response.data);
 						window.location = "/Contest/ContestIndex";
 					});
-					
 				},
+				close: function () {
+					history.back()
+				}
 			},
 		};
 		var app = Vue.createApp(vueApp).mount("#app");
