@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
@@ -57,6 +58,8 @@ namespace The_fifth_group_FinalProject.Controllers
                 {
                     UserName = Name;
                 }
+                // 自動回覆功能
+                
                 Broadcast(JsonConvert.SerializeObject(new
                 {
                     userName = UserName,
@@ -71,6 +74,19 @@ namespace The_fifth_group_FinalProject.Controllers
                     EmployeeId = 1,
                 });
                 await _theFifthGroupOfTopicsContext.SaveChangesAsync();
+
+                var autoReplyContent = await FindAutoReplyContentAsync(Message);
+
+                if (!string.IsNullOrEmpty(autoReplyContent))
+                {
+                    Message = autoReplyContent;
+                    Broadcast(JsonConvert.SerializeObject(new
+                    {
+                        userName = "客服",
+                        message = $"{Message}at {DateTime.Now}"
+                    }));
+                }
+                
 
                 res = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             }
@@ -93,6 +109,44 @@ namespace The_fifth_group_FinalProject.Controllers
                     await webSocket.SendAsync(data, WebSocketMessageType.Text, true, CancellationToken.None);
             });
         }
+        // 找尋符合的自動回覆內容
+        private async Task<string> FindAutoReplyContentAsync(string message)
+        {
+            // 建立一個字典來紀錄每個回覆內容符合的關鍵字數量
+            var autoReplyCounts = new Dictionary<AutoReply, int>();
+
+            // 取得所有的關鍵字回覆
+            var autoReplies = await _theFifthGroupOfTopicsContext.AutoReplies.Include(a => a.AutoReplyKeyWords)
+                .ToListAsync();
+
+            // 對於每個關鍵字回覆，計算符合的關鍵字數量
+            foreach (var autoReply in autoReplies)
+            {
+                int count = 0;
+                foreach (var keyword in autoReply.AutoReplyKeyWords)
+                {
+                    if (message.Contains(keyword.KeyWord))
+                    {
+                        count++;
+                    }
+                }
+                autoReplyCounts[autoReply] = count;
+            }
+
+            // 如果沒有符合任何關鍵字回覆，回傳空字串
+            if (autoReplyCounts.Values.Max() == 0)
+            {
+                return "";
+            }
+
+            // 找到符合最多關鍵字的回覆內容
+            var maxCount = autoReplyCounts.Values.Max();
+            var autoReplyContent = autoReplyCounts.FirstOrDefault(a => a.Value == maxCount).Key.AutoReplyContent;
+
+            return autoReplyContent;
+        }
+
+
     }
 }
 
