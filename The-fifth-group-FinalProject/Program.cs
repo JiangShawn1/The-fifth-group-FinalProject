@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using The_fifth_group_FinalProject.Data;
 using The_fifth_group_FinalProject.Models;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<TheFifthGroupOfTopicsContext>(options =>
 	options.UseSqlServer(TheFifthGroupOfTopicsConnectionString));
 
 
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -23,9 +25,11 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+
 	app.UseMigrationsEndPoint();
 }
 else
