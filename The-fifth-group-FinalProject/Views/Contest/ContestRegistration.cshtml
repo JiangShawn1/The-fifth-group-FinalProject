@@ -27,8 +27,8 @@
 			</div>
 			<div class="form-group" >
 				<label class="form-label">姓別:</label><br />
-				<input type="radio" v-model="gender" value=true> 男
-				<input type="radio" v-model="gender" value=false> 女
+				<input type="radio" name="genderRadio" v-model="gender" value=true> 男
+				<input type="radio" name="genderRadio" v-model="gender" value=false> 女
 			</div>
 			<div class="form-group">
 				<label class="form-label">地址:</label>
@@ -84,18 +84,16 @@
 				insert: function () {
 					var contestId=location.hash.split('#')[1];
 					let _this = this;
-					var request={};
+					var request={};					
 
 					request.Name = _this.name;
-					request.Phone = _this.phone;
-					request.Gender = Boolean(_this.gender);
+					request.Phone = _this.phone;					
+					request.Gender = _this.gender=="true"? true:false
 					request.Address = _this.address;
+
 					request.ContestId=contestId;
 					request.CategoryId = _this.categoryId;
-					request.MemberId=1;
-
-					console.log(_this.gender);
-					console.log(request.Gender);
+					request.MemberId=1;					
 
 					axios.post(`${webApiBaseAddress}/api/RegistrationInformations`, request).then(response => {
 						alert(response.data);
