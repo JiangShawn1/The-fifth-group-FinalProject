@@ -97,12 +97,12 @@
 		.comp-groups .groups .groups-detail {
          max-height: 0px;
          overflow: hidden;
-         transition: max-height 1s ease
+         transition: max-height 0.5s ease
         }			
 		.comp-groups .groups .active {
          max-height: 500px;
          overflow: hidden;
-         transition: max-height 1.5s ease
+         transition: max-height 1s ease
         }				
 		#app{
 			background-color: #e5e9ec
@@ -154,11 +154,11 @@
 	<section class="comp-groups">
 		<h2 class="nake-title">項目</h2>			
 		<ul class="groups-list shadow-z1 card--5">
-			<li class="groups" v-for="item in ContestsDTOes.categoryGroups"  @@click="selectgroup">
-				<h3 class="groups-title groups_toggle">
+			<li class="groups" v-for="(item,index) in ContestsDTOes.categoryGroups" :key="index" @@click="selectgroup(index)">
+				<h3 class="groups-title groups_toggle" >
 					<i class="fa fa-caret-right toggle-icon"></i>{{item.categoryName}}
 				</h3>
-				<div class="groups-detail" v-bind:class="{ active: isActive }">
+				<div class="groups-detail" v-bind:class="{ active: selectedGroupIndex === index }">
 					<ul class="stack-list stack-data-list">	
 						<li class="stack-column-item">
 							<div class="data-title">距離</div>
@@ -188,8 +188,8 @@
 		var vueApp = {
 			data() {
 				return {					
-					ContestsDTOes:[],
-					isActive: false
+					ContestsDTOes:[],					
+					selectedGroupIndex:null,
 				};
 			},
 			mounted: function () {
@@ -208,8 +208,13 @@
 						_this.ContestsDTOes['registrationDeadlineString'] = _this.ContestsDTOes.registrationDeadline.substr(0, 10);
 					});
 				},
-				selectgroup:function(){
-                     this.isActive = !this.isActive;				
+				selectgroup:function(index){
+					if (this.selectedGroupIndex === index) {
+						this.selectedGroupIndex = null;
+					} else {
+						this.selectedGroupIndex = index;
+					}
+																 	
 				},
 				gotoContestRegistration: function () {
 					var id = location.hash.split('#')[1];
