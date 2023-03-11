@@ -11,10 +11,10 @@
 	</style>
 }
 <div id="app">	
-	<div class="row" style="width:50%;margin-left:auto;margin-right:5px">
-		<label class="col-lg-3">請輸入活動名稱或參賽人姓名</label>
-		<input class="col-lg-7 form-control m-1" v-model="Filter" placeholder="請輸入活動名稱或參賽人姓名" />
-		<button class="btn btn-outline-primary" @@click="filterRegistrationsDTOes">篩選</button>
+	<div class="row" style="width:50%;margin-left:auto;margin-right:5px">		
+		<div class="col"></div>
+		<div class="col-md-10"><input class="form-control" v-model="Filter" placeholder="請輸入活動名稱或參賽人姓名" /></div>
+		<div class="col-md-auto"><button class="btn btn-outline-primary" @@click="filterRegistrationsDTOes">篩選</button></div>
 	</div>	
 	<div class="row">
 		<div class="col-12 mt-4">
@@ -40,7 +40,6 @@
 			</table>
 		</div>
 	</div>
-
 </div>
 @section Scripts
 	{

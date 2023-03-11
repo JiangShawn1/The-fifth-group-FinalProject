@@ -1,43 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
-	<head>
-		<title>跑者資訊站</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<style>
-			/* 加入CSS樣式 */
+	<head>		
+		<style>			
 			body {
 			font-family: Arial, sans-serif;
 			margin: 0;
 			padding: 0;
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
 			}
-
-			header {
-			background-color: #333;
-			color: #fff;
-			padding: 10px;
-			text-align: center;
-			}
-
-			nav {
-			background-color: #ccc;
-			overflow: hidden;
-			}
-
-			nav a {
-			float: left;
-			color: #333;
-			text-align: center;
-			padding: 14px 16px;
-			text-decoration: none;
-			font-size: 17px;
-			}
-
-			nav a:hover {
-			background-color: #ddd;
-			color: #333;
-			}
-
 			section {
 			display: flex;
 			flex-wrap: wrap;
@@ -45,7 +17,6 @@
 			justify-content: center;
 			align-items: center;
 			}
-
 			section div {
 			margin: 10px;
 			padding: 20px;
@@ -78,20 +49,22 @@
 			display: inline-block;
 			margin-top: 10px;
 			}
+
+		ul li {
+			text-align: left;
+		}
 		</style>
 	</head>
-	<body>
-		<header>
-			<h1>路跑運動網站</h1>
-		</header>
-		<nav>
-			<a href="#">商城</a>
-			<a href="#">客服</a>
-			<a href="#">賽事資訊</a>
-			<a href="#">報名表</a>
-			<a href="#">論壇</a>
-		</nav>
+	<body>	
 		<section>
+			<div>			
+				<h2>最新消息</h2>
+				<ul>
+					<li>3月15日：即將舉辦「2023年春季路跑大賽」，敬請期待。</li>
+					<li>3月9日：新商品上市，包括運動鞋、運動襪等等。</li>
+					<li>3月5日：感謝各位參與「2023年冬季路跑大賽」，我們會盡快公佈成績。</li>
+				</ul>			
+			</div>
 			<div>
 				<h2>最新賽事</h2>
 				<p>我們提供最新的路跑賽事資訊，包括報名方式、賽事地點、路線圖、獎勵等等。</p>
@@ -102,6 +75,21 @@
 				<p>我們的商城提供各種路跑相關商品，現在有許多商品在進行促銷，歡迎前來選購。</p>
 				<a href="#">了解更多</a>
 			</div>
-		</section>
+			<div>
+				<h2>健康知識</h2>
+				<p>我們提供最新的健康知識，包括訓練技巧、運動保健、飲食營養等等，讓你成為更健康的路跑選手。</p>
+				<a href="#">了解更多</a>
+			</div>
+			<div>
+				<h2>社群分享</h2>
+				<p>我們的論壇是一個交流路跑賽事、經驗、技巧的平台，歡迎加入我們的社群。</p>
+				<a href="#">了解更多</a>
+			</div>
+			<div>
+				<h2>贊助廠商</h2>
+				<p>我們的賽事得到了許多知名品牌的支持與贊助，包括運動裝備、運動飲料等等，感謝他們對路跑運動的支持。</p>
+				<a href="#">了解更多</a>
+			</div>
+		</section>	
 	</body>
 </html>
