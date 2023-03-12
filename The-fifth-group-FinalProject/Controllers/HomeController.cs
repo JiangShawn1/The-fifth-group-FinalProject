@@ -28,5 +28,10 @@ namespace The_fifth_group_FinalProject.Controllers
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
+
+		public IActionResult PartnerIndex()
+		{
+			return View();
+		}
 	}
 }
