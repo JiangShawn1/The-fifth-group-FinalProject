@@ -51,6 +51,38 @@ namespace The_fifth_group_FinalAPI.Controllers
 			}).OrderBy(p => p.Id);
 		}
 
+
+		// PUT: api/Products/5
+		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[HttpPut("{id}")]
+		public async Task<IActionResult> PutCartItems(int id, CartItems cartItems)
+		{
+			if (id != cartItems.Id)
+			{
+				return BadRequest();
+			}
+
+			_context.Entry(cartItems).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!ProductsExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return NoContent();
+		}
+
 		// GET: Products1
 		public async Task<IActionResult> Index()
         {
