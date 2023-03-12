@@ -13,47 +13,47 @@ namespace The_fifth_group_FinalAPI.Controllers
     [EnableCors("AllowAny")]
     [Route("api/[controller]")]
     [ApiController]
-    public class CouponsController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly TheFifthGroupOfTopicsContext _context;
 
-        public CouponsController(TheFifthGroupOfTopicsContext context)
+        public OrdersController(TheFifthGroupOfTopicsContext context)
         {
             _context = context;
         }
 
-        // GET: api/Coupons
+        // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Coupons>>> GetCoupons()
+        public async Task<ActionResult<IEnumerable<Orders>>> GetOrders()
         {
-            return await _context.Coupons.ToListAsync();
+            return await _context.Orders.ToListAsync();
         }
 
-        // GET: api/Coupons/5
+        // GET: api/Orders/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Coupons>> GetCoupons(int id)
+        public async Task<ActionResult<Orders>> GetOrders(int id)
         {
-            var coupons = await _context.Coupons.FindAsync(id);
+            var orders = await _context.Orders.FindAsync(id);
 
-            if (coupons == null)
+            if (orders == null)
             {
                 return NotFound();
             }
 
-            return coupons;
+            return orders;
         }
 
-        // PUT: api/Coupons/5
+        // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCoupons(int id, Coupons coupons)
+        public async Task<IActionResult> PutOrders(int id, Orders orders)
         {
-            if (id != coupons.Id)
+            if (id != orders.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(coupons).State = EntityState.Modified;
+            _context.Entry(orders).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace The_fifth_group_FinalAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CouponsExists(id))
+                if (!OrdersExists(id))
                 {
                     return NotFound();
                 }
@@ -74,43 +74,43 @@ namespace The_fifth_group_FinalAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Coupons
+        // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Coupons>> PostCoupons(Coupons coupons)
+        public async Task<ActionResult<Orders>> PostOrders(Orders orders)
         {
-            _context.Coupons.Add(coupons);
+            _context.Orders.Add(orders);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCoupons", new { id = coupons.Id }, coupons);
+            return CreatedAtAction("GetOrders", new { id = orders.Id }, orders);
         }
 
-        // DELETE: api/Coupons/5
+        // DELETE: api/Orders/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCoupons(int id)
+        public async Task<IActionResult> DeleteOrders(int id)
         {
-            var coupons = await _context.Coupons.FindAsync(id);
-            if (coupons == null)
+            var orders = await _context.Orders.FindAsync(id);
+            if (orders == null)
             {
                 return NotFound();
             }
 
-            _context.Coupons.Remove(coupons);
+            _context.Orders.Remove(orders);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        [HttpPost("Filter")]    //Uri: api/Coupons/Filter
-        public async Task<IEnumerable<Coupons>> FilterCoupons([FromBody] Coupons coupons)
+        [HttpPost("Filter")]    //Uri: api/Orders/Filter
+        public async Task<IEnumerable<Orders>> FilterOrders([FromBody] Orders orders)
         {
-            return _context.Coupons.Where(
-                c => c.CouponName.Contains(coupons.CouponName) || c.CouponNumber.Contains(coupons.CouponName));
+            return _context.Orders.Where(
+                o => o.OrderNumber.Contains(orders.OrderNumber));
         }
 
-        private bool CouponsExists(int id)
+        private bool OrdersExists(int id)
         {
-            return _context.Coupons.Any(e => e.Id == id);
+            return _context.Orders.Any(e => e.Id == id);
         }
     }
 }

@@ -1,0 +1,180 @@
+﻿@*@section Scripts
+    {
+    <script>
+        var webApiBaseAddress = "https://localhost:7040";
+        const { createApp } = Vue
+        createApp({
+            data() {
+                return {
+                    Coupons: [],
+                    Filter: "",
+                    Id: null,
+                    CouponName: null,
+                    CouponNumber: null,
+                    CouponType: null,
+                    CouponDiscount: null,
+                    CouponQuantity: null,
+                    AccountQuantity: null,
+                    MinSpend: null,
+                    IsCombine: null,
+                    CouponImage: null,
+                    CouponContent: null,
+                    StartAt: null,
+                    EndAt: null,
+                    CorrespondProduct: null,
+                    CreateAt: null,
+                    SoftDelete: null
+                };
+
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getCoupons();
+            },
+            methods: {
+                getCoupons: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/Coupons`).then(
+                        response => {
+                            _this.Coupons = response.data;
+                            var CouponsList = [];
+                            for (var i = 0; i < _this.Coupons.length; i++) {
+                                var item = {};
+                                item = _this.Coupons[i];
+                                CouponsList.push(item);
+                            }
+                            _this.Coupons = CouponsList;
+                        }
+                    );
+                },
+                filterCoupons: function () {
+                    let _this = this;
+                    var request = {};
+                    request.CouponName = _this.Filter;
+                    axios.post(`${webApiBaseAddress}/api/Coupons/Filter`, request).then(
+                        response => {
+                            _this.Coupons = response.data;
+                            var CouponsList = [];
+                            for (var i = 0; i < _this.Coupons.length; i++) {
+                                var item = {};
+                                item = _this.Coupons[i];
+                                CouponsList.push(item);
+                            }
+                            _this.Coupons = CouponsList;
+                        }
+                    );
+                },
+            },
+        }).mount('#app')
+    </script>
+}*@
+<div id="app" class="container">
+    <div class="row" style="width:50%;margin-left:auto;margin-right:0">
+        <label class="col-lg-3">請輸入篩選關鍵字</label>
+        <input class="col-lg-7 form-control" placeholder="優惠券名稱" v-model="Filter" />
+        <button type="button" class="col-lg-2 btn btn-primary" @@click="filterCoupons">篩選</button>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-4">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <td>優惠券名稱</td>
+                            <td>序號</td>
+                            <td>圖片</td>
+                            <td>啟用時間</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in Coupons">
+                            <td>{{item.couponName}}</td>
+                            <td>{{item.couponNumber}}</td>
+                            <td>{{item.couponImage}}</td>
+                            <td>{{item.startAt}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+    {
+    <script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+    <script>
+        var webApiBaseAddress = "https://localhost:7040";
+        var vueApp = {
+            data() {
+                return {
+                    Coupons: [],
+                    Filter: "",
+                    id: null,
+                    couponName: null,
+                    couponNumber: null,
+                    couponType: null,
+                    couponDiscount: null,
+                    couponQuantity: null,
+                    accountQuantity: null,
+                    minSpend: null,
+                    isCombine: null,
+                    couponImage: null,
+                    couponContent: null,
+                    startAt: null,
+                    endAt: null,
+                    correspondProduct: null,
+                    createAt: null,
+                    softDelete: null
+                }
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getCoupons();
+            },
+            methods: {
+                getCoupons: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/Coupons`).then(
+                        response => {
+                            _this.Coupons = response.data;
+                            console.log(_this.Coupons);
+                            var CouponsList = [];
+                            for (var i = 0; i < _this.Coupons.length; i++) {
+                                var item = {};
+                                item = _this.Coupons[i];
+                                CouponsList.push(item);
+                            }
+                            _this.Coupons = CouponsList;
+                        }
+
+                    )
+                },
+
+                filterCoupons: function () {
+                    let _this = this;
+                    var request = {};
+                    request.CouponName = _this.Filter;
+                    axios.post(`${webApiBaseAddress}/api/Coupons/Filter`, request).then(
+                        response => {
+                            _this.Coupons = response.data;
+                            console.log(_this.Coupons);
+                            var CouponsList = [];
+                            for (var i = 0; i < _this.Coupons.length; i++) {
+                                var item = {};
+                                item = _this.Coupons[i];
+                                CouponsList.push(item);
+                            }
+                            _this.Coupons = CouponsList;
+                        }
+                    )
+                },
+            }
+        }
+        var app = Vue.createApp(vueApp).mount("#app");
+
+    </script>
+}

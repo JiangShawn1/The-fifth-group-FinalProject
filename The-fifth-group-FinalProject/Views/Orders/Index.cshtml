@@ -1,0 +1,100 @@
+﻿<div id="app" class="container" />
+<div class="row" style="width:50%;margin-left:auto;margin-right:0">
+    <label class="col-lg-3">請輸入篩選關鍵字</label>
+    <input class="col-lg-7 form-control" placeholder="篩選訂單" v-model="Filter" />
+    <button type="button" class="col-lg-2 btn btn-primary" @@click="filterOrders">篩選</button>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-4">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td>訂單編號</td>
+                        <td>訂單狀態</td>
+                        <td>交易狀態</td>
+                        <td>建立時間</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in Orders">
+                        <td>{{item.orderNumber}}</td>
+                        <td>{{item.orderStatus}}</td>
+                        <td>{{item.tradeStatus}}</td>
+                        <td>{{item.createAt}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+    <script>
+        var webApiBaseAddress = "https://localhost:7040";
+        const { createApp } = Vue
+
+        createApp({
+
+            data() {
+                return {
+                    Orders: [],
+                    Filter: "",
+                    id: null,
+                    memberId: null,
+                    orderNumber: null,
+                    createAt: null,
+                    orderType: null,
+                    orderStatus: null,
+                    tradeStatus: null,
+                    useCoupon: null,
+                    amount: null,
+                    shippingMethod: null,
+                    orderAddress: null,
+                    orderContent: null
+                }
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getOrders();
+            },
+            methods: {
+                getOrders: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/Orders`).then(
+                        response => {
+                            _this.Orders = response.data;
+                            var OrdersList = [];
+                            for (var i = 0; i < _this.Orders.length; i++) {
+                                var item = {};
+                                item = _this.Orders[i];
+                                OrdersList.push(item);
+                            }
+                            _this.Orders = OrdersList;
+                        }
+                    );
+                },
+                filterOrders: function () {
+                    let _this = this;
+                    var request = {};
+                    request.OrderNumber = _this.Filter;
+                    axios.post(`${webApiBaseAddress}/api/Orders/Filter`, request).then(
+                        response => {
+                            _this.Orders = response.data;
+                            var OrdersList = [];
+                            for (var i = 0; i < _this.Orders.length; i++) {
+                                var item = {};
+                                item = _this.Orders[i];
+                                OrdersList.push(item);
+                            }
+                            _this.Orders = OrdersList;
+                        }
+                    );
+                },
+                }
+        }).mount('#app')
+    </script>
+}
