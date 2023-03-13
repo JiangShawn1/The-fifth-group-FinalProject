@@ -102,8 +102,20 @@
                 };
                 sendMessage(JSON.stringify(data));
             });
-        var userName = '@ViewBag.Account';
-        $("#userName").val(userName);
-        $("#userName").prop("disabled", true);
+        var userName = localStorage.getItem("userName");
+        userName = '@ViewBag.Account';
+        if (userName) {
+            $("#userName").val(userName);
+            $("#userName").prop("disabled", true);
+        } else {
+            // 讓使用者輸入自己的userName
+            $("#userName").prop("disabled", false);
+        }
+
+        // 監聽使用者輸入userName的事件，並存入localStorage中
+        $("#userName").on("input", function () {
+            var userName = $("#userName").val();
+            localStorage.setItem("userName", userName);
+        });
         </script>
     }
