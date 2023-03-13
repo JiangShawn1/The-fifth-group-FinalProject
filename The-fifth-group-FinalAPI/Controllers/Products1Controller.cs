@@ -20,71 +20,73 @@ namespace The_fifth_group_FinalAPI.Controllers
         }
 
 
-		// GET: api/Products
-		[HttpGet]
-		public async Task<IEnumerable<ProductsDTO>> GetProducts()
-		{
-			return _context.Products.Select(p => new ProductsDTO
-			{
-				Id = p.Id,
-                Brand_Id=p.BrandId,
-                ProductName= p.ProductName,
-                Color_Id=p.ColorId,
-                Price= p.Price,
-			}).OrderBy(p => p.Brand_Id);
-		}
-
-		// GET: api/Products/5
-		[HttpGet("{Id}")]
-		public async Task<IEnumerable<ProductsDTO>> GetProducts(int Id)
-		{
-			var Products = _context.Products.Where(p => p.Id == Id);
-			return Products.Include(p => p.Brand).Include(p => p.Color).Select(p => new ProductsDTO
-			{
-				Id = p.Id,
-				Brand = p.Brand.Brand,
+        // GET: api/Products
+        [HttpGet]
+        public async Task<IEnumerable<ProductsDTO>> GetProducts()
+        {
+            return _context.Products.Select(p => new ProductsDTO
+            {
+                Id = p.Id,
+                Brand_Id = p.BrandId,
                 ProductName = p.ProductName,
-                Color=p.Color.Color,
-                Price= p.Price,
-				ProductIntroduce=p.ProductIntroduce,
-                ImageUrl=p.ImageUrl,
-			}).OrderBy(p => p.Id);
-		}
+                Color_Id = p.ColorId,
+                Price = p.Price,
+            }).OrderBy(p => p.Brand_Id);
+        }
+
+        // GET: api/Products/5
+        [HttpGet("{Id}")]
+        public async Task<IEnumerable<ProductsDTO>> GetProducts(int Id)
+        {
+            var Products = _context.Products.Where(p => p.Id == Id);
+            return Products.Include(p => p.Brand).Include(p => p.Color).Select(p => new ProductsDTO
+            {
+                Id = p.Id,
+                Brand = p.Brand.Brand,
+                ProductName = p.ProductName,
+                Color = p.Color.Color,
+                Price = p.Price,
+                ProductIntroduce = p.ProductIntroduce,
+                ImageUrl = p.ImageUrl,
+            }).OrderBy(p => p.Id);
+        }
 
 
-		// PUT: api/Products/5
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-		[HttpPut("{id}")]
-		public async Task<IActionResult> PutCartItems(int id, CartItems cartItems)
-		{
-			if (id != cartItems.Id)
-			{
-				return BadRequest();
-			}
 
-			_context.Entry(cartItems).State = EntityState.Modified;
 
-			try
-			{
-				await _context.SaveChangesAsync();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				if (!ProductsExists(id))
-				{
-					return NotFound();
-				}
-				else
-				{
-					throw;
-				}
-			}
+        //// PUT: api/Products/5
+        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutCartItems(int id, CartItems cartItems)
+        //{
+        //	if (id != cartItems.Id)
+        //	{
+        //		return BadRequest();
+        //	}
 
-			return NoContent();
-		}
+        //	_context.Entry(cartItems).State = EntityState.Modified;
 
-		// GET: Products1
-		public async Task<IActionResult> Index()
+        //	try
+        //	{
+        //		await _context.SaveChangesAsync();
+        //	}
+        //	catch (DbUpdateConcurrencyException)
+        //	{
+        //		if (!ProductsExists(id))
+        //		{
+        //			return NotFound();
+        //		}
+        //		else
+        //		{
+        //			throw;
+        //		}
+        //	}
+
+        //	return NoContent();
+        //}
+
+        // GET: Products1
+        public async Task<IActionResult> Index()
         {
             var theFifthGroupOfTopicsContext = _context.Products.Include(p => p.Brand).Include(p => p.Color);
             return View(await theFifthGroupOfTopicsContext.ToListAsync());
@@ -225,14 +227,14 @@ namespace The_fifth_group_FinalAPI.Controllers
             {
                 _context.Products.Remove(products);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductsExists(int id)
         {
-          return _context.Products.Any(e => e.Id == id);
+            return _context.Products.Any(e => e.Id == id);
         }
     }
 }
