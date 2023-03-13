@@ -85,7 +85,7 @@ public class EmployeesController : Controller
 
                     // 將登入帳號記錄在 Session 內
                     HttpContext.Session.SetString("Account", inModel.Account);
-
+                    HttpContext.Session.SetString("Role", "Admin");
                     outModel.ResultMsg = "登入成功";
                     
                 }
