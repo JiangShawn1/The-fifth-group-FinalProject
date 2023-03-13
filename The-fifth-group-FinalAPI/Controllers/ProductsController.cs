@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using The_fifth_group_FinalAPI.DTOs;
 using The_fifth_group_FinalAPI.Models;
 
 namespace The_fifth_group_FinalAPI.Controllers
 {
+    [EnableCors("AllowAny")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -20,12 +23,56 @@ namespace The_fifth_group_FinalAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Products
+
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductsDTO>>> SearchProducts(string brand, string color, string keyword)
         {
-            return await _context.Products.ToListAsync();
+            IEnumerable<Products> products = _context.Products.Include(p => p.Brand).Include(p => p.Color);
+
+            if (!string.IsNullOrEmpty(keyword)) products = products.Where(x => x.ProductName.Contains(keyword));
+
+            if (!string.IsNullOrEmpty(brand)) products = products.Where(x => x.Brand.Brand.Contains(brand));
+
+            if (!string.IsNullOrEmpty(color)) products = products.Where(x => x.Color.Color.Contains(color));
+
+
+            return Ok(products.Select(x => new ProductsDTO()
+            {
+                Id = x.Id,
+                ProductName = x.ProductName,
+                Price = x.Price,
+                Brand = x.Brand.Brand,
+                Color = x.Color.Color,
+
+            }));
+
         }
+
+
+
+
+        // GET: api/Products
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<ProductsDTO>>> GetProducts()
+        {
+            var products = await _context.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Color)
+                .Select(p => new ProductsDTO
+                {
+                    Id = p.Id,
+                    ImageUrl = p.ImageUrl,
+                    ProductName = p.ProductName,
+                    Price = p.Price,
+                    Brand = p.Brand.Brand,
+                    Color = p.Color.Color,
+                })
+                .ToListAsync();
+
+            return products;
+        }
+
 
         // GET: api/Products/5
         [HttpGet("{id}")]
