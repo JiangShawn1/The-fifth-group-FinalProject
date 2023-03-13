@@ -24,6 +24,12 @@ namespace The_fifth_group_FinalProject.Controllers
 
         public IActionResult Index()
         {
+            string account = HttpContext.Session.GetString("Account");
+            if (!string.IsNullOrEmpty(account))
+            {
+                // 已登入
+                ViewBag.Account = account;
+            }
             return View();
         }
 
