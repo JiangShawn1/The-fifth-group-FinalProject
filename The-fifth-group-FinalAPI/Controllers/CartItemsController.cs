@@ -80,24 +80,37 @@ namespace The_fifth_group_FinalAPI.Controllers
         }
 
         [HttpGet("{memberId}")]
-        public async Task<IEnumerable<CartItemsDTO>> GetCartItemsByMemberId(int memberId)
+        public async Task<ActionResult<CartItemsDTO>> GetCartItemsByMemberId(int memberId)
         {
-            var cartItems = await _context.CartItems
-                .Include(ci => ci.Product)
-                .Where(ci => ci.MemberId == memberId)
-                .Select(ci => new CartItemsDTO
-                {
-                    Id = ci.Id,
-                    Member_Id = ci.MemberId,
-                    Product_Id = ci.ProductId,
-                    Qty = ci.Qty,
-                    ProductName = ci.Product.ProductName,
-                    Price = ci.Product.Price,
-                    ImageUrl = ci.Product.ImageUrl
-                })
-                .ToListAsync();
+            var CartItems = await _context.CartItems.FindAsync(memberId);
+            if (CartItems == null)
+            {
+                return NotFound();
+            }
 
-            return cartItems;
+            return new CartItemsDTO()
+            {
+                Member_Id= memberId,
+                
+
+            };
+
+            //var cartItems = await _context.CartItems
+            //    .Include(ci => ci.Product)
+            //    .Where(ci => ci.MemberId == memberId)
+            //    .Select(ci => new CartItemsDTO
+            //    {
+            //        Id = ci.Id,
+            //        Member_Id = ci.MemberId,
+            //        Product_Id = ci.ProductId,
+            //        Qty = ci.Qty,
+            //        ProductName = ci.Product.ProductName,
+            //        Price = ci.Product.Price,
+            //        ImageUrl = ci.Product.ImageUrl
+            //    })
+            //    .ToListAsync();
+
+            //return cartItems;
         }
 
 
