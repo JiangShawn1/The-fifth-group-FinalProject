@@ -1,74 +1,4 @@
-﻿@*@section Scripts
-    {
-    <script>
-        var webApiBaseAddress = "https://localhost:7040";
-        const { createApp } = Vue
-        createApp({
-            data() {
-                return {
-                    Coupons: [],
-                    Filter: "",
-                    Id: null,
-                    CouponName: null,
-                    CouponNumber: null,
-                    CouponType: null,
-                    CouponDiscount: null,
-                    CouponQuantity: null,
-                    AccountQuantity: null,
-                    MinSpend: null,
-                    IsCombine: null,
-                    CouponImage: null,
-                    CouponContent: null,
-                    StartAt: null,
-                    EndAt: null,
-                    CorrespondProduct: null,
-                    CreateAt: null,
-                    SoftDelete: null
-                };
-
-            },
-            mounted: function () {
-                let _this = this;
-                _this.getCoupons();
-            },
-            methods: {
-                getCoupons: function () {
-                    let _this = this;
-                    axios.get(`${webApiBaseAddress}/api/Coupons`).then(
-                        response => {
-                            _this.Coupons = response.data;
-                            var CouponsList = [];
-                            for (var i = 0; i < _this.Coupons.length; i++) {
-                                var item = {};
-                                item = _this.Coupons[i];
-                                CouponsList.push(item);
-                            }
-                            _this.Coupons = CouponsList;
-                        }
-                    );
-                },
-                filterCoupons: function () {
-                    let _this = this;
-                    var request = {};
-                    request.CouponName = _this.Filter;
-                    axios.post(`${webApiBaseAddress}/api/Coupons/Filter`, request).then(
-                        response => {
-                            _this.Coupons = response.data;
-                            var CouponsList = [];
-                            for (var i = 0; i < _this.Coupons.length; i++) {
-                                var item = {};
-                                item = _this.Coupons[i];
-                                CouponsList.push(item);
-                            }
-                            _this.Coupons = CouponsList;
-                        }
-                    );
-                },
-            },
-        }).mount('#app')
-    </script>
-}*@
-<div id="app" class="container">
+﻿<div id="app" class="container">
     <div class="row" style="width:50%;margin-left:auto;margin-right:0">
         <label class="col-lg-3">請輸入篩選關鍵字</label>
         <input class="col-lg-7 form-control" placeholder="優惠券名稱" v-model="Filter" />
@@ -141,7 +71,6 @@
                     axios.get(`${webApiBaseAddress}/api/Coupons`).then(
                         response => {
                             _this.Coupons = response.data;
-                            console.log(_this.Coupons);
                             var CouponsList = [];
                             for (var i = 0; i < _this.Coupons.length; i++) {
                                 var item = {};
@@ -161,7 +90,6 @@
                     axios.post(`${webApiBaseAddress}/api/Coupons/Filter`, request).then(
                         response => {
                             _this.Coupons = response.data;
-                            console.log(_this.Coupons);
                             var CouponsList = [];
                             for (var i = 0; i < _this.Coupons.length; i++) {
                                 var item = {};

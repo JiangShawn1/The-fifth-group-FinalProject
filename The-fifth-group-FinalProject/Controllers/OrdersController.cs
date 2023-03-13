@@ -10,6 +10,14 @@ namespace The_fifth_group_FinalProject.Controllers
         {
             return View();
         }
+        public ActionResult confirm()
+        {
+            return View();
+        }
+        public ActionResult products()
+        {
+            return View();
+        }
 
         // GET: OrdersController/Details/5
         public ActionResult Details(int id)
