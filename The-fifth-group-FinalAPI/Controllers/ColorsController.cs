@@ -11,6 +11,7 @@ using The_fifth_group_FinalAPI.Models;
 
 namespace The_fifth_group_FinalAPI.Controllers
 {
+    [EnableCors("AllowAny")]
     [Route("api/[controller]")]
     [ApiController]
     public class ColorsController : ControllerBase

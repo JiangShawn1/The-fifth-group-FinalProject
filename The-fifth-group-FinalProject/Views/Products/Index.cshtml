@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="col-md-4 mb-3" v-for="product in products" :key="product.id">
                         <div class="card h-100">
-                            <img class="card-img-top" :src="product.image" alt="Card image cap">
+                            <img class="card-img-top" :src="product.imageUrl" alt="Card image cap">
                             <div class="card-body">
                                 <h4 class="card-title">{{ product.productName }}</h4>
                                 <p class="card-text">{{ product.brand }} - {{ product.color }}</p>
@@ -69,7 +69,10 @@
                 async getBrands() {
                     try {
                         const response = await axios.get('https://localhost:7040/api/brands')
-                        this.brands = [''].concat(response.data.map(brand => brand.brand))
+                        response.data.forEach(element=> {
+                            this.brands.push(element.brand)
+                        })
+                        //this.brands = [''].concat(response.data.map(brand => brand.brand))
                     } catch (error) {
                         console.error(error)
                     }
@@ -77,7 +80,9 @@
                 async getColors() {
                     try {
                         const response = await axios.get('https://localhost:7040/api/colors')
-                        this.colors = [''].concat(response.data.map(color => color.color))
+                        response.data.forEach(element => {
+                            this.colors.push(element.color)
+                        })
                     } catch (error) {
                         console.error(error)
                     }

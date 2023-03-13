@@ -26,7 +26,7 @@ namespace The_fifth_group_FinalAPI.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductsDTO>>> SearchProducts(string brand, string color, string keyword)
+        public async Task<ActionResult<IEnumerable<ProductsDTO>>> SearchProducts(string? brand, string? color, string? keyword)
         {
             IEnumerable<Products> products = _context.Products.Include(p => p.Brand).Include(p => p.Color);
 
@@ -44,6 +44,7 @@ namespace The_fifth_group_FinalAPI.Controllers
                 Price = x.Price,
                 Brand = x.Brand.Brand,
                 Color = x.Color.Color,
+                ImageUrl= x.ImageUrl,
 
             }));
 
