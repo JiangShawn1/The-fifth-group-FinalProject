@@ -20,5 +20,27 @@ namespace The_fifth_group_FinalProject.Models
 
         public virtual Member Member { get; set; } = null!;
         public virtual Coupon? UseCouponNavigation { get; set; }
+        public List<OrderItem> OrderItem { get; set; }
+    }
+    public class OrderItem
+    {
+        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public string ProductName { get; set; }
+        public int Amount { get; set; }
+        public int SubTotal { get; set; }
+    }
+    public class PCartItem : OrderItem
+    {
+        public PCartItem() { }
+        public PCartItem(OrderItem order)
+        {
+            this.OrderId = order.OrderId;
+            this.ProductName = order.ProductName;
+            this.Amount = order.Amount;
+            this.SubTotal = order.SubTotal;
+        }
+        public Product Product { get; set; } //商品內容
+        public string imageSrc { get; set; } //商品圖片
     }
 }
