@@ -98,10 +98,10 @@
 						window.location = "/Contest/ContestIndex";
 					});
 				},
-				close: function () {
-					history.back()
-				}
-			},
+				close: async function () {
+					history.back()					
+			    },
+		    },
 		};
 		var app = Vue.createApp(vueApp).mount("#app");
 	</script>
