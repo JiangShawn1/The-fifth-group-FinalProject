@@ -150,7 +150,7 @@ namespace The_fifth_group_FinalAPI.Controllers
 			Contests contest = new Contests
 			{
 				Name = contestDTO.Name,
-				SupplierId = 1,
+				SupplierId = contestDTO.SupplierId,
 				CreateDateTime = DateTime.Now,
 				ContestDate = contestDTO.ContestDate.AddHours(8),
 				RegistrationDeadline = contestDTO.RegistrationDeadline.AddHours(8),

@@ -9,7 +9,8 @@ namespace The_fifth_group_FinalAPI.DTOs
 	    {
 		public int Id { get; set; }
 		public string? Name { get; set; }
-		public string? SupplierName { get; set; } 
+        public int SupplierId { get; set; }
+        public string? SupplierName { get; set; } 
 		public DateTime ContestDate { get; set; }
 		public DateTime CreateDateTime { get; set; }
 		public DateTime RegistrationDeadline { get; set; }

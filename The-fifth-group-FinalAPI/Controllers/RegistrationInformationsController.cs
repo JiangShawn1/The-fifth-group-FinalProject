@@ -25,9 +25,8 @@ namespace The_fifth_group_FinalAPI.Controllers
 
         // GET: api/RegistrationInformations
         [HttpGet]
-        public async Task<IEnumerable<RegistrationInformationsDTO>> GetRegistrationInformation()
-        {
-            var memberid = 1;
+        public async Task<IEnumerable<RegistrationInformationsDTO>> GetRegistrationInformation(int memberid)
+        {            
             var member=_context.Members.Where(x=>x.MemberId== memberid);
             var registration = _context.RegistrationInformation
                 .Include(r => r.Registration).ThenInclude(r => r.ContestCategory).ThenInclude(r => r.Category)
@@ -55,7 +54,7 @@ namespace The_fifth_group_FinalAPI.Controllers
 		[HttpPost("Filter")]
 		public async Task<IEnumerable<RegistrationInformationsDTO>> FilterRegistrationInformation([FromBody] RegistrationInformationsDTO registrationDTO)
 		{
-			var memberid = 1;
+			var memberid = registrationDTO.MemberId;
 			var member = _context.Members.Where(x => x.MemberId == memberid);
 			var registration = _context.RegistrationInformation
 				.Include(r => r.Registration).ThenInclude(r => r.ContestCategory).ThenInclude(r => r.Category)

@@ -12,8 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using The_fifth_group_FinalAPI.Models;
 using The_fifth_group_FinalAPI.DTOs;
 using Microsoft.AspNetCore.Cors;
-using System.Security.Cryptography;
-using System.Text;
+
 
 namespace The_fifth_group_FinalAPI.Controllers
 {
@@ -94,28 +93,41 @@ namespace The_fifth_group_FinalAPI.Controllers
         [HttpPost]
         [Route("MemberLogin")]
         [AllowAnonymous]
-        public async Task<string> MemberLogin([FromBody] MemberDTO member)
+        public async Task<MemberDTO> MemberLogin(MemberDTO member)
         {
             var result = GetByAccount(member.Account, member.Password);
 
             if (result == null)
             {
-                return "登入失敗";
+                return null;
             }
-			
-			
-            HttpContext.Response.Cookies.Append("MemberId", result.MemberId.ToString());			
-            return "登入成功";
+          
+            return result;
         }
+        //public async Task<string> MemberLogin(MemberDTO member)
+        //{
+        //    var result = GetByAccount(member.Account, member.Password);
+
+        //    if (result == null)
+        //    {
+        //        return "登入失敗";
+        //    }
+           
+        //    HttpContext.Response.Cookies.Append("MemberId", result.MemberId.ToString(), new CookieOptions()
+        //    {
+        //        Expires = DateTime.UtcNow.AddHours(1), // 設置過期時間為1小時後               
+        //        HttpOnly = true, // 防止跨站腳本攻擊
+        //        Secure = true // 只能在HTTPS下傳輸
+        //    });
+        //    return "登入成功";
+        //}
+
 		[HttpPost("MemberLogOut")]
-		public IActionResult MemberLogOut()
+        public async Task<string> MemberLogOut()
 		{
 			Response.Cookies.Delete("MemberId");
-
-			// Redirect to the homepage or login page
-			//return RedirectToAction("Index", "Home");
-			//HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-			return Ok("登出成功");
+			
+			return "登出成功";
 		}
 
 		MemberDTO GetByAccount(string Account,string Password)

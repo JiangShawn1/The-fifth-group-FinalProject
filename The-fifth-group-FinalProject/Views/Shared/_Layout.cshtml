@@ -3,8 +3,8 @@
     #app {
         margin: 20px auto;
         max-width: 1800px;
-        margin-left: 200px; /* 与左侧广告等宽 */
-        margin-right: 200px; /* 与右侧广告等宽 */       
+        margin-left: 200px; 
+        margin-right: 200px;   
     }
 </style>
 <html lang="en">
@@ -24,7 +24,10 @@
     <main class="flex-shrink-0 flex-grow-1 pb-3">
         <header class="bg-dark text-white py-3">
             <div class="container">
-                <h1>運動網</h1>
+                <div class="row">
+                    <div class="col"> <h1>運動網</h1></div>
+                    <div class="col-md-auto"><a id="log" href="/Home/Login">登入</a></div>
+                </div>
             </div>
         </header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -55,10 +58,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">論壇</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Home/Login">登入</a>
-                        </li>
+                        </li>                       
                     </ul>
                 </div>
             </div>
@@ -102,11 +102,25 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer>   
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
     <!-- Core theme JS-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/scripts.js"></script>
+    <script>
+        // 檢查用戶是否已經登入
+        if (isLoggedIn()) {
+            // 如果已經登入，將“登入”按鈕更改為“登出”
+            var loginLink = document.querySelector('#log');
+            loginLink.innerHTML = '登出';
+            loginLink.setAttribute('href', '/Home/logout');
+        }
+        function isLoggedIn() {
+            let memberId = Cookies.get('MemberId');
+            return memberId > 0 ? true : false;            
+        }      
+    </script>
 </body>
 </html>
