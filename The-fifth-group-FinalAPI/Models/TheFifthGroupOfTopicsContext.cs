@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using The_fifth_group_FinalAPI.DTOs;
 
 namespace The_fifth_group_FinalAPI.Models
 {
@@ -689,5 +690,7 @@ namespace The_fifth_group_FinalAPI.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<The_fifth_group_FinalAPI.DTOs.Forum_FirstDTO> Forum_FirstDTO { get; set; }
     }
 }

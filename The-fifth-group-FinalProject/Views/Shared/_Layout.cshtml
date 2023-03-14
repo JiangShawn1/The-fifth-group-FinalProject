@@ -46,6 +46,8 @@
             </div>
         </nav>
         @RenderBody()
+        @RenderSection("scripts", required: false)
+        @RenderSection("Styles", required: false)
     </main>
     <!-- Footer-->
     <footer class="bg-dark py-4 mt-auto">

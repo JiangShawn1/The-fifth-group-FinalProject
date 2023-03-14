@@ -1,0 +1,53 @@
+﻿@section Styles
+	{
+	<style>
+
+	</style>
+}
+<div id="forumApp">
+	<div class="modal-header">
+		<div class="form-group">
+			<label class="form-label">123</label>
+		</div>
+	</div>
+
+	<div class="modal-body">
+		<div class="form-group">
+			<label class="form-label">456</label>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<div class="form-group">
+			<label class="form-label">789</label>
+		</div>
+	</div>
+
+</div>
+
+
+@section Scripts
+	{
+	<script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+
+	<script>
+		var webApiBaseAddress = "https://localhost:7040";
+		var VueApp=
+		{
+			data()
+			{
+				return
+				{
+					ForumSectionDTOes:[],
+					ForumSectionBranchesDTOes:[],
+					sectionName:"",
+
+				}
+
+			}
+		}
+
+
+	</script>
+	}
