@@ -24,6 +24,27 @@ namespace The_fifth_group_FinalAPI.Controllers
         }
 
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CommodityDTO>> GetCommodity(int id)
+        {
+            var Commodity = await _context.Products.Include(p => p.Brand).Include(p => p.Color).Include(p => p.Stocks).Include(p => p.CartItems).FirstOrDefaultAsync(p => p.Id == id);
+
+            if (Commodity == null)
+            {
+                return NotFound();
+            }
+
+            return new CommodityDTO()
+            {
+                Id = Commodity.Id,
+                Brand = Commodity.Brand.Brand,
+                Color = Commodity.Color.Color,
+                Price = Commodity.Price,
+                ProductIntroduce = Commodity.ProductIntroduce,
+                ProductName = Commodity.ProductName,
+                ImageUrl = Commodity.ImageUrl,
+            };
+        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductsDTO>>> SearchProducts(string? brand, string? color, string? keyword)
@@ -44,7 +65,7 @@ namespace The_fifth_group_FinalAPI.Controllers
                 Price = x.Price,
                 Brand = x.Brand.Brand,
                 Color = x.Color.Color,
-                ImageUrl= x.ImageUrl,
+                ImageUrl = x.ImageUrl,
 
             }));
 
@@ -76,18 +97,18 @@ namespace The_fifth_group_FinalAPI.Controllers
 
 
         // GET: api/Products/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Products>> GetProducts(int id)
-        {
-            var products = await _context.Products.FindAsync(id);
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Products>> GetProducts(int id)
+        //{
+        //    var products = await _context.Products.FindAsync(id);
 
-            if (products == null)
-            {
-                return NotFound();
-            }
+        //    if (products == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return products;
-        }
+        //    return products;
+        //}
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

@@ -21,4 +21,8 @@
     <Folder Include="Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\The-fifth-group-FinalProject\The-fifth-group-FinalProject.csproj" />
+  </ItemGroup>
+
 </Project>
