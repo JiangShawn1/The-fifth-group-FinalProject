@@ -24,6 +24,38 @@ namespace The_fifth_group_FinalAPI.Controllers
 			_context = context;
 		}
 
+
+
+
+		[HttpGet("{memberId}")]
+		public async Task<ActionResult<List<CartItemsDTO>>> GetCartItemsByMemberId(int memberId)
+		{
+			var cartItems = await _context.CartItems
+				.Include(c => c.Product)
+				.Where(c => c.MemberId == memberId)
+				.ToListAsync();
+
+			if (cartItems == null)
+			{
+				return NotFound();
+			}
+
+			var cartItemsDTOs = new List<CartItemsDTO>();
+			foreach (var cartItem in cartItems)
+			{
+				cartItemsDTOs.Add(new CartItemsDTO()
+				{
+					Member_Id = cartItem.MemberId,
+					ProductName = cartItem.Product.ProductName,
+					Price = cartItem.Product.Price,
+					Qty = cartItem.Qty
+				});
+			}
+
+			return cartItemsDTOs;
+		}
+
+
 		//完成
 		[HttpPost]
 		public async Task<IActionResult> AddCartItem(int memberId, int productId, int qty)
@@ -115,27 +147,27 @@ namespace The_fifth_group_FinalAPI.Controllers
 			return NoContent();
 		}
 
-		[HttpGet("{id}")]
-		public async Task<ActionResult<CartItemsDTO>> GetCartItemsByMemberId(int id)
-		{
-			var cartItems = await _context.CartItems
-				.Include(c => c.Product)
-				.Include(c => c.Member)
-				.FirstOrDefaultAsync(p => p.Id == id);
+		//[HttpGet("{id}")]
+		//public async Task<ActionResult<CartItemsDTO>> GetCartItemsByMemberId(int id)
+		//{
+		//	var cartItems = await _context.CartItems
+		//		.Include(c => c.Product)
+		//		.Include(c => c.Member)
+		//		.FirstOrDefaultAsync(p => p.Id == id);
 
-			if (cartItems == null)
-			{
-				return NotFound();
-			}
+		//	if (cartItems == null)
+		//	{
+		//		return NotFound();
+		//	}
 
-			return new CartItemsDTO()
-			{
-				Member_Id = cartItems.MemberId,
-				ProductName = cartItems.Product.ProductName,
-				Qty = cartItems.Qty
+		//	return new CartItemsDTO()
+		//	{
+		//		Member_Id = cartItems.MemberId,
+		//		ProductName = cartItems.Product.ProductName,
+		//		Qty = cartItems.Qty
 
-			};
-		}
+		//	};
+		//}
 
 
 
