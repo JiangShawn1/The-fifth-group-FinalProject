@@ -44,6 +44,11 @@
 	margin-top: -7px;
 	margin-right: -7px;
 }
+        #ip{
+            position: fixed;
+            bottom: 70px;
+            width: 80%;
+        }
     </style>
 }
 
@@ -52,10 +57,10 @@
         <ul id="list">
         </ul>
     </div>
-    <div class="row">
-        <input class="col-4 m-1" id="userName" placeholder="User name" />
-        <input class="col-6 m-1" id="message" placeholder="Message" />
-        <button class="col-1 m-1" id="send">Send</button>
+    <div class="row" id="ip">
+        <input class="col-4 m-1" id="userName" placeholder="您的大名" />
+        <input class="col-6 m-1" id="message" placeholder="輸入內容" />
+        <button class="col-1 m-1" id="send">發送</button>
     </div>
     
 </div>
@@ -101,7 +106,10 @@
                     message: $("#message").val()
                 };
                 sendMessage(JSON.stringify(data));
+            $("#message").val("");
+            $("#message").focus();
             });
+
         var userName = localStorage.getItem("userName");
         userName = '@ViewBag.Account';
         if (userName) {

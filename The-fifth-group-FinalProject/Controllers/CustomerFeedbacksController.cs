@@ -75,12 +75,12 @@ namespace The_fifth_group_FinalProject.Controllers
             {
                 _context.Add(customerFeedback);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Success");
             }
             ViewData["QuestionTypeId"] = new SelectList(_context.QuestionTypes, "Id", "QuestionType1", customerFeedback.QuestionTypeId);
             return View(customerFeedback);
         }
-
+        
         public ActionResult Reply(int? id)
         {
             if (id == null)
@@ -128,6 +128,14 @@ namespace The_fifth_group_FinalProject.Controllers
             {
                 return View("FailEmail");
             }
+        }
+        public ActionResult Success()
+        {
+            return View();
+        }
+        public ActionResult FailEmail()
+        {
+            return View();
         }
 
     }
