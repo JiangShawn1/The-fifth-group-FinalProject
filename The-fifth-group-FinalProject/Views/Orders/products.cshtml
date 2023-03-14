@@ -1,15 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@using The_fifth_group_FinalAPI.DTOs;
+
+@model PayInfoDto
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>2022 iThome 鐵人賽 - 讓 C# 也能很 Social</title>
+    <title></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- jquery CDN include -->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <!-- CSS include -->
-    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -19,20 +22,20 @@
         function requestPayment() {
             // 交易訂單假資料
             payment = {
-                amount: 3998,
+                amount: @Model.EnterFee,
                 currency: "TWD",
-                orderId: Date.now().toString(), //使用 Timestamp 當作 orderId
+                orderId: Date.now().toString(),
                 packages: [
                     {
-                        id: "20191011I001",
-                        amount: 3998,
-                        name: "測試",
+                        id: "0",
+                        amount: @Model.EnterFee,
+                        name: "賽事報名",
                         products: [
                             {
-                                name: "測試商品",
-                                imageUrl: "https://static.accupass.com/org/2011051025162614811630.jpg",
-                                quantity: 2,
-                                price: 1999,
+                                name: "賽事報名",
+                                imageUrl: "https://i.imgur.com/Cc3Q9RG.jpg",
+                                quantity: 1,
+                                price: @Model.EnterFee,
                             }
                         ]
                     },
@@ -58,35 +61,32 @@
             })
         }
     </script>
-    <!-- 最上方的 bar -->
-    <div class="topnav">
-        <a href="https://cccf-61-63-154-173.jp.ngrok.io/login.html">Line Login</a>
-        <a href="https://cccf-61-63-154-173.jp.ngrok.io/profile.html">User Profile</a>
-        <a href="https://cccf-61-63-154-173.jp.ngrok.io/products.html">Line Pay</a>
-    </div>
     <!-- 商品畫面 -->
     <center>
-        <table>
+        <table class="table">
             <thead>
                 <tr>
-                    <th> 測試商品 </th>
+                    <td> @Model.Contests </td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><img src="https://static.accupass.com/org/2011051025162614811630.jpg"></td>
+                    <td><img src="https://i.imgur.com/Cc3Q9RG.jpg"></td>
                 </tr>
                 <tr>
-                    <td> 價格 : 1999 </td>
+                    <td> 姓名 : @Model.Name </td>
                 </tr>
                 <tr>
-                    <td> 購買數量 : 2 </td>
+                    <td> 組別 : @Model.Category </td>
                 </tr>
                 <tr>
-                    <td style="text-align: right;"> 總金額 : 3998 </td>
+                    <td> 距離 : @Model.Distance </td>
                 </tr>
                 <tr>
-                    <td align="center"><button onclick="requestPayment()"> Line Pay 付款</button></td>
+                    <td> 費用 : @Model.EnterFee </td>
+                </tr>
+                <tr>
+                    <td><button onclick="requestPayment()"> Line Pay 付款</button></td>
                 </tr>
             </tbody>
         </table>

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Xml.Linq;
+using The_fifth_group_FinalAPI.DTOs;
 using The_fifth_group_FinalProject.Helpers;
 using The_fifth_group_FinalProject.Models;
 
@@ -13,13 +16,34 @@ namespace The_fifth_group_FinalProject.Controllers
         {
             return View();
         }
-        public ActionResult confirm()
+        public ActionResult Confirm()
         {
             return View();
         }
-        public ActionResult products()
+        public async Task<ActionResult> Products(int id)
         {
-            return View();
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var response = await httpClient.GetAsync($"https://localhost:7040/api/Orders/PayInfo/{id}");
+                    response.EnsureSuccessStatusCode();
+
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<PayInfoDto>(responseContent);
+
+                    if (data == null)
+                    {
+                        return View("Error");
+                    }
+
+                    return View(data);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                return View("Error");
+            }
         }
 
         // GET: OrdersController/Details/5

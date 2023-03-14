@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\The-fifth-group-FinalAPI\The-fifth-group-FinalAPI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Views\Orders\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

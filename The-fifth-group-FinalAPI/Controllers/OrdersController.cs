@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using The_fifth_group_FinalAPI.DTOs;
 using The_fifth_group_FinalAPI.Models;
 
 namespace The_fifth_group_FinalAPI.Controllers
@@ -41,6 +44,42 @@ namespace The_fifth_group_FinalAPI.Controllers
             }
 
             return orders;
+        }
+
+        [HttpGet("PayInfo/{id}")]
+        public async Task<PayInfoDto> GetPayInfo(int id)
+        {
+            //var reg = _context.RegistrationInformation
+            //    .Include(r => r.Registration).ThenInclude(r => r.ContestCategory).ThenInclude(r => r.Category)
+            //    .Include(r => r.Registration).ThenInclude(r => r.ContestCategory).ThenInclude(r => r.Contest)
+            //    .Include(r => r.Information)
+            //    .FirstOrDefault(x => x.Id == id);
+
+            //if (reg == null)
+            //{
+            //    return null;
+            //}
+
+            PayInfoDto payInfoDto = new PayInfoDto()
+            {
+                //Id = reg.Id,
+                //Name = reg.Information.Name,
+                //Category = reg.Registration.ContestCategory.Category.Category,
+                //Contests = reg.Registration.ContestCategory.Contest.Name,
+                //Distance = reg.Registration.ContestCategory.Category.Distance,
+                //EnterFee = reg.Registration.ContestCategory.EnterFee,
+                //RegistrationId = reg.Registration.ContestCategory.Id,
+                Id = 1,
+                Name = "安安",
+                Category = "普通組",
+                Contests = "超跑大賽",
+                Distance = 42,
+                EnterFee = 1000,
+                RegistrationId = 1,
+            };
+
+            return payInfoDto;
+
         }
 
         // PUT: api/Orders/5
