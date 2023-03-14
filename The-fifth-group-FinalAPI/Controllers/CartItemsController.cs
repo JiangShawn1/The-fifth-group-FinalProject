@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using The_fifth_group_FinalAPI.DTOs;
 using The_fifth_group_FinalAPI.Models;
 
 namespace The_fifth_group_FinalAPI.Controllers
 {
-	public class CartItemsController : Controller
+	[EnableCors("AllowAny")]
+	[Route("api/[controller]")]
+	[ApiController]
+	public class CartItemsController : ControllerBase
 	{
+
 		private readonly TheFifthGroupOfTopicsContext _context;
 
 		public CartItemsController(TheFifthGroupOfTopicsContext context)
@@ -20,25 +24,53 @@ namespace The_fifth_group_FinalAPI.Controllers
 			_context = context;
 		}
 
-
-
-
-		[Route("api/[controller]/[action]")]
+		//完成
 		[HttpPost]
-		public async Task<IActionResult> AddCartItem(CartItemsDTO cartItemDTO)
+		public async Task<IActionResult> AddCartItem(int memberId, int productId, int qty)
 		{
+			// 檢查商品是否存在
+			var product = await _context.Products.FindAsync(productId);
+			if (product == null)
+			{
+				return NotFound("Product not found");
+			}
+
+			// 檢查會員是否存在
+			var member = await _context.Members.FindAsync(memberId);
+			if (member == null)
+			{
+				return NotFound("Member not found");
+			}
+
+			// 新增資料到CartItems資料表中
 			var cartItem = new CartItems
 			{
-				MemberId = cartItemDTO.Member_Id,
-				ProductId = cartItemDTO.Product_Id,
-				Qty = cartItemDTO.Qty
+				MemberId = memberId,
+				ProductId = productId,
+				Qty = qty
 			};
-
 			_context.CartItems.Add(cartItem);
 			await _context.SaveChangesAsync();
 
-			return CreatedAtAction("GetCartItem", new { id = cartItem.Id }, cartItem);
+			return Ok("CartItem added successfully");
 		}
+
+		//[Route("api/[controller]/[action]")]
+		//[HttpPost]
+		//public async Task<IActionResult> AddCartItem(CartItemsDTO cartItemDTO)
+		//{
+		//	var cartItem = new CartItems
+		//	{
+		//		MemberId = cartItemDTO.Member_Id,
+		//		ProductId = cartItemDTO.Product_Id,
+		//		Qty = cartItemDTO.Qty
+		//	};
+
+		//	_context.CartItems.Add(cartItem);
+		//	await _context.SaveChangesAsync();
+
+		//	return CreatedAtAction("GetCartItem", new { id = cartItem.Id }, cartItem);
+		//}
 
 		//完成
 		[HttpDelete("{id}")]
@@ -154,151 +186,151 @@ namespace The_fifth_group_FinalAPI.Controllers
 
 
 		// GET: CartItems
-		public async Task<IActionResult> Index()
-		{
-			var theFifthGroupOfTopicsContext = _context.CartItems.Include(c => c.Member).Include(c => c.Product);
-			return View(await theFifthGroupOfTopicsContext.ToListAsync());
-		}
+		//public async Task<IActionResult> Index()
+		//{
+		//	var theFifthGroupOfTopicsContext = _context.CartItems.Include(c => c.Member).Include(c => c.Product);
+		//	return View(await theFifthGroupOfTopicsContext.ToListAsync());
+		//}
 
-		// GET: CartItems/Details/5
-		public async Task<IActionResult> Details(int? id)
-		{
-			if (id == null || _context.CartItems == null)
-			{
-				return NotFound();
-			}
+		//// GET: CartItems/Details/5
+		//public async Task<IActionResult> Details(int? id)
+		//{
+		//	if (id == null || _context.CartItems == null)
+		//	{
+		//		return NotFound();
+		//	}
 
-			var cartItems = await _context.CartItems
-				.Include(c => c.Member)
-				.Include(c => c.Product)
-				.FirstOrDefaultAsync(m => m.Id == id);
-			if (cartItems == null)
-			{
-				return NotFound();
-			}
+		//	var cartItems = await _context.CartItems
+		//		.Include(c => c.Member)
+		//		.Include(c => c.Product)
+		//		.FirstOrDefaultAsync(m => m.Id == id);
+		//	if (cartItems == null)
+		//	{
+		//		return NotFound();
+		//	}
 
-			return View(cartItems);
-		}
+		//	return View(cartItems);
+		//}
 
-		// GET: CartItems/Create
-		public IActionResult Create()
-		{
-			ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "Account");
-			ViewData["ProductId"] = new SelectList(_context.Products, "Id", "ImageUrl");
-			return View();
-		}
+		//// GET: CartItems/Create
+		//public IActionResult Create()
+		//{
+		//	ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "Account");
+		//	ViewData["ProductId"] = new SelectList(_context.Products, "Id", "ImageUrl");
+		//	return View();
+		//}
 
-		// POST: CartItems/Create
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Id,MemberId,ProductId,Qty")] CartItems cartItems)
-		{
-			if (ModelState.IsValid)
-			{
-				_context.Add(cartItems);
-				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index));
-			}
-			ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "Account", cartItems.MemberId);
-			ViewData["ProductId"] = new SelectList(_context.Products, "Id", "ImageUrl", cartItems.ProductId);
-			return View(cartItems);
-		}
+		//// POST: CartItems/Create
+		//// To protect from overposting attacks, enable the specific properties you want to bind to.
+		//// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> Create([Bind("Id,MemberId,ProductId,Qty")] CartItems cartItems)
+		//{
+		//	if (ModelState.IsValid)
+		//	{
+		//		_context.Add(cartItems);
+		//		await _context.SaveChangesAsync();
+		//		return RedirectToAction(nameof(Index));
+		//	}
+		//	ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "Account", cartItems.MemberId);
+		//	ViewData["ProductId"] = new SelectList(_context.Products, "Id", "ImageUrl", cartItems.ProductId);
+		//	return View(cartItems);
+		//}
 
-		// GET: CartItems/Edit/5
-		public async Task<IActionResult> Edit(int? id)
-		{
-			if (id == null || _context.CartItems == null)
-			{
-				return NotFound();
-			}
+		//// GET: CartItems/Edit/5
+		//public async Task<IActionResult> Edit(int? id)
+		//{
+		//	if (id == null || _context.CartItems == null)
+		//	{
+		//		return NotFound();
+		//	}
 
-			var cartItems = await _context.CartItems.FindAsync(id);
-			if (cartItems == null)
-			{
-				return NotFound();
-			}
-			ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "Account", cartItems.MemberId);
-			ViewData["ProductId"] = new SelectList(_context.Products, "Id", "ImageUrl", cartItems.ProductId);
-			return View(cartItems);
-		}
+		//	var cartItems = await _context.CartItems.FindAsync(id);
+		//	if (cartItems == null)
+		//	{
+		//		return NotFound();
+		//	}
+		//	ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "Account", cartItems.MemberId);
+		//	ViewData["ProductId"] = new SelectList(_context.Products, "Id", "ImageUrl", cartItems.ProductId);
+		//	return View(cartItems);
+		//}
 
-		// POST: CartItems/Edit/5
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,MemberId,ProductId,Qty")] CartItems cartItems)
-		{
-			if (id != cartItems.Id)
-			{
-				return NotFound();
-			}
+		//// POST: CartItems/Edit/5
+		//// To protect from overposting attacks, enable the specific properties you want to bind to.
+		//// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> Edit(int id, [Bind("Id,MemberId,ProductId,Qty")] CartItems cartItems)
+		//{
+		//	if (id != cartItems.Id)
+		//	{
+		//		return NotFound();
+		//	}
 
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					_context.Update(cartItems);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!CartItemsExists(cartItems.Id))
-					{
-						return NotFound();
-					}
-					else
-					{
-						throw;
-					}
-				}
-				return RedirectToAction(nameof(Index));
-			}
-			ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "Account", cartItems.MemberId);
-			ViewData["ProductId"] = new SelectList(_context.Products, "Id", "ImageUrl", cartItems.ProductId);
-			return View(cartItems);
-		}
+		//	if (ModelState.IsValid)
+		//	{
+		//		try
+		//		{
+		//			_context.Update(cartItems);
+		//			await _context.SaveChangesAsync();
+		//		}
+		//		catch (DbUpdateConcurrencyException)
+		//		{
+		//			if (!CartItemsExists(cartItems.Id))
+		//			{
+		//				return NotFound();
+		//			}
+		//			else
+		//			{
+		//				throw;
+		//			}
+		//		}
+		//		return RedirectToAction(nameof(Index));
+		//	}
+		//	ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "Account", cartItems.MemberId);
+		//	ViewData["ProductId"] = new SelectList(_context.Products, "Id", "ImageUrl", cartItems.ProductId);
+		//	return View(cartItems);
+		//}
 
-		// GET: CartItems/Delete/5
-		public async Task<IActionResult> Delete(int? id)
-		{
-			if (id == null || _context.CartItems == null)
-			{
-				return NotFound();
-			}
+		//// GET: CartItems/Delete/5
+		//public async Task<IActionResult> Delete(int? id)
+		//{
+		//	if (id == null || _context.CartItems == null)
+		//	{
+		//		return NotFound();
+		//	}
 
-			var cartItems = await _context.CartItems
-				.Include(c => c.Member)
-				.Include(c => c.Product)
-				.FirstOrDefaultAsync(m => m.Id == id);
-			if (cartItems == null)
-			{
-				return NotFound();
-			}
+		//	var cartItems = await _context.CartItems
+		//		.Include(c => c.Member)
+		//		.Include(c => c.Product)
+		//		.FirstOrDefaultAsync(m => m.Id == id);
+		//	if (cartItems == null)
+		//	{
+		//		return NotFound();
+		//	}
 
-			return View(cartItems);
-		}
+		//	return View(cartItems);
+		//}
 
-		// POST: CartItems/Delete/5
-		[HttpPost, ActionName("Delete")]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteConfirmed(int id)
-		{
-			if (_context.CartItems == null)
-			{
-				return Problem("Entity set 'TheFifthGroupOfTopicsContext.CartItems'  is null.");
-			}
-			var cartItems = await _context.CartItems.FindAsync(id);
-			if (cartItems != null)
-			{
-				_context.CartItems.Remove(cartItems);
-			}
+		//// POST: CartItems/Delete/5
+		//[HttpPost, ActionName("Delete")]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> DeleteConfirmed(int id)
+		//{
+		//	if (_context.CartItems == null)
+		//	{
+		//		return Problem("Entity set 'TheFifthGroupOfTopicsContext.CartItems'  is null.");
+		//	}
+		//	var cartItems = await _context.CartItems.FindAsync(id);
+		//	if (cartItems != null)
+		//	{
+		//		_context.CartItems.Remove(cartItems);
+		//	}
 
-			await _context.SaveChangesAsync();
-			return RedirectToAction(nameof(Index));
-		}
+		//	await _context.SaveChangesAsync();
+		//	return RedirectToAction(nameof(Index));
+		//}
 
 		private bool CartItemsExists(int id)
 		{
