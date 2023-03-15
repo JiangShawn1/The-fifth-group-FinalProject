@@ -7,7 +7,7 @@
 <h1>回覆</h1>
 
 <hr />
-<div class="row">
+<div class="row container-fluid">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -26,7 +26,7 @@
                 <span asp-validation-for="ReplyNumber" class="text-danger"></span>
             </div>*@
             <div class="form-group" display:none>
-                <label asp-for="ReplyContent" class="control-label"></label>
+                <label class="control-label">內文</label>
                 <input asp-for="ReplyContent" class="form-control" />
                 <span asp-validation-for="ReplyContent" class="text-danger"></span>
             </div>
@@ -45,7 +45,7 @@
                 <select asp-for="ReplyMemberId" class ="form-control" asp-items="ViewBag.ReplyMemberId"></select>
             </div>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="回覆" class="btn btn-primary" />
             </div>
         </form>
     </div>

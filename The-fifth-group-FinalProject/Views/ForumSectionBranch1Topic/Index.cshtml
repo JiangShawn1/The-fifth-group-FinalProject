@@ -1,0 +1,33 @@
+﻿@model IEnumerable<The_fifth_group_FinalProject.Models.ForumSectionBranch1Topic>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Topic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Branch)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                   @Html.DisplayFor(modelItem => item.Topic)
+            </td>
+                      
+        </tr>
+}
+    </tbody>
+</table>

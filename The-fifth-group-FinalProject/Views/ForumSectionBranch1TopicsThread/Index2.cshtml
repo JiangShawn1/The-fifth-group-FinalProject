@@ -1,9 +1,5 @@
 ﻿@model IEnumerable<The_fifth_group_FinalProject.Models.ForumSectionBranch1TopicsThread>
 
-@{
-    ViewData["Title"] = "Index";
-}
-
 
 <table class="table">
     <thead>
@@ -15,22 +11,22 @@
                 @Html.DisplayNameFor(model => model.ReplyNumber)
             </th>*@
             <th>
-                回覆者
-                @*  @Html.DisplayNameFor(model => model.ReplyMember)*@
+                回文者
+                @*@Html.DisplayNameFor(model => model.ReplyMember)*@
             </th>
             <th>
                 內文
-             @*   @Html.DisplayNameFor(model => model.ReplyContent)*@
+               @* @Html.DisplayNameFor(model => model.ReplyContent)*@
             </th>
             <th>
                 回覆時間
                @* @Html.DisplayNameFor(model => model.ReplyTime)*@
             </th>
-           @* <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.ReplyState)
             </th>*@
            
-           @* <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Topic)
             </th>*@
             <th></th>
@@ -45,31 +41,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ReplyNumber)
             </td>*@
-             <td>
-                @Html.DisplayFor(modelItem => item.ReplyMember.Name)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReplyMember.Name)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReplyContent)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReplyTime)
             </td>
-            @*<td>
+           @* <td>
                 @Html.DisplayFor(modelItem => item.ReplyState)
             </td>*@
-           
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Topic.Id)
-            </td>*@
-            
+     
         </tr>
-        }
- 
+}
     </tbody>
-
 </table>
 
-<p>
-    <a asp-action="Create">發文</a>
-</p>
-
+    <p>
+        <a asp-action="Create">發文</a>
+    </p>

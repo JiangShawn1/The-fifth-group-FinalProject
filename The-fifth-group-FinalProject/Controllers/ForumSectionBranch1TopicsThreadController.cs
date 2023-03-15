@@ -21,10 +21,19 @@ namespace The_fifth_group_FinalProject.Controllers
         // GET: ForumSectionBranch1TopicsThread
         public async Task<IActionResult> Index()
         {
-            var theFifthGroupOfTopicsContext = _context.ForumSectionBranch1TopicsThreads.Include(f => f.ReplyMember).Include(f => f.Topic);
+            var theFifthGroupOfTopicsContext = _context.ForumSectionBranch1TopicsThreads.Include(f => f.ReplyMember).Include(f => f.Topic).Where(f => f.TopicId == 1); 
+            
             return View(await theFifthGroupOfTopicsContext.ToListAsync());
         }
 
+
+
+        public async Task<IActionResult> Index2()
+        {
+            var theFifthGroupOfTopicsContext = _context.ForumSectionBranch1TopicsThreads.Include(f => f.ReplyMember).Include(f => f.Topic).Where(f => f.TopicId == 2);
+
+            return View(await theFifthGroupOfTopicsContext.ToListAsync());
+        }
         // GET: ForumSectionBranch1TopicsThread/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -68,10 +77,11 @@ namespace The_fifth_group_FinalProject.Controllers
 
 				if (num1 == forumSectionBranch1TopicsThread.TopicId)
 				{
-					forumSectionBranch1TopicsThread.ReplyNumber = 1+(_context.ForumSectionBranch1TopicsThreads.Where(x => x.TopicId == num1).Max(x => x.ReplyNumber));
-
+				forumSectionBranch1TopicsThread.ReplyNumber = (_context.ForumSectionBranch1TopicsThreads.Where(x => x.TopicId == num1).Max(x => x.ReplyNumber))+1;
 				}
-				_context.Add(forumSectionBranch1TopicsThread);
+                forumSectionBranch1TopicsThread.ReplyMemberId = 1;
+
+                _context.Add(forumSectionBranch1TopicsThread);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
