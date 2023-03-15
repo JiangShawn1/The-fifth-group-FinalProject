@@ -167,8 +167,8 @@
                 },
 
 				payTheFees:function(id){
-					alert(`即將跳轉繳費頁面，報名表編號:${id}`)
-
+					alert(`即將跳轉繳費頁面`)
+					window.location = `https://localhost:7123/orders/products/${id}`;
 				},
 
 				updateInformation:function(id){
