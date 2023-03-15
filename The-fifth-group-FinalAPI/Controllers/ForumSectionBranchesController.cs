@@ -31,7 +31,8 @@ namespace The_fifth_group_FinalAPI.Controllers
                               {
                                   Id = a.Id,
                                   SectionNameId = a.SectionNameId,
-                                  AdministratorId = a.AdministratorId
+                                  AdministratorId = a.AdministratorId,
+                           
                               }).ToListAsync(); 
               
             return await forum_First;
