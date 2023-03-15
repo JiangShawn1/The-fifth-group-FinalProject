@@ -206,7 +206,8 @@
 			const params = new URLSearchParams(window.location.search);
 			this.transactionId = params.get("transactionId");
 			this.orderId = params.get("orderId");
-			this.reg = this.orderId.substring(12);
+			this.reg = this.orderId.substring(13);
+			console.log(this.reg);
 		},
 	}
 	var app = Vue.createApp(vueApp).mount("#app");
