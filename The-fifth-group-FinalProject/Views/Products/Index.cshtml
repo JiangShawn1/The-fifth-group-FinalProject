@@ -1,0 +1,274 @@
+﻿@section Styles{
+    <style>
+        .app-container {
+            position: relative;
+        }
+
+        #myDiv {
+            position: absolute;
+            top: 122px;
+            left: 1300px;
+            bottom: 0;
+            z-index: 99;
+            display: none;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: transparent;
+            color: white;
+            font-size: 16px;
+            position: fixed;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            transition: right 1s ease-in-out;
+        }
+
+        .cartbtn-fixed {
+            position: fixed;
+            z-index: 9999;
+            right: 0px;
+            top: 185px;
+            transform: translateY(-50%);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+}
+<div id="app">
+    <button class="btn btn-primary cartbtn-fixed" onclick="toggleDiv()"><i class="fas fa-shopping-cart fa-4x"></i></button>
+    <div id="myDiv">
+        <div class="row col-md-8">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title">購物車</h1>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>商品名稱</th>
+                                        <th>價錢</th>
+                                        <th>數量</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in items" :key="item.id">
+                                        <td>{{ item.productName }}</td>
+                                        <td>{{ item.price }}</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary" @@click=dbqtysub(item.id) type="button">-</button>
+                                                </div>
+                                                <input type="text" class="form-control form-control-sm  text-center" :value="item.qty" readonly>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" @@click=dbqtyadd(item.id) type="button">+</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><button class="btn btn-danger btn-sm" @@click=delitem(item.id)>刪除</button></td>
+                                    </tr>
+                                </tbody>
+                                <button class="btn btn-success" >前往結帳</button>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-lg-3">
+                <h5 class="mb-3">搜尋產品</h5>
+                <div class="form-group">
+                    <label for="keyword">關鍵字:</label>
+                    <input type="text" class="form-control" v-model="keyword" v-on:input="searchProducts">
+                </div>
+                <div class="form-group">
+                    <label for="brand">品牌:</label>
+                    <select class="form-control" v-model="selectedBrand" v-on:change="searchProducts">
+                        <option value="">全部</option>
+                        <option v-for="brand in brands" :key="brand" :value="brand">{{ brand }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="color">顏色:</label>
+                    <select class="form-control" v-model="selectedColor" v-on:change="searchProducts">
+                        <option value="">全部</option>
+                        <option v-for="color in colors" :key="color" :value="color">{{ color }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <h5 class="mb-3">商品清單</h5>
+                <div class="row">
+                    <div class="col-md-4 mb-3" v-for="product in products" :key="product.id">
+                        <div class="card h-100">
+                            <a v-bind:href="'/products/commodity/#' + product.id" @@click="selectCommodity(product.id)"> <img class="card-img-top" :src="product.imageUrl" alt="Card image cap"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">{{ product.productName }}</h4>
+                                <p class="card-text">{{ product.brand }} - {{ product.color }}</p>
+                                <h5 class="card-text">{{ product.price }}元</h5>
+                                <div class="d-flex align-items-center">
+                                    <button @@click="product.qty--" class="btn btn-outline-secondary">-</button>
+                                    <p class="m-0 mx-3">{{ product.qty }}</p>
+                                    <button @@click="product.qty++" class="btn btn-outline-secondary">+</button>
+                                </div>
+                                <button class="btn btn-primary mt-3" @@click="insert(product.id,product.qty)">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+    <script>
+            function toggleDiv() {
+                var div = document.getElementById("myDiv");
+                if (div.style.display === "none") {
+                    div.style.display = "block";
+                } else {
+                    div.style.display = "none";
+                }
+            }
+        </script>
+    <script>
+        var webApiBaseAddress = "https://localhost:7040";
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    selectedBrand: '',
+                    selectedColor: '',
+                    keyword: '',
+                    brands: [],
+                    colors: [],
+                    products: [],
+                    items: [],
+                    memberId: 3,
+                    qty: 1,
+                }
+            },
+            async mounted() {
+                axios.get(`${webApiBaseAddress}/api/CartItems/3`)
+                    .then(response => {
+                        this.items = response.data
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    });
+                await this.searchProducts()
+                await this.getBrands()
+                await this.getColors()
+            },
+
+            methods: {
+                async getBrands() {
+                    try {
+                        const response = await axios.get('https://localhost:7040/api/brands')
+                        response.data.forEach(element=> {
+                            this.brands.push(element.brand)
+                        })
+                        //this.brands = [''].concat(response.data.map(brand => brand.brand))
+                    } catch (error) {
+                        console.error(error)
+                    }
+                },
+                async getColors() {
+                    try {
+                        const response = await axios.get('https://localhost:7040/api/colors')
+                        response.data.forEach(element => {
+                            this.colors.push(element.color)
+                        })
+                    } catch (error) {
+                        console.error(error)
+                    }
+                },
+                async searchProducts() {
+                    try {
+                        const response = await axios.get('https://localhost:7040/api/products', {
+                            params: {
+                                brand: this.selectedBrand,
+                                color: this.selectedColor,
+                                keyword: this.keyword
+                            }
+                        })
+                        this.products = response.data;
+                        this.products.forEach(product => {
+                            product.qty = 1; // Set initial qty value for each product
+                        });
+                    } catch (error) {
+                        console.error(error)
+                    }
+                },selectCommodity:function(id){
+                    window.location=`Commodity/${id}`;
+                },
+                dbqtyadd(id){
+                        console.log(id)
+                        const index =this.items.findIndex(x => x.id === id);
+                        this.items[index].qty++;
+                    },
+                    dbqtysub(id){
+                        console.log(id)
+                        const index =this.items.findIndex(x => x.id === id);
+                        this.items[index].qty--
+                        if (this.items[index].qty < 0) this.items[index].qty = 0
+                    },
+                    delitem(id) {
+                        console.log(id);
+                        this.items = this.items.filter(x=>x.id !== id);
+
+                         axios.delete(`${webApiBaseAddress}/api/CartItems/${id}`)
+                        .then(response => {
+                            //this.items = response.data
+                            console.log("成功")
+                        })
+
+
+                    },
+                insert(id, qty) {
+                    console.log(id)
+                    var _this = this;
+						var cartlist = {};
+                        cartlist.memberId = _this.memberId;
+						cartlist.productId =id;
+                        cartlist.qty = qty;
+                        console.log(cartlist);
+                    axios.post(`${webApiBaseAddress}/api/CartItems?memberId=${this.memberId}&productId=${cartlist.productId}&qty=${cartlist.qty}`)
+                    .then(response => {
+								axios.get(`${webApiBaseAddress}/api/CartItems/3`)
+									.then(response => {
+										_this.items = response.data;
+									})
+									.catch(error => {
+										console.log(error);
+									});
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                 
+                    }
+
+            }
+        })
+
+        app.mount('#app')
+
+    </script>
+}
