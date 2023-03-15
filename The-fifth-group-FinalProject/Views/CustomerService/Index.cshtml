@@ -1,7 +1,70 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
+@section Styles{
+    <style>
+        body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: #eee;
+}
+
+button {
+    font-family: 'Noto Sans TC', sans-serif;
+    position: relative;
+    display: block;
+    text-align: left;
+    width: 100%;
+    padding: 1em 0;
+    color: #565a5c;
+    font-size: 1.15rem;
+    font-weight: 400;
+    border: none;
+    background: none;
+    outline: none;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(106, 158, 32);
+}
+
+.accordion-content {
+    display: none;
+    background: white;
+}
+
+    .accordion-content.active {
+        display: block;
+    }
+
+.static-rule {
+    position: relative;
+    margin: 0 auto;
+    text-align: left;
+    width: 100%;
+    max-width: 880px;
+    padding: 40px 0 30px
+}
+
+.nake-title {
+    font-size: 30px;
+}
+
+.accordion-content {
+    font-size: 16px;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    outline-style: none;
+    margin: 2em 0;
+}
+
+    </style>
 }
 <!DOCTYPE html>
 <html lang="zh-TW">

@@ -9,6 +9,8 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks.Dataflow;
 using The_fifth_group_FinalProject.Models;
+using System.Net;
+
 
 namespace The_fifth_group_FinalProject.Controllers
 {
@@ -79,13 +81,17 @@ namespace The_fifth_group_FinalProject.Controllers
                 int MemberLoginId = int.TryParse(httpContext.Request.Cookies["MemberId"], out int result) ? result : 1;
                 string account = HttpContext.Session.GetString("Account");
                 var EmployeeId = _theFifthGroupOfTopicsContext.Employees.Where(m => m.Account == account).Select(m => m.Id);
-                int EmployeeLoginId = EmployeeId.First();
+                int EmployeeLoginId = EmployeeId.FirstOrDefault() != 0 ? EmployeeId.First() : 1;
                 if (!string.IsNullOrEmpty(Name))
                 {
                     UserName = Name;
                 }
+                else if(!string.IsNullOrEmpty(account))
+                {
+                    UserName = account;
+                }
                 // 自動回覆功能
-                
+
                 Broadcast(JsonConvert.SerializeObject(new
                 {
                     userName = UserName,

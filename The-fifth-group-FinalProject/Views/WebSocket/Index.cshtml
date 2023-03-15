@@ -46,7 +46,7 @@
 }
         #ip{
             position: fixed;
-            bottom: 70px;
+            bottom: 200px;
             width: 80%;
         }
     </style>
@@ -111,19 +111,9 @@
             });
 
         var userName = localStorage.getItem("userName");
-        userName = '@ViewBag.Account';
-        if (userName) {
-            $("#userName").val(userName);
-            $("#userName").prop("disabled", true);
-        } else {
-            // 讓使用者輸入自己的userName
-            $("#userName").prop("disabled", false);
-        }
+        userName = '@Html.Raw(ViewBag.Account)';
+        $("#userName").val(userName);
+        $("#userName").prop("disabled", true);
 
-        // 監聽使用者輸入userName的事件，並存入localStorage中
-        $("#userName").on("input", function () {
-            var userName = $("#userName").val();
-            localStorage.setItem("userName", userName);
-        });
         </script>
     }

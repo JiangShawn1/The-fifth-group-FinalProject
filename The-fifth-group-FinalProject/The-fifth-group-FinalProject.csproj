@@ -8,9 +8,6 @@
     <RootNamespace>The_fifth_group_FinalProject</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="Views\Home\Login.cshtml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.11" />
