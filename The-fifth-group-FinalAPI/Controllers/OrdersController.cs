@@ -68,7 +68,7 @@ namespace The_fifth_group_FinalAPI.Controllers
                 Contests = reg.Registration.ContestCategory.Contest.Name,
                 Distance = reg.Registration.ContestCategory.Category.Distance,
                 EnterFee = reg.Registration.ContestCategory.EnterFee,
-                RegistrationId = reg.Registration.ContestCategory.Id,
+                RegistrationId = reg.RegistrationId,
                 //Id = 1,
                 //Name = "安安",
                 //Category = "普通組",

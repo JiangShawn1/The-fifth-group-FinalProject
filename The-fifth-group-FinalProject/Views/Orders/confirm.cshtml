@@ -185,15 +185,16 @@
 					.then((res) => {
 						this.paymentStatus = "交易狀態 : 成功";
 						console.log(res);
-						axios.put(`${webApiBaseAddress}/api/Orders/Paided/${this.PayInfoDto.registrationId}`).then((res) => {
+						return axios.put(`${webApiBaseAddress}/api/Orders/Paided/${this.PayInfoDto.registrationId}`).then((res) => {
 							console.log(res);
+							console.log(this.PayInfoDto.registrationId);
+							setTimeout(() => {
+								window.location = "https://localhost:7123/Registration/RegistrationIndex";
+							}, 2000);
 						})
-							.catch((err) => {
-								console.log(err);
-							});
-						setTimeout(() => {
-							window.location = "https://localhost:7123/Registration/RegistrationIndex";
-						}, 2000);
+					.catch((err) => {
+						console.log(err);
+					});
 					})
 					.catch((err) => {
 						console.log(err);
