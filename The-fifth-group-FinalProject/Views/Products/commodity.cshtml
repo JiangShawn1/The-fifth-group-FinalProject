@@ -64,17 +64,19 @@
                                         <td>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <button class="btn btn-outline-secondary" type="button">-</button>
+                                                    <button class="btn btn-outline-secondary" @@click=dbqtysub(item.id) type="button">-</button>
                                                 </div>
-                                                <input type="text" class="form-control form-control-sm text-center" :value="item.qty" readonly>
+                                                <input type="text" class="form-control form-control-sm  text-center" :value="item.qty" readonly>
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-outline-secondary" type="button">+</button>
+                                                    <button class="btn btn-outline-secondary" @@click=dbqtyadd(item.id) type="button">+</button>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><button class="btn btn-danger btn-sm">刪除</button></td>
+                                        <td><button class="btn btn-danger btn-sm" @@click=delitem(item.id)>刪除</button></td>
                                     </tr>
                                 </tbody>
+                                <button class="btn btn-success" style="float: right;">前往結帳</button>
+
                             </table>
                         </div>
                     </div>
@@ -94,7 +96,7 @@
                     <p class="card-text">品牌: {{ commodity.brand }}</p>
                     <p class="card-text">顏色: {{ commodity.color }}</p>
                     <p class="card-text">價錢: {{ commodity.price }}</p>
-                    @*<div style="max-width: 400px;">
+                    <div style="max-width: 400px;">
                         <div class="row">
                             <div class="col-3 my-2 d-flex justify-content-center" v-for="size in sizes" :key="size.id">
                                 <button class="btn"
@@ -103,10 +105,11 @@
                                     {{ size }}
                                 </button>
                             </div>
+                            
 
                         </div>
 
-                    </div>*@
+                    </div>
                     <div class="d-flex align-items-center">
                         <button @@click="qty--" class="btn btn-outline-secondary">-</button>
                         <p class="m-0 mx-3">{{ qty }}</p>
@@ -124,6 +127,7 @@
             </div>
         </div>
     </div>
+    {{items}}
 
 
     @section Scripts{
@@ -149,6 +153,8 @@
                         items: [],
                         memberId: 3,
                         qty: 1,
+                        sizes: [],
+                        selectedSize: null
 
                     };
                 },
@@ -169,8 +175,37 @@
                         .catch(error => {
                             console.log(error)
                         });
+                        axios.get(`${webApiBaseAddress}/api/ProductSize/sizes`).then((response) => {
+                    this.sizes = response.data;
+                });
                 },
                 methods: {
+                    dbqtyadd(id){
+                        console.log(id)
+                        const index =this.items.findIndex(x => x.id === id);
+                        this.items[index].qty++;
+                    },
+                    dbqtysub(id){
+                        console.log(id)
+                        const index =this.items.findIndex(x => x.id === id);
+                        this.items[index].qty--
+                        if (this.items[index].qty < 0) this.items[index].qty = 0
+                    },
+                    delitem(id) {
+                        console.log(id);
+                        this.items = this.items.filter(x=>x.id !== id);
+
+                         axios.delete(`${webApiBaseAddress}/api/CartItems/${id}`)
+                        .then(response => {
+                            //this.items = response.data
+                            console.log("成功")
+                        })
+
+
+                    },
+                    selectSize(size) {
+                    this.selectedSize = size;
+                },
                     insert: function () {
                         var _this = this;
                         var cartlist = {};
