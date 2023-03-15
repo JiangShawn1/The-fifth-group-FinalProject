@@ -27,9 +27,9 @@ namespace The_fifth_group_FinalAPI.Controllers
 
         // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Orders>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<Orders>>> GetAllOrders(int memberId)
         {
-            return await _context.Orders.ToListAsync();
+            return await _context.Orders.Where(o => o.MemberId == memberId).ToListAsync();
         }
 
         // GET: api/Orders/5

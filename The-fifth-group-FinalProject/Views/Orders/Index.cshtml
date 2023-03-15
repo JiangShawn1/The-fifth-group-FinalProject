@@ -56,10 +56,10 @@
             },
             mounted: function () {
                 let _this = this;
-                _this.getOrders();
+                _this.getAllOrders();
             },
             methods: {
-                getOrders: function () {
+                getAllOrders: function () {
                     let _this = this;
                     axios.get(`${webApiBaseAddress}/api/Orders`).then(
                         response => {
