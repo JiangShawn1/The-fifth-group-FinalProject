@@ -1,0 +1,129 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@section Styles{
+    <style>
+.speech-bubble1 {
+	position: relative;
+	background: #ffff99;
+	border-radius: .4em;
+    margin-bottom: 5px;
+}
+
+.speech-bubble1:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 7px solid transparent;
+	border-right-color: #ffff99;
+	border-left: 0;
+	margin-top: -7px;
+	margin-left: -7px;
+}
+
+    .speech-bubble2 {
+	position: relative;
+	background: #c6ffb3;
+	border-radius: .4em;
+        margin-bottom: 5px;
+}
+
+.speech-bubble2:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 7px solid transparent;
+	border-left-color: #c6ffb3;
+	border-right: 0;
+	margin-top: -7px;
+	margin-right: -7px;
+}
+        #ip{
+            position: fixed;
+            bottom: 70px;
+            width: 80%;
+        }
+    </style>
+}
+
+<div class="container" id="app">
+    <div class="p-2 chat">
+        <ul id="list">
+        </ul>
+    </div>
+    <div class="row" id="ip">
+        <input class="col-4 m-1" id="userName" placeholder="您的大名" />
+        <input class="col-6 m-1" id="message" placeholder="輸入內容" />
+        <button class="col-1 m-1" id="send">發送</button>
+    </div>
+    
+</div>
+
+    @section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+        <script>
+            var socket;
+            var wsUrl = `${document.location.href.replace("http", "ws")}/ws`;
+            //alert(wsUrl);
+            function connect() {
+                socket = new WebSocket(wsUrl);
+                socket.onmessage = function (e) {
+                    processMessage(e.data);
+                }
+            }
+            var list = document.getElementById('list');
+            function processMessage(data) {
+                let li = document.createElement('li');
+                var content = JSON.parse(data);
+                if (content["userName"] === $("#userName").val()) {
+                    li.className = "speech-bubble2";
+                } else {
+                    li.className = "speech-bubble1";
+                }
+                li.textContent = `${content["userName"]}說:${content["message"]}`;
+                list.appendChild(li);
+            }
+
+            function sendMessage(msg) {
+                if (socket && socket.readyState == WebSocket.OPEN)
+                    socket.send(msg);
+            }
+            connect();
+            var message = document.getElementById('message');
+            var send = document.getElementById('send');
+            message.addEventListener('keydown', function (e) {
+                if (e.keyCode === 13) send.click();
+            });
+            send.addEventListener('click', function () {
+                var data = {
+                    userName: $("#userName").val(),
+                    message: $("#message").val()
+                };
+                sendMessage(JSON.stringify(data));
+            $("#message").val("");
+            $("#message").focus();
+            });
+
+        var userName = localStorage.getItem("userName");
+        userName = '@ViewBag.Account';
+        if (userName) {
+            $("#userName").val(userName);
+            $("#userName").prop("disabled", true);
+        } else {
+            // 讓使用者輸入自己的userName
+            $("#userName").prop("disabled", false);
+        }
+
+        // 監聽使用者輸入userName的事件，並存入localStorage中
+        $("#userName").on("input", function () {
+            var userName = $("#userName").val();
+            localStorage.setItem("userName", userName);
+        });
+        </script>
+    }

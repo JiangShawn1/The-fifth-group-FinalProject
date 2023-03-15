@@ -1,0 +1,164 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./css/CustomerService.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700&display=swap"
+          rel="stylesheet" />
+</head>
+<body>
+    <div class="static-rule">
+        <div class="qa">
+            <h2 class="nake-title">常見問題Q&A</h2>
+        </div>
+        <div class="accordion">
+            <div class="accordion-item">
+                <button id="accordion-button-1" class="accordion-title">
+                    報名後還能再加人嗎？
+                </button>
+                <div class="accordion-content">
+                    <p>
+                        活動報名截止或額滿前都還可以加人。操作步驟如下：
+                        <br />
+                        1. 於報名查詢與修改登入至訂單頁面
+                        <br />
+                        2. 點選左側按鈕新增活動參與成員
+                        <br />
+                        3. 輸入報名資料
+                        <br />
+                        4. 送出後得到新繳款單，依最新繳費資訊完成繳費後即完成
+                    </p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button id="accordion-button-2" class="accordion-title">
+                    報名後還能再加購嗎？
+                </button>
+
+                <div class="accordion-content">
+                    <p>
+                        活動報名截止前都還可以加購。操作步驟如下：
+                        <br />
+                        1. 於報名查詢與修改登入至訂單頁面
+                        <br />
+                        2. 點選左側按鈕加購
+                        <br />
+                        3. 選擇要加購的成員
+                        <br />
+                        4. 選擇要加購的項目
+                        <br />
+                        5. 送出後得到新繳款單，依最新繳費資訊完成繳費後即完成
+                    </p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button id="accordion-button-3" class="accordion-title">
+                    如何修改付款方式呢？
+                </button>
+                <div class="accordion-content">
+                    <p>
+                        操作步驟如下：
+                        <br />
+                        1. 於報名查詢與修改登入至訂單頁面
+                        <br />
+                        2. 點選左側按鈕修改資料
+                        <br />
+                        3. 點選第一個區塊內付款方式的右側按鈕修改
+                        <br />
+                        <span class="remark">※付款方式的異動可能因收費方式不同訂單金額也會變，繳費請依照最新繳款資訊為主</span>
+                    </p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button id="accordion-button-4" class="accordion-title">
+                    如何修改報到方式？
+                </button>
+                <div class="accordion-content">
+                    <p>
+                        操作步驟如下：
+                        <br />
+                        1. 於報名查詢與修改登入至訂單頁面
+                        <br />
+                        2. 點選左側按鈕修改資料
+                        <br />
+                        3. 點選基本資訊/領隊資訊區塊右側的按鈕修改
+                        <br />
+                        4. 下拉選單點選報到方式，選完再點選送出
+                    </p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button id="accordion-button-5" class="accordion-title">
+                    如何修改資料呢？
+                </button>
+                <div class="accordion-content">
+                    <p>
+                        ▶如欲修改身分證字號/護照號碼、出生年月日、性別等資料請洽<a href="aaa@mail.com">aaa@mail.com</a>
+                        <br />
+                        ▶ 其他資料修改操作步驟如下：
+                        <br />
+                        1. 於報名查詢與修改登入至訂單頁面
+                        <br />
+                        2. 點選左側按鈕修改資料
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="contactus">
+            <a href="https://localhost:7123/CustomerFeedbacks">留言給我們</a>
+            &nbsp&nbsp
+            <a href="https://localhost:7123/WebSocket">聯絡我們</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // 當點擊標題時顯示內容
+            $(".accordion-title").click(function () {
+                $(this).toggleClass("active");
+                $(this).next().toggleClass("active");
+            });
+        });
+        const items = document.querySelectorAll(".accordion button");
+
+        function toggleAccordion() {
+            const itemToggle = this.getAttribute("aria-expanded");
+
+            for (i = 0; i < items.length; i++) {
+                if (items[i] !== this) {
+                    items[i].setAttribute("aria-expanded", "false");
+                    items[i].nextElementSibling.classList.remove("active");
+                    items[i].classList.remove("active");
+                }
+            }
+
+            if (itemToggle == "false") {
+                this.setAttribute("aria-expanded", "true");
+                this.nextElementSibling.classList.add("active");
+                this.classList.add("active");
+            } else {
+                this.setAttribute("aria-expanded", "false");
+                this.nextElementSibling.classList.remove("active");
+                this.classList.remove("active");
+            }
+        }
+
+        $(document).ready(function () {
+            // 當點擊標題時顯示內容
+            $(".accordion-title").click(function () {
+                toggleAccordion.call(this);
+            });
+        });
+    </script>
+</body>
+</html>
