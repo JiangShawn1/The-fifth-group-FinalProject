@@ -173,8 +173,8 @@ namespace The_fifth_group_FinalAPI.Controllers
         [HttpPost("Filter")]    //Uri: api/Orders/Filter
         public async Task<IEnumerable<Orders>> FilterOrders([FromBody] Orders orders)
         {
-            return _context.Orders.Where(
-                o => o.OrderNumber.Contains(orders.OrderNumber));
+            return _context.Orders
+                .Where(o => o.OrderNumber.Contains(orders.OrderNumber));
         }
 
         private bool OrdersExists(int id)
