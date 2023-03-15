@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using The_fifth_group_FinalAPI.Models;
 
 namespace The_fifth_group_FinalAPI.Controllers
 {
+    [EnableCors("AllowAny")]
     [Route("api/[controller]")]
     [ApiController]
     public class CouponsController : ControllerBase
@@ -97,6 +99,13 @@ namespace The_fifth_group_FinalAPI.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpPost("Filter")]    //Uri: api/Coupons/Filter
+        public async Task<IEnumerable<Coupons>> FilterCoupons([FromBody] Coupons coupons)
+        {
+            return _context.Coupons.Where(
+                c => c.CouponName.Contains(coupons.CouponName) || c.CouponNumber.Contains(coupons.CouponName));
         }
 
         private bool CouponsExists(int id)
