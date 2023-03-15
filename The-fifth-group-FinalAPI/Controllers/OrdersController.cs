@@ -81,6 +81,36 @@ namespace The_fifth_group_FinalAPI.Controllers
             return payInfoDto;
 
         }
+        [HttpPut("Paided/{id}")]
+        public async Task<IActionResult> Paided(int id)
+        {
+            Registration reg = await _context.Registration.FindAsync(id);
+            if (reg == null)
+            {
+                return BadRequest();
+            }
+            reg.PaymentStatus = true;
+
+            _context.Entry(reg).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OrdersExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
 
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

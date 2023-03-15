@@ -1,6 +1,4 @@
-﻿@using The_fifth_group_FinalAPI.DTOs;
-
-@model PayInfoDto
+﻿@model The_fifth_group_FinalAPI.DTOs.PayInfoDto
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +22,7 @@
             payment = {
                 amount: @Model.EnterFee,
                 currency: "TWD",
-                orderId: Date.now().toString(),
+                orderId: Date.now().toString() + @Model.Id,
                 packages: [
                     {
                         id: "0",
