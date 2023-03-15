@@ -1,6 +1,4 @@
-﻿using The_fifth_group_FinalProject.Models;
-
-namespace The_fifth_group_FinalAPI.DTOs
+﻿namespace The_fifth_group_FinalAPI.DTOs
 {
     public class CommodityDTO
     {
