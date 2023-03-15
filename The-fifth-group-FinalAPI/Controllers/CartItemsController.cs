@@ -46,6 +46,7 @@ namespace The_fifth_group_FinalAPI.Controllers
                 cartItemsDTOs.Add(new CartItemsDTO()
                 {
                     Id = cartItem.Id,
+                    ImageUrl = cartItem.Product.ImageUrl,
                     Member_Id = cartItem.MemberId,
                     ProductName = cartItem.Product.ProductName,
                     Price = cartItem.Product.Price,
