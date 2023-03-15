@@ -6,8 +6,8 @@
 
         #myDiv {
             position: absolute;
-            top: 120px;
-            left: 1000px;
+            top: 122px;
+            left: 1300px;
             bottom: 0;
             z-index: 99;
             display: none;
@@ -26,8 +26,8 @@
         .cartbtn-fixed {
             position: fixed;
             z-index: 9999;
-            right: 20px;
-            top: 127px;
+            right: 0px;
+            top: 185px;
             transform: translateY(-50%);
         }
 
@@ -75,7 +75,7 @@
                                         <td><button class="btn btn-danger btn-sm" @@click=delitem(item.id)>刪除</button></td>
                                     </tr>
                                 </tbody>
-                                <button class="btn btn-success" style="float: right;">前往結帳</button>
+                                <button class="btn btn-success">前往結帳</button>
 
                             </table>
                         </div>
@@ -127,7 +127,7 @@
             </div>
         </div>
     </div>
-    {{items}}
+
 
 
     @section Scripts{
