@@ -25,10 +25,24 @@ namespace The_fifth_group_FinalProject.Controllers
         public IActionResult Index()
         {
             string account = HttpContext.Session.GetString("Account");
+            var httpContext = HttpContext;
+            int MemberLoginId = int.TryParse(httpContext.Request.Cookies["MemberId"], out int result) ? result : 0;
+            var MemberName = _theFifthGroupOfTopicsContext.Members.Where(m => m.MemberId == MemberLoginId).Select(m => m.Name);
+
             if (!string.IsNullOrEmpty(account))
             {
                 // 已登入
                 ViewBag.Account = account;
+            }
+            else if (MemberName.Any())
+            {
+                // 員工已登入
+                ViewBag.Account = MemberName.First();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+
             }
             return View();
         }
@@ -49,6 +63,7 @@ namespace The_fifth_group_FinalProject.Controllers
 
         public async Task ProcessWebSocket(WebSocket webSocket)
         {
+           
             WebSockets.TryAdd(webSocket.GetHashCode(), webSocket);
             var buffer = new byte[1024 * 4];
             var res = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
@@ -60,6 +75,11 @@ namespace The_fifth_group_FinalProject.Controllers
                 JObject data = JObject.Parse(cmd);
                 string? Name = Convert.ToString(data["userName"]);
                 string? Message = $"{Convert.ToString(data["message"])} at {DateTime.Now}";
+                var httpContext = HttpContext;
+                int MemberLoginId = int.TryParse(httpContext.Request.Cookies["MemberId"], out int result) ? result : 1;
+                string account = HttpContext.Session.GetString("Account");
+                var EmployeeId = _theFifthGroupOfTopicsContext.Employees.Where(m => m.Account == account).Select(m => m.Id);
+                int EmployeeLoginId = EmployeeId.First();
                 if (!string.IsNullOrEmpty(Name))
                 {
                     UserName = Name;
@@ -73,11 +93,11 @@ namespace The_fifth_group_FinalProject.Controllers
                 }));
                 await _theFifthGroupOfTopicsContext.ChatContents.AddAsync(new ChatContent
                 {
-                    MemberId = 1,
+                    MemberId = MemberLoginId,
                     ChatContent1 = Message,
                     SentTime = DateTime.Now,
                     ChatRoomId = 1,
-                    EmployeeId = 1,
+                    EmployeeId = EmployeeLoginId,
                 });
                 await _theFifthGroupOfTopicsContext.SaveChangesAsync();
 
