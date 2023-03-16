@@ -62,7 +62,7 @@
 								<tbody>
 									<tr v-for="item in items" :key="item.id">
 										<td>{{ item.productName }}</td>
-										<td>{{ item.price *product.qty }}</td>
+										<td>{{ item.price *item.qty }}</td>
 										<td>
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -159,7 +159,8 @@
 				await this.getmemberId();
 				await this.searchProducts();
 				await this.getBrands();
-				await this.getColors();				
+				await this.getColors();		
+				
 			},
 
 			methods: {
@@ -168,11 +169,12 @@
 					axios.get(`${webApiBaseAddress}/api/CartItems/${memberId}`)
 								.then(response => {
 									let _this=this;
-									_this.items = response.data;
+									_this.items = response.data;							    
 								})
 								.catch(error => {
 									console.log(error);
 								});
+								
 				},
 				async getmemberId(){
 					let memberId = Cookies.get('MemberId');
