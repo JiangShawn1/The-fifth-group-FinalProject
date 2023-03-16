@@ -16,14 +16,14 @@
     <div class="login">
         <h2>主辦單位驗證</h2>
         <form>
-            <label class="form-label">地址:</label>
+            <label class="form-label">帳號:</label>
 				<input type="text" class="form-control" v-model="supplierAdd" />
             <br>
-            <label class="form-label">電話:</label>
+            <label class="form-label">密碼:</label>
 				<input type="text" class="form-control" v-model="supplierTel" />
-            <br>
-            <button type="button" class="btn btn-warning" @@click="close">關閉</button>
+            <br>            
             <button type="button" class="btn btn-primary" @@click="login">驗證</button>
+			<button type="button" class="btn btn-warning ms-1" @@click="close">關閉</button>
         </form>
     </div> 
 </div>
