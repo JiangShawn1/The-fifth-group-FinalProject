@@ -21,8 +21,8 @@ namespace The_fifth_group_FinalProject.Controllers
         // GET: ForumSectionBranch1TopicsThread
         public async Task<IActionResult> Index()
         {
-            var theFifthGroupOfTopicsContext = _context.ForumSectionBranch1TopicsThreads.Include(f => f.ReplyMember).Include(f => f.Topic).Where(f => f.TopicId == 1); 
-            
+            var theFifthGroupOfTopicsContext = _context.ForumSectionBranch1TopicsThreads.Include(f => f.ReplyMember).Include(f => f.Topic).Where(f => f.TopicId == 1);
+
             return View(await theFifthGroupOfTopicsContext.ToListAsync());
         }
 
@@ -34,6 +34,7 @@ namespace The_fifth_group_FinalProject.Controllers
 
             return View(await theFifthGroupOfTopicsContext.ToListAsync());
         }
+
         // GET: ForumSectionBranch1TopicsThread/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -69,30 +70,22 @@ namespace The_fifth_group_FinalProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,TopicId,TopicState,ReplyNumber,ReplyContent,ReplyTime,ReplyState,ReplyMemberId")] ForumSectionBranch1TopicsThread forumSectionBranch1TopicsThread)
         {
-            if (ModelState.IsValid)
+
+
+
+            //forumSectionBranch1TopicsThread.ReplyMember =
+            //    forumSectionBranch1TopicsThread.Topic = 
+
+
+			if (ModelState.IsValid)
             {
-				forumSectionBranch1TopicsThread.ReplyTime = DateTime.Now;
-				forumSectionBranch1TopicsThread.ReplyState = 1;
-				var num1 = forumSectionBranch1TopicsThread.TopicId;
-
-				if (num1 == forumSectionBranch1TopicsThread.TopicId)
-				{
-				forumSectionBranch1TopicsThread.ReplyNumber = (_context.ForumSectionBranch1TopicsThreads.Where(x => x.TopicId == num1).Max(x => x.ReplyNumber))+1;
-				}
-                forumSectionBranch1TopicsThread.ReplyMemberId = 1;
-
                 _context.Add(forumSectionBranch1TopicsThread);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ReplyMemberId"] = new SelectList(_context.Members, "MemberId", "MemberId", forumSectionBranch1TopicsThread.ReplyMemberId);
             ViewData["TopicId"] = new SelectList(_context.ForumSectionBranch1Topics, "Id", "Id", forumSectionBranch1TopicsThread.TopicId);
-			
-
-           
-              
-
-			return View(forumSectionBranch1TopicsThread);
+            return View(forumSectionBranch1TopicsThread);
         }
 
         // GET: ForumSectionBranch1TopicsThread/Edit/5

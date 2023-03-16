@@ -4,33 +4,34 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>回覆</h1>
+<h1>Create</h1>
 
+<h4>ForumSectionBranch1TopicsThread</h4>
 <hr />
-<div class="row container-fluid">
+<div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           @* <div class="form-group" display:none>
+            <div class="form-group">
                 <label asp-for="TopicId" class="control-label"></label>
                 <select asp-for="TopicId" class ="form-control" asp-items="ViewBag.TopicId"></select>
             </div>
-            <div class="form-group" display:none>
+            <div class="form-group">
                 <label asp-for="TopicState" class="control-label"></label>
                 <input asp-for="TopicState" class="form-control" />
                 <span asp-validation-for="TopicState" class="text-danger"></span>
             </div>
-            <div class="form-group"display:none>
+            <div class="form-group">
                 <label asp-for="ReplyNumber" class="control-label"></label>
                 <input asp-for="ReplyNumber" class="form-control" />
                 <span asp-validation-for="ReplyNumber" class="text-danger"></span>
-            </div>*@
-            <div class="form-group" display:none>
-                <label class="control-label">內文</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReplyContent" class="control-label"></label>
                 <input asp-for="ReplyContent" class="form-control" />
                 <span asp-validation-for="ReplyContent" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
+            <div class="form-group">
                 <label asp-for="ReplyTime" class="control-label"></label>
                 <input asp-for="ReplyTime" class="form-control" />
                 <span asp-validation-for="ReplyTime" class="text-danger"></span>
@@ -43,16 +44,16 @@
             <div class="form-group">
                 <label asp-for="ReplyMemberId" class="control-label"></label>
                 <select asp-for="ReplyMemberId" class ="form-control" asp-items="ViewBag.ReplyMemberId"></select>
-            </div>*@
+            </div>
             <div class="form-group">
-                <input type="submit" value="回覆" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">回到論壇</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

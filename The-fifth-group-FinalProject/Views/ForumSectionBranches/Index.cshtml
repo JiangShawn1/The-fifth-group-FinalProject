@@ -1,34 +1,63 @@
 ﻿@model IEnumerable<The_fifth_group_FinalProject.Models.ForumSectionBranch>
 
 @section Styles
-	{
+{
 	<style>
 		.row align-items-start {
 			border: 2em;
 		}
+
+		.modal-header
+		{
+			text-align:center;
+			display: inline;
+		
+		}
+
+		.pac{
+			display:inline-block;
+			width:200px;
+		}
+
+		.container-fluid{
+			display: flex;
+			flex-wrap:wrap;
+
+		}
+		.bb{
+			width:200px;
+			display:inline;
+		}
+		div{
+			text-align: left;
+		
+		}
+
+		
 	</style>
 }
-<div class="container-fluid" id="forumApp">
-	<div class="row align-items-middle">
-	<div class="modal-header col-3">
+<div class="container-fluid d-flex " id="forumApp">
+	<div  class="pac">
+		<div class="modal-header ">
 		新手上路
-	</div>
-	</div>
-@foreach (var item in Model)
-	{	
-	@if (item.SectionNameId == 1)
+
+		</div class="bb">
+		@foreach (var item in Model)
+		{	
+		@if (item.SectionNameId == 1)
 		{
-	<div>
-				<a href="https://localhost:7123/ForumSectionBranch1Topic/Index">@Html.DisplayFor(modelItem => item.BranchName)</a>
-	</div>
+		<div>
+				<a href='https://localhost:7123/ForumSectionBranch1Topic/Index' +'>@Html.DisplayFor(modelItem => item.BranchName)</a>
+		</div>
 		}
 	}
+	</div>
+	
+	<div class="pac">
+	<div class="modal-header">
+	運動賽事	
+	</div>
 
-	<div class="row align-items-start">
-			<div class="modal-header col-3">
-				運動賽事	
-			</div>
-			</div>
 	@foreach (var item in Model)
 	{
 		@if (item.SectionNameId == 2)
@@ -38,28 +67,27 @@
 			</div>
 		}
 	}
-
-	<div class="row align-items-start">
-				<div class="modal-header col-3">
-					心得分享
-				
-				</div>
 	</div>
+
+	<div class="pac">
+	<div class="modal-header ">
+	心得分享			
+	</div>
+
 	@foreach (var item in Model)
 	{
 		@if (item.SectionNameId == 3)
 		{
 			<div>
-				<a href="https://localhost:7123/ForumSectionBranch1Topic/Index">@Html.DisplayFor(modelItem => item.BranchName)</a>
+				<a id="topicurl" href="https://localhost:7123/ForumSectionBranch1Topic/Index">@Html.DisplayFor(modelItem => item.BranchName)</a>
 			</div>
 		}
 	}
+	</div>
 
-	<div class="row align-items-start">
-		<div class="modal-header col-3">
+	<div class="pac">
+	<div class="modal-header ">
 		版務
-
-		</div>
 	</div>
 	@foreach (var item in Model)
 	{
@@ -70,14 +98,26 @@
 			</div>
 		}
 	}
-
+	</div>
 </div>
 
+@*@foreach (var item in Model)
+{ var max = ViewBag.Max(item.SectionNameId);
+
+	@for(int i = 1;i <max ;i++ )
+	{
+		<div>
+			<a href="https://localhost:7123/ForumSectionBranch1Topic/Index">@Html.DisplayFor(modelItem => item.BranchName)</a>
+		</div>
+	}
+}
+</div>*@
 
 @section Scripts
 {
 <script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
-
-	
+@*<script>
+		https://localhost:7123/ForumSectionBranch1Topic/Index
+</script>*@
 }

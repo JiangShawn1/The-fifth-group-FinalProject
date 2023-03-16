@@ -1,0 +1,47 @@
+﻿@model IEnumerable<The_fifth_group_FinalProject.Models.ForumSectionBranch1Topic>
+
+    @{
+    <style>
+        thead{
+            width:100%;
+            text-align:center;
+        }
+        .replier{
+            width:4em;
+        }
+    </style>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+           @* <th>
+                @Html.DisplayNameFor(model => model.Topic)
+            </th>*@
+            @*<th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>*@
+            <th>
+                文章主題
+               @* @Html.DisplayNameFor(model => model.Branch)*@
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Topic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>*@
+            <td>
+                    <a href="https://localhost:7123/ForumSectionBranch1TopicsThread/Index2"> @Html.DisplayFor(modelItem => item.Branch.Id)</a>
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>

@@ -23,10 +23,12 @@ namespace The_fifth_group_FinalProject.Controllers
         {
             var theFifthGroupOfTopicsContext = _context.ForumSectionBranches.Include(f => f.Administrator).Include(f => f.SectionName);
             return View(await theFifthGroupOfTopicsContext.ToListAsync());
-        }
 
-        // GET: ForumSectionBranches/Details/5
-        public async Task<IActionResult> Details(int? id)
+        }
+		
+
+			// GET: ForumSectionBranches/Details/5
+			public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.ForumSectionBranches == null)
             {

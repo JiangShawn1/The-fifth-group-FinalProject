@@ -3,68 +3,80 @@
 @{
     ViewData["Title"] = "Index";
 }
+@{
+    <style>
+        thead {
+            width: 100%;
+            text-align: center;
+        }
 
+        .replier {
+            width: 4em;
+        }
+    </style>
+}
 
 <table class="table">
     <thead>
         <tr>
-           @* <th>
-                @Html.DisplayNameFor(model => model.TopicState)
+            @* <th>
+            @Html.DisplayNameFor(model => model.TopicState)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReplyNumber)
+            @Html.DisplayNameFor(model => model.ReplyNumber)
             </th>*@
-            <th>
-                回覆者
+            <th class="replier">
+                回文者
                 @*  @Html.DisplayNameFor(model => model.ReplyMember)*@
             </th>
             <th>
                 內文
-             @*   @Html.DisplayNameFor(model => model.ReplyContent)*@
+                @*   @Html.DisplayNameFor(model => model.ReplyContent)*@
             </th>
             <th>
                 回覆時間
-               @* @Html.DisplayNameFor(model => model.ReplyTime)*@
+                @* @Html.DisplayNameFor(model => model.ReplyTime)*@
             </th>
-           @* <th>
-                @Html.DisplayNameFor(model => model.ReplyState)
+            @* <th>
+            @Html.DisplayNameFor(model => model.ReplyState)
             </th>*@
-           
-           @* <th>
-                @Html.DisplayNameFor(model => model.Topic)
+
+            @* <th>
+            @Html.DisplayNameFor(model => model.Topic)
             </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-           @* <td>
-                @Html.DisplayFor(modelItem => item.TopicState)
+        @foreach (var item in Model)
+        {
+            <tr>
+                @* <td>
+            @Html.DisplayFor(modelItem => item.TopicState)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReplyNumber)
+            @Html.DisplayFor(modelItem => item.ReplyNumber)
             </td>*@
-             <td>
-                @Html.DisplayFor(modelItem => item.ReplyMember.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReplyContent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReplyTime)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.ReplyState)
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReplyMember.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReplyContent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReplyTime)
+                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.ReplyState)
             </td>*@
-           
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Topic.Id)
+
+                @*<td>
+            @Html.DisplayFor(modelItem => item.Topic.Id)
             </td>*@
-            
-        </tr>
+
+            </tr>
         }
- 
+
     </tbody>
 
 </table>

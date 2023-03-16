@@ -3,20 +3,34 @@
 @{
     ViewData["Title"] = "Index";
 }
+@{
+    <style>
+        thead {
+            width: 100%;
+            text-align: center;
+        }
+
+        .replier {
+            width: 4em;
+        }
+    </style>
+}
+
 
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Topic)
+               文章主題
+               @* @Html.DisplayNameFor(model => model.Topic)*@
             </th>
-            <th>
+           @* <th>
                 @Html.DisplayNameFor(model => model.State)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Branch)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -24,7 +38,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                   @Html.DisplayFor(modelItem => item.Topic)
+                    <a href="https://localhost:7123/ForumSectionBranch1TopicsThread/Index">@Html.DisplayFor(modelItem => item.Topic)</a> 
             </td>
                       
         </tr>

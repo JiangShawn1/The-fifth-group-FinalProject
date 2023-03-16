@@ -21,12 +21,22 @@ namespace The_fifth_group_FinalProject.Controllers
         // GET: ForumSectionBranch1Topic
         public async Task<IActionResult> Index()
         {
-            var theFifthGroupOfTopicsContext = _context.ForumSectionBranch1Topics.Include(f => f.Branch);
-            return View(await theFifthGroupOfTopicsContext.ToListAsync());
+            var theFifthGroupOfTopicsContext = _context.ForumSectionBranch1Topics.Include(f => f.Branch).Where(f=>f.BranchId ==1);
+			
+
+			return View(await theFifthGroupOfTopicsContext.ToListAsync());
         }
 
-        // GET: ForumSectionBranch1Topic/Details/5
-        public async Task<IActionResult> Details(int? id)
+		public async Task<IActionResult> Index2()
+		{
+			var theFifthGroupOfTopicsContext = _context.ForumSectionBranch1Topics.Include(f => f.Branch).Where(f => f.BranchId == 2);
+
+
+			return View(await theFifthGroupOfTopicsContext.ToListAsync());
+		}
+
+		// GET: ForumSectionBranch1Topic/Details/5
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.ForumSectionBranch1Topics == null)
             {
