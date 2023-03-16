@@ -22,9 +22,16 @@ namespace The_fifth_group_FinalProject.Controllers
         public async Task<IActionResult> Index()
         {
             var httpContext = HttpContext;
-            int MemId = int.TryParse(httpContext.Request.Cookies["MemberId"], out int result) ? result : 2;
-            var members = await _context.Members.Where(m => m.MemberId == MemId).ToListAsync();
-            return RedirectToAction("Details", new { id = MemId });
+            int MemId = int.TryParse(httpContext.Request.Cookies["MemberId"], out int result) ? result : 0;
+
+            if (MemId > 0)
+            {
+                return RedirectToAction("Details", new { id = MemId });
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
         }
 
         // GET: Members/Details/5
