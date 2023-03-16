@@ -1,239 +1,235 @@
 ﻿@section Styles{
-    <style>
-        .app-container {
-            position: relative;
-        }
+	<style>
+		.app-container {
+			position: relative;
+		}
 
-        #myDiv {
-            position: absolute;
-            top: 122px;
-            left: 1300px;
-            bottom: 0;
-            z-index: 99;
-            display: none;
-            padding: 10px;
-            margin-top: 10px;
-            background-color: transparent;
-            color: white;
-            font-size: 16px;
-            position: fixed;
-            right: -100%;
-            width: 100%;
-            height: 100%;
-            transition: right 1s ease-in-out;
-        }
+		#myDiv {
+			position: absolute;
+			top: 122px;
+			left: 1300px;
+			bottom: 0;
+			z-index: 99;
+			display: none;
+			padding: 10px;
+			margin-top: 10px;
+			background-color: transparent;
+			color: white;
+			font-size: 16px;
+			position: fixed;
+			right: -100%;
+			width: 100%;
+			height: 100%;
+			transition: right 1s ease-in-out;
+		}
 
-        .cartbtn-fixed {
-            position: fixed;
-            z-index: 9999;
-            right: 0px;
-            top: 185px;
-            transform: translateY(-50%);
-        }
+		.cartbtn-fixed {
+			position: fixed;
+			z-index: 9999;
+			right: 0px;
+			top: 185px;
+			transform: translateY(-50%);
+		}
 
-        .text-center {
-            text-align: center;
-        }
-
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
+		.text-center {
+			text-align: center;
+		}
+	</style>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 }
 <div id="app" class="app-container">
-    <button class="btn btn-primary cartbtn-fixed" onclick="toggleDiv()"><i class="fas fa-shopping-cart fa-4x"></i></button>
-    <div id="myDiv">
-        <div class="row col-md-8">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h1 class="card-title">購物車</h1>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>商品名稱</th>
-                                        <th>價錢</th>
-                                        <th>數量</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="item in items" :key="item.id">
-                                        <td>{{ item.productName }}</td>
-                                        <td>{{ item.price }}</td>
-                                        <td>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <button class="btn btn-outline-secondary" @@click=dbqtysub(item.id) type="button">-</button>
-                                                </div>
-                                                <input type="text" class="form-control form-control-sm  text-center" :value="item.qty" readonly>
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-secondary" @@click=dbqtyadd(item.id) type="button">+</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn btn-danger btn-sm" @@click=delitem(item.id)>刪除</button></td>
-                                    </tr>
-                                </tbody>
-                                <button class="btn btn-success">前往結帳</button>
+	<button class="btn btn-primary cartbtn-fixed" onclick="toggleDiv()">
+		<i class="fas fa-shopping-cart fa-4x"></i>
+	</button>
+	<div id="myDiv">
+		<div class="row col-md-8">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-body">
+						<h1 class="card-title">購物車</h1>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>商品名稱</th>
+										<th>價錢</th>
+										<th>數量</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="item in items" :key="item.id">
+										<td>{{ item.productName }}</td>
+										<td>{{ item.price }}</td>
+										<td>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<button class="btn btn-outline-secondary" @@click=dbqtysub(item.id) type="button">-</button>
+												</div>
+												<input type="text" class="form-control form-control-sm  text-center" :value="item.qty" readonly>
+												<div class="input-group-append">
+													<button class="btn btn-outline-secondary" @@click=dbqtyadd(item.id) type="button">+</button>
+												</div>
+											</div>
+										</td>
+										<td><button class="btn btn-danger btn-sm" @@click=delitem(item.id)>刪除</button></td>
+									</tr>
+								</tbody>
+							</table>
+							<button class="btn btn-success">前往結帳</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <img :src="commodity.imageUrl" alt="product image" class="img-fluid">
-            </div>
-            <div class="col-md-6">
-                <div class="card-body">
-                    <h2 class="card-title">{{ commodity.productName }}</h2>
-                    <p class="card-text">品牌: {{ commodity.brand }}</p>
-                    <p class="card-text">顏色: {{ commodity.color }}</p>
-                    <p class="card-text">價錢: {{ commodity.price }}</p>
-                    <div style="max-width: 400px;">
-                        <div class="row">
-                            <div class="col-3 my-2 d-flex justify-content-center" v-for="size in sizes" :key="size.id">
-                                <button class="btn"
-                                        :class="{ 'btn-primary': size !== selectedSize, 'btn-danger': size === selectedSize }"
-                                        @@click="selectSize(size)">
-                                    {{ size }}
-                                </button>
-                            </div>
-                            
-
-                        </div>
-
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <button @@click="qty--" class="btn btn-outline-secondary">-</button>
-                        <p class="m-0 mx-3">{{ qty }}</p>
-                        <button @@click="qty++" class="btn btn-outline-secondary">+</button>
-                    </div>
-                    <button class="btn btn-primary mt-3" @@click="insert">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <div class="card p-3">
-                    <p class="card-text">產品介紹:{{ commodity.productIntroduce }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<img :src="commodity.imageUrl" alt="product image" class="img-fluid">
+			</div>
+			<div class="col-md-6">
+				<div class="card-body">
+					<h2 class="card-title">{{ commodity.productName }}</h2>
+					<p class="card-text">品牌: {{ commodity.brand }}</p>
+					<p class="card-text">顏色: {{ commodity.color }}</p>
+					<p class="card-text">價錢: {{ commodity.price }}</p>
+					<div style="max-width: 400px;">
+						<div class="row">
+							<div class="col-3 my-2 d-flex justify-content-center" v-for="size in sizes" :key="size.id">
+								<button class="btn"
+										:class="{ 'btn-primary': size !== selectedSize, 'btn-danger': size === selectedSize }"
+										@@click="selectSize(size)">
+									{{ size }}
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex align-items-center">
+						<button @@click="qty--" class="btn btn-outline-secondary">-</button>
+						<p class="m-0 mx-3">{{ qty }}</p>
+						<button @@click="qty++" class="btn btn-outline-secondary">+</button>
+					</div>
+					<button class="btn btn-primary mt-3" @@click="insert">Add to Cart</button>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-4">
+			<div class="col-md-12">
+				<div class="card p-3">
+					<p class="card-text">產品介紹:{{ commodity.productIntroduce }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
-    @section Scripts{
-        <script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
-        <script>
-            function toggleDiv() {
-                var div = document.getElementById("myDiv");
-                if (div.style.display === "none") {
-                    div.style.display = "block";
-                } else {
-                    div.style.display = "none";
-                }
-            }
-        </script>
-        <script>
-            var webApiBaseAddress = "https://localhost:7040";
+@section Scripts{
+	<script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+	<script>
+		function toggleDiv() {
+			var div = document.getElementById("myDiv");
+			if (div.style.display === "none") {
+				div.style.display = "block";
+			} else {
+				div.style.display = "none";
+			}
+		}
+	</script>
+	<script>
+		var webApiBaseAddress = "https://localhost:7040";
 
-            const app = Vue.createApp({
-                data() {
-                    return {
-                        commodity: {},
-                        items: [],
-                        memberId: 3,
-                        qty: 1,
-                        sizes: [],
-                        selectedSize: null
+		const app = Vue.createApp({
+			data() {
+				return {
+					commodity: {},
+					items: [],
+					memberId: 3,
+					qty: 1,
+					sizes: [],
+					selectedSize: null
 
-                    };
-                },
-                mounted() {
-                    var id = location.hash.split('#')[1];
-                    axios
-                        .get(`${webApiBaseAddress}/api/Products/${id}`)
-                        .then((response) => {
-                            this.commodity = response.data;
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
-                    axios.get(`${webApiBaseAddress}/api/CartItems/3`)
-                        .then(response => {
-                            this.items = response.data
-                        })
-                        .catch(error => {
-                            console.log(error)
-                        });
-                        axios.get(`${webApiBaseAddress}/api/ProductSize/sizes`).then((response) => {
-                    this.sizes = response.data;
-                });
-                },
-                methods: {
-                    dbqtyadd(id){
-                        console.log(id)
-                        const index =this.items.findIndex(x => x.id === id);
-                        this.items[index].qty++;
-                    },
-                    dbqtysub(id){
-                        console.log(id)
-                        const index =this.items.findIndex(x => x.id === id);
-                        this.items[index].qty--
-                        if (this.items[index].qty < 0) this.items[index].qty = 0
-                    },
-                    delitem(id) {
-                        console.log(id);
-                        this.items = this.items.filter(x=>x.id !== id);
+				};
+			},
+			mounted() {
+				var id = location.hash.split('#')[1];
+				axios
+					.get(`${webApiBaseAddress}/api/Products/${id}`)
+					.then((response) => {
+						this.commodity = response.data;
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+				axios.get(`${webApiBaseAddress}/api/CartItems/3`)
+					.then(response => {
+						this.items = response.data
+					})
+					.catch(error => {
+						console.log(error)
+					});
+				axios.get(`${webApiBaseAddress}/api/ProductSize/sizes`).then((response) => {
+					this.sizes = response.data;
+				});
+			},
+			methods: {
+				dbqtyadd(id) {
+					console.log(id)
+					const index = this.items.findIndex(x => x.id === id);
+					this.items[index].qty++;
+				},
+				dbqtysub(id) {
+					console.log(id)
+					const index = this.items.findIndex(x => x.id === id);
+					this.items[index].qty--
+					if (this.items[index].qty < 0) this.items[index].qty = 0
+				},
+				delitem(id) {
+					console.log(id);
+					this.items = this.items.filter(x => x.id !== id);
 
-                         axios.delete(`${webApiBaseAddress}/api/CartItems/${id}`)
-                        .then(response => {
-                            //this.items = response.data
-                            console.log("成功")
-                        })
+					axios.delete(`${webApiBaseAddress}/api/CartItems/${id}`)
+						.then(response => {
+							//this.items = response.data
+							console.log("成功")
+						})
 
 
-                    },
-                    selectSize(size) {
-                    this.selectedSize = size;
-                },
-                    insert: function () {
-                        var _this = this;
-                        var cartlist = {};
-                        cartlist.memberId = _this.memberId;
-                        cartlist.productId = _this.commodity.id;
-                        cartlist.qty = _this.qty;
-                        console.log(cartlist);
-                        axios.post(`${webApiBaseAddress}/api/CartItems?memberId=${this.memberId}&productId=${cartlist.productId}&qty=${cartlist.qty}`)
-                            .then(response => {
-                                axios.get(`${webApiBaseAddress}/api/CartItems/3`)
-                                    .then(response => {
-                                        _this.items = response.data;
-                                    })
-                                    .catch(error => {
-                                        console.log(error);
-                                    });
-                                window.location = (`/products/commodity/#${cartlist.productId}`);
-                            })
-                            .catch(error => {
-                                console.log(error);
-                            });
-                    }
+				},
+				selectSize(size) {
+					this.selectedSize = size;
+				},
+				insert: function () {
+					var _this = this;
+					var cartlist = {};
+					cartlist.memberId = _this.memberId;
+					cartlist.productId = _this.commodity.id;
+					cartlist.qty = _this.qty;
+					console.log(cartlist);
+					axios.post(`${webApiBaseAddress}/api/CartItems?memberId=${this.memberId}&productId=${cartlist.productId}&qty=${cartlist.qty}`)
+						.then(response => {
+							axios.get(`${webApiBaseAddress}/api/CartItems/3`)
+								.then(response => {
+									_this.items = response.data;
+								})
+								.catch(error => {
+									console.log(error);
+								});
+							window.location = (`/products/commodity/#${cartlist.productId}`);
+						})
+						.catch(error => {
+							console.log(error);
+						});
+				}
 
 
 
-                }
-            });
+			}
+		});
 
-            app.mount('#app');
-        </script>
-    }
+		app.mount('#app');
+	</script>
+	}
