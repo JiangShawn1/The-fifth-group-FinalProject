@@ -25,52 +25,55 @@
     </style>
 </head>
 <body>
-    <div>
-        <div class="title">
-            <h1>聯絡我們</h1>
+    <div id="app">
+        <div>
+            <div class="title">
+                <h1>聯絡我們</h1>
 
-            <h4>請依照問題的類型留言，同時請留下您的聯絡方式，我們會盡快與您聯繫。</h4>
-        </div>
-        
-        <hr />
-        <div class="maincontent">
-            <div class="row">
-                <div class="col-md-4">
-                    <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="FeedbackContent" class="control-label"></label>
-                            <textarea asp-for="FeedbackContent" class="form-control"></textarea>
-                            <span asp-validation-for="FeedbackContent" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label  class="control-label">如何稱呼</label>
-                            <input asp-for="CustomerName" class="form-control" />
-                            <span asp-validation-for="CustomerName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Email" class="control-label"></label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="QuestionTypeId" class="control-label"></label>
-                            <select asp-for="QuestionTypeId" class="form-control" asp-items="ViewBag.QuestionTypeId"></select>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CreateTime" class="control-label"></label>
-                            <input asp-for="CreateTime" class="form-control" />
-                            <span asp-validation-for="CreateTime" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="送出" class="btn btn-primary" />
-                        </div>
-                    </form>
+                <h4>請依照問題的類型留言，同時請留下您的聯絡方式，我們會盡快與您聯繫。</h4>
+            </div>
+
+            <hr />
+            <div class="maincontent">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="FeedbackContent" class="control-label"></label>
+                                <textarea asp-for="FeedbackContent" class="form-control"></textarea>
+                                <span asp-validation-for="FeedbackContent" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">如何稱呼</label>
+                                <input asp-for="CustomerName" class="form-control" />
+                                <span asp-validation-for="CustomerName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="QuestionTypeId" class="control-label"></label>
+                                <select asp-for="QuestionTypeId" class="form-control" asp-items="ViewBag.QuestionTypeId"></select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CreateTime" class="control-label"></label>
+                                <input asp-for="CreateTime" class="form-control" />
+                                <span asp-validation-for="CreateTime" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="送出" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
+
         </div>
-        
     </div>
+    
     
 </body> 
 </html>
