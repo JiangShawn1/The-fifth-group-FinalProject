@@ -62,9 +62,8 @@ namespace The_fifth_group_FinalAPI.Controllers
 
 		//完成
 		[HttpPost]
-		public async Task<IActionResult> AddCartItem(int memberId, int productId, JObject data)
+		public async Task<IActionResult> AddCartItem(int memberId, int productId, int qty)
 		{
-			int quantity = data["quantity"].ToObject<int>();
 			// 檢查商品是否存在
 			var product = await _context.Products.FindAsync(productId);
 			if (product == null)
@@ -84,7 +83,7 @@ namespace The_fifth_group_FinalAPI.Controllers
 			{
 				MemberId = memberId,
 				ProductId = productId,
-				Qty = quantity
+				Qty = qty
 			};
 			_context.CartItems.Add(cartItem);
 			await _context.SaveChangesAsync();

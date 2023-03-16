@@ -61,7 +61,7 @@
 								<tbody>
 									<tr v-for="item in items" :key="item.id">
 										<td>{{ item.productName }}</td>
-										<td>{{ item.price }}</td>
+										<td>{{ item.price*item.qty }}</td>
 										<td>
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -138,15 +138,17 @@
 				return {
 					commodity: {},
 					items: [],
-					memberId: 3,
 					qty: 1,
 					sizes: [],
 					selectedSize: null
 
 				};
 			},
+			async mounted() {
+				await this.getmemberId();
+			},
 			mounted() {
-				
+
 				var id = location.hash.split('#')[1];
 				axios
 					.get(`${webApiBaseAddress}/api/Products/${id}`)
@@ -166,9 +168,30 @@
 				axios.get(`${webApiBaseAddress}/api/ProductSize/sizes`).then((response) => {
 					this.sizes = response.data;
 				});
-				
+
 			},
 			methods: {
+				async getcartItems() {
+					let memberId = Cookies.get('MemberId');
+					axios.get(`${webApiBaseAddress}/api/CartItems/${memberId}`)
+						.then(response => {
+							let _this = this;
+							_this.items = response.data;
+						})
+						.catch(error => {
+							console.log(error);
+						});
+				},
+				async getmemberId() {
+					let memberId = Cookies.get('MemberId');
+					axios.get(`${webApiBaseAddress}/api/CartItems/?memberId=${memberId}`)
+						.then(response => {
+							this.items = response.data
+						})
+						.catch(error => {
+							console.log(error)
+						});
+				},
 				dbqtyadd(id) {
 					console.log(id)
 					const index = this.items.findIndex(x => x.id === id);
@@ -196,21 +219,17 @@
 					this.selectedSize = size;
 				},
 				insert: function () {
-					var _this = this;
+					let _this = this;
+					_this.checkLogin();
+					let memberId = Cookies.get('MemberId');
 					var cartlist = {};
-					cartlist.memberId = _this.memberId;
 					cartlist.productId = _this.commodity.id;
 					cartlist.qty = _this.qty;
 					console.log(cartlist);
-					axios.post(`${webApiBaseAddress}/api/CartItems?memberId=${this.memberId}&productId=${cartlist.productId}&qty=${cartlist.qty}`)
+					axios.post(`${webApiBaseAddress}/api/CartItems?memberId=${memberId}&productId=${cartlist.productId}&qty=${cartlist.qty}`)
 						.then(response => {
-							axios.get(`${webApiBaseAddress}/api/CartItems/3`)
-								.then(response => {
-									_this.items = response.data;
-								})
-								.catch(error => {
-									console.log(error);
-								});
+							let _this = this;
+							_this.getcartItems();
 							window.location = (`/products/commodity/#${cartlist.productId}`);
 						})
 						.catch(error => {
@@ -218,6 +237,9 @@
 						});
 				},
 				toggleDiv: function () {
+					let _this = this;
+					_this.checkLogin();
+					_this.getcartItems();
 					var div = document.getElementById("myDiv");
 					if (div.style.display == "block") {
 						div.style.display = "none";

@@ -62,7 +62,7 @@
 								<tbody>
 									<tr v-for="item in items" :key="item.id">
 										<td>{{ item.productName }}</td>
-										<td>{{ item.price }}</td>
+										<td>{{ item.price *product.qty }}</td>
 										<td>
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -117,7 +117,7 @@
 							<div class="card-body">
 								<h4 class="card-title">{{ product.productName }}</h4>
 								<p class="card-text">{{ product.brand }} - {{ product.color }}</p>
-								<h5 class="card-text">{{ product.price }}元</h5>
+								<h5 class="card-text">{{ product.price}}元</h5>
 								<div class="d-flex align-items-center">
 									<button @@click="product.qty--" class="btn btn-outline-secondary">-</button>
 									<p class="m-0 mx-3">{{ product.qty }}</p>
@@ -156,20 +156,34 @@
 				}
 			},
 			async mounted() {
-				let memberId = Cookies.get('MemberId');
-				axios.get(`${webApiBaseAddress}/api/CartItems/?memberId=${memberId}`)
-					.then(response => {
-						this.items = response.data
-					})
-					.catch(error => {
-						console.log(error)
-					});
+				await this.getmemberId();
 				await this.searchProducts();
 				await this.getBrands();
 				await this.getColors();				
 			},
 
 			methods: {
+				async getcartItems(){
+					let memberId = Cookies.get('MemberId');
+					axios.get(`${webApiBaseAddress}/api/CartItems/${memberId}`)
+								.then(response => {
+									let _this=this;
+									_this.items = response.data;
+								})
+								.catch(error => {
+									console.log(error);
+								});
+				},
+				async getmemberId(){
+					let memberId = Cookies.get('MemberId');
+					axios.get(`${webApiBaseAddress}/api/CartItems/?memberId=${memberId}`)
+						.then(response => {
+							this.items = response.data
+						})
+						.catch(error => {
+							console.log(error)
+						});
+				},
 				async getBrands() {
 					try {
 						const response = await axios.get('https://localhost:7040/api/brands')
@@ -235,22 +249,20 @@
 
 				},
 				insert(id, qty) {
+					let _this=this;
+					_this.checkLogin();
 					console.log(id)
-					var _this = this;
+					let memberId = Cookies.get('MemberId');
+					console.log(memberId)
 					var cartlist = {};
 					cartlist.memberId = _this.memberId;
 					cartlist.productId = id;
 					cartlist.qty = qty;
 					console.log(cartlist);
-					axios.post(`${webApiBaseAddress}/api/CartItems?memberId=${this.memberId}&productId=${cartlist.productId}&qty=${cartlist.qty}`)
+					axios.post(`${webApiBaseAddress}/api/CartItems?memberId=${memberId}&productId=${cartlist.productId}&qty=${cartlist.qty}`)
 						.then(response => {
-							axios.get(`${webApiBaseAddress}/api/CartItems/3`)
-								.then(response => {
-									_this.items = response.data;
-								})
-								.catch(error => {
-									console.log(error);
-								});
+							let _this=this;
+							_this.getcartItems();
 						})
 						.catch(error => {
 							console.log(error);
@@ -260,6 +272,7 @@
 				toggleDiv: function() {
 					let _this=this;
 					_this.checkLogin();
+					_this.getcartItems();
 					
 					var div = document.getElementById("myDiv");
 					if (div.style.display == "block") {
