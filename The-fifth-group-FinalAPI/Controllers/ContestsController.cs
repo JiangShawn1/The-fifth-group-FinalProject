@@ -175,7 +175,8 @@ namespace The_fifth_group_FinalAPI.Controllers
 						Quota = contestDTO.Quota[i],
 						EnterFee = contestDTO.EnterFee[i],
 					});
-			}		
+			}
+            if(list.Count == 0) { return "提交失敗，至少需要一個比賽項目"; }
 			foreach (var item in list)
 			{
 				_context.ContestCategory.Add(item);
