@@ -1,0 +1,59 @@
+﻿@model IEnumerable<The_fifth_group_FinalProject.Models.Member>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mail)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mail)
+            </td>
+           
+            <td>
+     
+            <td>
+                    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.MemberId">資訊修改</a> 
+                    <a asp-action="Details" class="btn btn-dark" asp-route-id="@item.MemberId">會員資訊</a> 
+              
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,43 @@
+﻿@model The_fifth_group_FinalProject.Models.Member
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div id="app">
+<h1>會員資料</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+           名字
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            帳號
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Account)
+        </dd>
+        <dt class = "col-sm-2">
+            電話
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class = "col-sm-2">
+            信箱
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Mail)
+        </dd>
+  
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.MemberId" class="btn btn-dark" >會員資料修改</a>
+    <a href="https://localhost:7123/" class="btn btn-danger">返回</a>
+</div>
+</div>
