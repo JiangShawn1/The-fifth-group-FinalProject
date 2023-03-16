@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace The_fifth_group_FinalProject.Models
 {
@@ -15,10 +16,21 @@ namespace The_fifth_group_FinalProject.Models
         }
 
         public int MemberId { get; set; }
+        [Display(Name = "名字")]
+        [Required]
         public string Name { get; set; } = null!;
+
+        [Display(Name = "帳號")]
+        [Required]
         public string Account { get; set; } = null!;
+        [Display(Name = "密碼")]
+        [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
+        [Display(Name = "電話")]
+        [Required]
         public string Phone { get; set; } = null!;
+        [Display(Name = "信箱")]
+        [Required]
         public string Mail { get; set; } = null!;
         public bool Subscription { get; set; }
         public bool IsConfirmed { get; set; }

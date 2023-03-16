@@ -6,9 +6,7 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -18,27 +16,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.Account)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
+          
             <th>
                 @Html.DisplayNameFor(model => model.Phone)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Mail)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subscription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsConfirmed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Freeze)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.State)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -60,22 +45,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Mail)
             </td>
+           
             <td>
-                @Html.DisplayFor(modelItem => item.Subscription)
-            </td>
+     
             <td>
-                @Html.DisplayFor(modelItem => item.IsConfirmed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Freeze)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MemberId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MemberId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MemberId">Delete</a>
+                    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.MemberId">資訊修改</a> 
+                    <a asp-action="Details" class="btn btn-dark" asp-route-id="@item.MemberId">會員資訊</a> 
+              
             </td>
         </tr>
 }

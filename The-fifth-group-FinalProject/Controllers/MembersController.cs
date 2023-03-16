@@ -21,11 +21,17 @@ namespace The_fifth_group_FinalProject.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
-              return _context.Members != null ? 
-                          View(await _context.Members.ToListAsync()) :
-                          Problem("Entity set 'TheFifthGroupOfTopicsContext.Members'  is null.");
+            var httpContext = HttpContext;
+            int MemId = int.TryParse(httpContext.Request.Cookies["MemberId"], out int result) ? result : 0;
 
-           
+            if (MemId > 0)
+            {
+                return RedirectToAction("Details", new { id = MemId });
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
         }
 
         // GET: Members/Details/5
@@ -65,7 +71,6 @@ namespace The_fifth_group_FinalProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
             return View(member);
         }
 
@@ -83,7 +88,6 @@ namespace The_fifth_group_FinalProject.Controllers
                 return NotFound();
             }
             return View(member);
-          
         }
 
         // POST: Members/Edit/5

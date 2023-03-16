@@ -3,70 +3,41 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-<h1>Details</h1>
+<div id="app">
+<h1>會員資料</h1>
 
 <div>
-    <h4>Member</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+           名字
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Account)
+            帳號
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Account)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
+            電話
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Phone)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mail)
+            信箱
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Mail)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Subscription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Subscription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsConfirmed)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsConfirmed)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Freeze)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Freeze)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.State)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.State)
-        </dd>
+  
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.MemberId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.MemberId" class="btn btn-dark" >會員資料修改</a>
+    <a href="https://localhost:7123/" class="btn btn-danger">返回</a>
+</div>
 </div>
