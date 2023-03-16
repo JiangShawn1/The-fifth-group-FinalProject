@@ -43,7 +43,7 @@ namespace The_fifth_group_FinalProject.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("login", "Home");
 
             }
             return View();
