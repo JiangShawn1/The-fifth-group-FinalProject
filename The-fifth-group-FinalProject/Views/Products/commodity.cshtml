@@ -146,6 +146,7 @@
 				};
 			},
 			mounted() {
+				
 				var id = location.hash.split('#')[1];
 				axios
 					.get(`${webApiBaseAddress}/api/Products/${id}`)
@@ -165,6 +166,7 @@
 				axios.get(`${webApiBaseAddress}/api/ProductSize/sizes`).then((response) => {
 					this.sizes = response.data;
 				});
+				
 			},
 			methods: {
 				dbqtyadd(id) {
@@ -221,6 +223,13 @@
 						div.style.display = "none";
 					} else {
 						div.style.display = "block";
+					}
+				},
+				checkLogin: function () {
+					let memberId = Cookies.get('MemberId');
+					if (!memberId > 0) {
+						alert("請先進行登入")
+						window.location = "/home/Login";
 					}
 				},
 
