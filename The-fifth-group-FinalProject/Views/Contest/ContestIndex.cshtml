@@ -24,7 +24,7 @@
 	}	
 	</style>
 }
-<div id="app">		
+<div id="app">
 	@*篩選*@
 	<div class="row" style="width:100%;margin-left:auto;margin-right:5px;">
 		<button type="button" class="col-md-auto btn btn-primary" @@click="showModal">新增賽事</button>		
@@ -261,9 +261,7 @@
 					$("#insertModal").modal('show');
 				},
 
-				insert:function(){
-					
-					
+				insert:function(){					
                     var _this=this;
                     var request={};
 					request.Id=0;
@@ -278,7 +276,6 @@
 					request.CategoryId = [_this.categoryId1, _this.categoryId2, _this.categoryId3].filter((n)=>n);
 					request.Quota = [_this.quota1, _this.quota2, _this.quota3].filter((n) => n);
 					request.EnterFee = [_this.enterFee1, _this.enterFee2, _this.enterFee3].filter((n) => n);
-
 					axios.post(`${webApiBaseAddress}/api/Contests`, request).then(response=>{
 						alert(response.data);
 						Cookies.remove('SupplierId');
