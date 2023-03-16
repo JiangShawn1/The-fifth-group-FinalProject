@@ -6,21 +6,16 @@
 
 
 <div>
-    <p>　</p>
     <ul class="progressbar">
         <li class="active">購物車</li>
         <li class="active">訂單資料</li>
         <li class="active">建立訂單</li>
         <li>付款</li>
     </ul>
-    <p>　</p>
-    <p>　</p>
 </div>
 
 <div class="text-center">
-    <p></p>
     <h4>訂單建立成功</h4>
-    <p></p>
 </div>
 
 <div class="card shadow-sm rounded">
@@ -45,7 +40,7 @@
                     @foreach (var item in ViewBag.orderItems)
                     {
                         <tr>
-                            <td>@item.Product.Name</td>
+                            <td>@item.ProductName</td>
                             <td>@item.Amount</td>
                             <td>@item.SubTotal</td>
                         </tr>
@@ -59,8 +54,7 @@
         <hr />
         <div class="row">
             <div class="col-7">
-                <p>收貨人姓名：@Html.DisplayFor(model => model.ShippingMethod)</p>
-                <p>收貨人電話：@Html.DisplayFor(model => model.OrderContent)</p>
+                <p>收貨人電話：@Html.DisplayFor(model => model.ShippingMethod)</p>
                 <p>收貨人地址：@Html.DisplayFor(model => model.OrderAddress)</p>
             </div>
             <div class="col-5">
@@ -109,7 +103,7 @@
                     items: [
     @foreach (var item in ViewBag.orderItems)
     {
-        @:{ name: '@item.Product.Name', unit_amount: { value: '@item.SubTotal', currency_code: 'TWD' }, quantity: '@item.Amount' },
+        @:{ name: '@item.ProductName', unit_amount: { value: '@item.SubTotal', currency_code: 'TWD' }, quantity: '@item.Amount' },
     }
                                     ]
                 }]

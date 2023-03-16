@@ -31,33 +31,53 @@ namespace The_fifth_group_FinalAPI.Controllers
 		[HttpGet("{memberId}")]
 		public async Task<ActionResult<List<CartItemsDTO>>> GetCartItemsByMemberId(int memberId)
 		{
-			var cartItems = await _context.CartItems
-				.Include(c => c.Product)
-				.Where(c => c.MemberId == memberId)
-				.ToListAsync();
+			//var cartItems = await _context.CartItems
+			//	.Include(c => c.Product)
+			//	.Where(c => c.MemberId == memberId)
+			//	.ToListAsync();
 
-			if (cartItems == null)
-			{
-				return NotFound();
-			}
+			//if (cartItems == null)
+			//{
+			//	return NotFound();
+			//}
 
-			var cartItemsDTOs = new List<CartItemsDTO>();
-			foreach (var cartItem in cartItems)
+			//var cartItemsDTOs = new List<CartItemsDTO>();
+			//foreach (var cartItem in cartItems)
+			//{
+			//	cartItemsDTOs.Add(new CartItemsDTO()
+			//	{
+			//		Id = cartItem.Id,
+			//		ImageUrl = cartItem.Product.ImageUrl,
+			//		Member_Id = cartItem.MemberId,
+			//		ProductName = cartItem.Product.ProductName,
+			//		Price = cartItem.Product.Price,
+			//		Qty = cartItem.Qty
+
+			//	});
+			//}
+
+			//return cartItemsDTOs;
+
+			return new List<CartItemsDTO>()
 			{
-				cartItemsDTOs.Add(new CartItemsDTO()
+				new CartItemsDTO()
 				{
-					Id = cartItem.Id,
-					ImageUrl = cartItem.Product.ImageUrl,
-					Member_Id = cartItem.MemberId,
-					ProductName = cartItem.Product.ProductName,
-					Price = cartItem.Product.Price,
-					Qty = cartItem.Qty
+                    ProductName = "波奇塔",
+                    ImageUrl = "https://i.imgur.com/sSqc1ZN.gif",
+                    Qty = 10,
+                    Price = 100,
+                },
 
-				});
-			}
+                new CartItemsDTO()
+                {
+                    ProductName = "小小紅",
+                    ImageUrl = "https://i.imgur.com/sCRL4fF.gif",
+                    Qty = 5,
+                    Price = 50,
+                }
+            };
 
-			return cartItemsDTOs;
-		}
+        }
 
 
 		//完成
