@@ -112,6 +112,37 @@ namespace The_fifth_group_FinalAPI.Controllers
             return NoContent();
         }
 
+        [HttpPut("IsPaid/{id}")]
+        public async Task<IActionResult> IsPaid(int id)
+        {
+            Orders order = await _context.Orders.FindAsync(id);
+            if (order == null)
+            {
+                return BadRequest();
+            }
+            order.TradeStatus = 1;
+
+            _context.Entry(order).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OrdersExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -148,7 +179,7 @@ namespace The_fifth_group_FinalAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Orders>> PostOrders(Orders orders)
         {
-            _context.Orders.Add(orders);
+            _context.Add(orders);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetOrders", new { id = orders.Id }, orders);
