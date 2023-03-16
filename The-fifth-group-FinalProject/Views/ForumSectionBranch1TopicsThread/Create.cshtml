@@ -1,0 +1,61 @@
+﻿@model The_fifth_group_FinalProject.Models.ForumSectionBranch1TopicsThread
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>ForumSectionBranch1TopicsThread</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TopicId" class="control-label"></label>
+                <select asp-for="TopicId" class ="form-control" asp-items="ViewBag.TopicId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TopicState" class="control-label"></label>
+                <input asp-for="TopicState" class="form-control" />
+                <span asp-validation-for="TopicState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReplyNumber" class="control-label"></label>
+                <input asp-for="ReplyNumber" class="form-control" />
+                <span asp-validation-for="ReplyNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReplyContent" class="control-label"></label>
+                <input asp-for="ReplyContent" class="form-control" />
+                <span asp-validation-for="ReplyContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReplyTime" class="control-label"></label>
+                <input asp-for="ReplyTime" class="form-control" />
+                <span asp-validation-for="ReplyTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReplyState" class="control-label"></label>
+                <input asp-for="ReplyState" class="form-control" />
+                <span asp-validation-for="ReplyState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReplyMemberId" class="control-label"></label>
+                <select asp-for="ReplyMemberId" class ="form-control" asp-items="ViewBag.ReplyMemberId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
