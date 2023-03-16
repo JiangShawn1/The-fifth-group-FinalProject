@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Net.Http;
 using System.Text;
 using System.Xml.Linq;
 using The_fifth_group_FinalAPI.DTOs;
@@ -57,24 +58,6 @@ namespace The_fifth_group_FinalProject.Controllers
 
         public IActionResult Checkout()
         {
-            //if (SessionHelper.GetObjectFromJson<List<OrderItem>>(HttpContext.Session, "cart") == null)
-            //{
-            //    return RedirectToAction("Index", "Cart");
-            //}
-
-            //var myOrder = new Order()
-            //{
-            //    MemberId = 0,     //取得訂購人ID
-            //    OrderNumber = "0", //取得訂購人帳號
-            //    OrderItem = SessionHelper.                 //取得購物車資料
-            //        GetObjectFromJson<List<OrderItem>>(HttpContext.Session, "cart")
-            //};
-            //myOrder.Amount = myOrder.OrderItem.Sum(m => m.SubTotal); //計算訂單總額
-
-            //ViewBag.CartItems = SessionHelper.
-            //    GetObjectFromJson<List<PCartItem>>(HttpContext.Session, "cart");
-
-            //return View(myOrder);
             return View();
         }
 
@@ -100,7 +83,7 @@ namespace The_fifth_group_FinalProject.Controllers
                     {
                         ProductName = ci.ProductName,
                         Amount = ci.Qty,
-                        SubTotal = ci.Qty * ci.Price
+                        SubTotal = ci.Price,
                     }).ToList();
 
                     var orders = new Orders()
@@ -111,7 +94,7 @@ namespace The_fifth_group_FinalProject.Controllers
                         TradeStatus = 0,
                         OrderType = 1,
                         OrderStatus = 0,
-                        Amount = order.OrderItem.Sum(ci => ci.SubTotal),
+                        Amount = order.OrderItem.Sum(ci => ci.SubTotal * ci.Amount),
                         OrderContent = JsonConvert.SerializeObject(order.OrderItem),
                         ShippingMethod = order.ShippingMethod,
                         OrderAddress = order.OrderAddress,
@@ -132,9 +115,16 @@ namespace The_fifth_group_FinalProject.Controllers
                     {
                         var resContent = await res.Content.ReadAsStringAsync();
                         var result = JsonConvert.DeserializeObject<Orders>(resContent);
-                        //todo 清除購物車
 
-                        return RedirectToAction("ReviewOrder", new { Id = result.Id });
+                        var delrep = await httpClient.DeleteAsync($"https://localhost:7040/api/Orders/ClearCart/{order.MemberId}");
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("ReviewOrder", new { Id = result.Id });
+                        }
+                        else
+                        {
+                            return StatusCode((int)response.StatusCode);
+                        }
                     }
                     else
                     {
@@ -189,49 +179,14 @@ namespace The_fifth_group_FinalProject.Controllers
             {
                 return NotFound();
             }
-
-            using (var httpClient = new HttpClient())
+            if (isSuccess)
             {
-
-                var response = await httpClient.PutAsync($"https://localhost:7040/api/Orders/IsPaid/{id}", null); // 使用 PUT 方法呼叫 API
-
-                if (response.IsSuccessStatusCode)
+                using (var httpClient = new HttpClient())
                 {
-                    return Ok();
-                }
-                else
-                {
-                    return RedirectToAction("ReviewOrder", new { Id = id });
+                    var response = await httpClient.PutAsync($"https://localhost:7040/api/Orders/IsPaid/{id}", null);
                 }
             }
-
-            //var order = await _context.Order.FirstOrDefaultAsync(p => p.Id == Id);
-            //if (order == null)
-            //{
-            //    return NotFound();
-            //}
-            //else
-            //{
-            //    if (isSuccess)
-            //    {
-            //        order.isPaid = true;
-            //        _context.Update(order);
-            //        await _context.SaveChangesAsync();  //更新訂單狀態
-            //    }
-            //    return RedirectToAction("ReviewOrder", new { Id = order.Id });
-            //}
+            return RedirectToAction("Index");
         }
-        //private List<CartItem> GetOrderItems(int orderId)
-        //{
-        //    var OrderItems = _context.OrderItem.Where(p => p.OrderId == orderId).ToList();
-        //    List<CartItem> orderItems = new List<CartItem>();
-        //    foreach (var orderitem in OrderItems)
-        //    {
-        //        CartItem item = new PCartItem(orderitem);
-        //        item.Product = _context.Product.Single(x => x.Id == orderitem.ProductId);
-        //        orderItems.Add(item);
-        //    }
-        //    return orderItems;
-        //}
     }
 }

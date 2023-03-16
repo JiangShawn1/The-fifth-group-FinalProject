@@ -1,13 +1,17 @@
 ﻿@model The_fifth_group_FinalProject.Models.Order
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div id="app">
-    <div class="mt-5">
+    <div>
+        <p>　</p>
         <ul class="progressbar">
-            <li :class="{ active: step === 1 }">購物車</li>
-            <li :class="{ active: step === 2 }">訂單資料</li>
-            <li :class="{ active: step === 3 }">建立訂單</li>
-            <li :class="{ active: step === 4 }">付款</li>
+            <li class="active">購物車</li>
+            <li class="active">訂單資料</li>
+            <li>建立訂單</li>
+            <li>付款</li>
         </ul>
+        <p>　</p>
+        <p>　</p>
     </div>
 
     <h4>訂單資料</h4>
@@ -81,9 +85,10 @@
             </div>
         </div>
     </form>
-    <p></p>
-    <button class="btn btn-sm btn-outline-secondary" asp-controller="Cart" asp-action="Index"><i class="fas fa-angle-left"></i> 返回購物車</button>
+    <a class="btn btn-sm btn-outline-secondary mt-2" asp-controller="Cart" asp-action="Index"><i class="fas fa-angle-left"></i> 返回購物車</a>
 </div>
+
+
 @section Scripts {
     <script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
@@ -93,7 +98,6 @@
         var vueApp = {
             data() {
                 return {
-                    step: 1,
                     cartItems: [],
                     coupon: '',
                     total: 0,

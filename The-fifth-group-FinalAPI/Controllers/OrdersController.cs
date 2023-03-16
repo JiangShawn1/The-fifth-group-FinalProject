@@ -201,10 +201,29 @@ namespace The_fifth_group_FinalAPI.Controllers
             return NoContent();
         }
 
+        [HttpDelete("ClearCart/{id}")]
+        public async Task<IActionResult> ClearCart(int id)
+        {
+            List<CartItems> cartItems = _context.CartItems.Where(c => c.MemberId == id).ToList();
+            if (cartItems == null)
+            {
+                return NotFound();
+            }
+            foreach(var ci in cartItems)
+            {
+                _context.CartItems.Remove(ci);
+            }
+            
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         [HttpPost("Filter")]    //Uri: api/Orders/Filter
         public async Task<IEnumerable<Orders>> FilterOrders([FromBody] Orders orders)
         {
             return _context.Orders
+                .Where(o => o.MemberId == orders.MemberId)
                 .Where(o => o.OrderNumber.Contains(orders.OrderNumber));
         }
 

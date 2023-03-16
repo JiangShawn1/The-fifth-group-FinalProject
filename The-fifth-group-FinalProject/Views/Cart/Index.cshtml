@@ -54,16 +54,21 @@
                 .progressbar li.active + li:after {
                     background-color: #55b776;
                 }
+
+                
 </style>
 
-<div id="app" >
-    <div class="mt-5">
+<div id="app">
+    <div>
+        <p>　</p>
         <ul class="progressbar">
-            <li :class="{ active: step === 1 }">購物車</li>
-            <li :class="{ active: step === 2 }">訂單資料</li>
-            <li :class="{ active: step === 3 }">建立訂單</li>
-            <li :class="{ active: step === 4 }">付款</li>
+            <li class="active">購物車</li>
+            <li>訂單資料</li>
+            <li>建立訂單</li>
+            <li>付款</li>
         </ul>
+        <p>　</p>
+        <p>　</p>
     </div>
 
     <div class="card shadow rounded">
@@ -113,7 +118,7 @@
         </div>
     </div>
 
-    <div class="mt-3 d-flex">
+    <div class="mt-3 d-flex justify-content-end">
         <a class="btn btn-secondary mx-2 active" role="button" aria-pressed="true" asp-controller="Products" asp-action="Index">繼續購物</a>
         <a class="btn btn-primary mx-2 active" role="button" aria-pressed="true" asp-controller="Orders" asp-action="Checkout">前往結帳</a>
     </div>
@@ -131,7 +136,6 @@
         var vueApp = {
             data() {
                 return {
-                    step: 1,
                     cartItems: [],
                     coupon: '',
                     total: 0,

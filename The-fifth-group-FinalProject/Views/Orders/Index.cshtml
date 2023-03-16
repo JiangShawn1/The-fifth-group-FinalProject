@@ -1,15 +1,14 @@
-﻿
-@section Styles{
-	<style>		
-	
-	</style>
+﻿@section Styles{
+    <style>
+
+    </style>
 }
 
 <div id="app">
     <div class="row" style="width:50%;margin-left:auto;margin-right:0">
         <label class="col-lg-3">請輸入篩選關鍵字</label>
         <input class="col-lg-7 form-control" placeholder="篩選訂單" v-model="Filter" />
-        <button type="button" class="col-lg-2 btn btn-primary" @@click="filterOrders">篩選</button>
+        <button type="button" class="col-lg-2 btn btn-primary mt-1" @@click="filterOrders">篩選</button>
     </div>
     <div class="container">
         <div class="row">
@@ -18,24 +17,78 @@
                     <thead>
                         <tr>
                             <td>訂單編號</td>
+                            <td>金額</td>
                             <td>訂單狀態</td>
                             <td>交易狀態</td>
                             <td>建立時間</td>
+                            <td></td>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in Orders">
-                            <td>{{item.orderNumber}}</td>
+                        <tr v-for="(item, index) in Orders" :key="index">
+                            <td class="text-primary">{{item.orderNumber}}</td>
+                            <td class="text-danger">$ {{item.amount}}</td>
                             <td>{{item.orderStatus}}</td>
-                            <td>{{item.tradeStatus}}</td>
+                            <td :class="{ 'text-success': item.tradeStatus === '已付款' }">{{item.tradeStatus}}</td>
                             <td>{{item.createAt}}</td>
+                            <td>
+                                <button type="button" class="btn btn-secondary btn-sm mx-2" @@click="showModal(item)">詳細</button>
+                                <button type="button" :disabled="item.tradeStatus === '已付款'" class="btn btn-danger btn-sm" @@click="goPay(item.id)">去付款</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">訂單詳細內容</h4>
+                    <button type="button" class="btn-close" aria-label="Close" @@click="hideModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="form-group">
+                            <label class="form-label">訂單編號: {{ Detail.orderNumber }}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">訂單狀態: {{ Detail.orderStatus }}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">交易狀態: {{ Detail.tradeStatus }}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">總金額: {{ Detail.amount }}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">收件人電話: {{ Detail.shippingMethod }}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">收件人地址: {{ Detail.orderAddress }}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">建立時間: {{ Detail.createAt }}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">內容細項: </label>
+                        </div>
+                        <div>
+                            <ul>
+                                <li v-for="pd in products">
+                                    品名: {{ pd.ProductName }}, 數量: {{ pd.Amount }}, 單價: {{ pd.SubTotal }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- /.modal-body -->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
+
+
 
 
 @section Scripts
@@ -43,12 +96,15 @@
     <script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
+
     <script>
         var webApiBaseAddress = "https://localhost:7040";
         var vueApp = {
             data() {
                 return {
                     Orders: [],
+                    Detail: {},
+                    products: [],
                     Filter: "",
                     id: null,
                     memberId: "",
@@ -66,23 +122,52 @@
             },
             mounted: function () {
                 let _this = this;
-				_this.checkLogin();
+                //_this.checkLogin();
                 _this.getAllOrders();
             },
             methods: {
                 getAllOrders: function () {
                     let _this = this;
                     let memberId = Cookies.get('MemberId');
-                    axios.get(`${webApiBaseAddress}/api/Orders?memberId=${memberId}`).then(
+                    axios.get(`${webApiBaseAddress}/api/Orders?memberId=3`).then(
                         response => {
                             console.log(response.data);
                             _this.Orders = response.data;
-                            var OrdersList = [];
-                            for (var i = 0; i < _this.Orders.length; i++) {
-                                var item = {};
+                            let OrdersList = [];
+                            for (let i = 0; i < _this.Orders.length; i++) {
+                                let item = {};
                                 item = _this.Orders[i];
+
+                                item.orderNumber = item.orderNumber.substring(0, 10);
+
+                                switch (item.orderStatus) {
+                                    case 0:
+                                        item.orderStatus = "未處理";
+                                        break;
+                                    case 1:
+                                        item.orderStatus = "作業中";
+                                        break;
+                                    case 2:
+                                        item.orderStatus = "已出貨";
+                                        break;
+                                    case 3:
+                                        item.orderStatus = "已完成";
+                                        break;
+                                    default:
+                                        return;
+                                };
+
+                                if (item.tradeStatus){
+                                    item.tradeStatus = "已付款";
+                                }else{
+                                    item.tradeStatus = "未付款";
+                                }
+
+                                let date = new Date(item.createAt);
+                                item.createAt = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes()}`;
+
                                 OrdersList.push(item);
-                                
+
                             }
                             _this.Orders = OrdersList;
                         }
@@ -92,6 +177,7 @@
                     let _this = this;
                     var request = {};
                     request.OrderNumber = _this.Filter;
+                    request.MemberId = Cookies.get('MemberId');
                     axios.post(`${webApiBaseAddress}/api/Orders/Filter`, request).then(
                         response => {
                             _this.Orders = response.data;
@@ -106,12 +192,25 @@
                     );
                 },
                 checkLogin: function () {
-					let memberId = Cookies.get('MemberId');
-					if (!memberId > 0) {
-						alert("請先進行登入")
-						window.location = "/home/Login";
-					}
-				},
+                    let memberId = Cookies.get('MemberId');
+                    if (!memberId > 0) {
+                        alert("請先進行登入")
+                        window.location = "/home/Login";
+                    }
+                },
+                showModal: function (item) {
+                    console.log(item)
+                    this.Detail = item;
+                    this.products = JSON.parse(item.orderContent);
+                    $("#insertModal").modal('show');
+                },
+                hideModal: function () {
+                    $("#insertModal").modal('hide');
+                },
+                goPay: function (id) {
+                    console.log(id);
+                    window.location.href = `/Orders/ReviewOrder/${id}`
+                },
             }
         }
         var app = Vue.createApp(vueApp).mount("#app");

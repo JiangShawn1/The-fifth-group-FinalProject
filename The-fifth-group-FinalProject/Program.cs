@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using The_fifth_group_FinalProject.Controllers;
 using The_fifth_group_FinalProject.Data;
 using The_fifth_group_FinalProject.Models;
@@ -25,10 +27,14 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 	.AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-// ³]©w session middleware
+builder.Services.AddSingleton<HtmlEncoder>(
+    HtmlEncoder.Create(allowedRanges: new[] {
+        UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs }));
+
+// ï¿½]ï¿½w session middleware
 builder.Services.AddSession(options =>
 {
-    // ³]©w session ¹O®É®É¶¡¬° 20 ¤ÀÄÁ
+    // ï¿½]ï¿½w session ï¿½Oï¿½É®É¶ï¿½ï¿½ï¿½ 20 ï¿½ï¿½ï¿½ï¿½
     options.IdleTimeout = TimeSpan.FromMinutes(20);
 });
 
