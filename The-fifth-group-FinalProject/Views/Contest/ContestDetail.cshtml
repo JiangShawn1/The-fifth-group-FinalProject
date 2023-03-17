@@ -217,8 +217,17 @@
 																 	
 				},
 				gotoContestRegistration: function () {
-					var id = location.hash.split('#')[1];
-					window.location = `https://localhost:7123/Contest/ContestRegistration/#${id}`;
+					let _this = this;
+					var today = new Date();
+					var DeadlineString = _this.ContestsDTOes.registrationDeadline.substr(0, 10);
+					var registrationDeadline = new Date(DeadlineString);
+					if (registrationDeadline >= today) {						
+						var id = location.hash.split('#')[1];
+						window.location = `https://localhost:7123/Contest/ContestRegistration/#${id}`;
+					}
+					else{
+					alert("報名已截止");
+					}
 				},
 
 			},
