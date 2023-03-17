@@ -78,7 +78,7 @@
 									</tr>
 								</tbody>
 							</table>
-							<button class="btn btn-success">前往結帳</button>
+							<button class="btn btn-success" @@click="gotoCart">前往結帳</button>
 						</div>
 					</div>
 				</div>
@@ -289,6 +289,10 @@
 						alert("請先進行登入")
 						window.location = "/home/Login";						
 					};
+				},
+
+				gotoCart: function () {
+					window.location = "/cart/index";
 				},
 
 			},
