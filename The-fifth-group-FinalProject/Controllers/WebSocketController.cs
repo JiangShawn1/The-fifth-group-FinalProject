@@ -115,10 +115,9 @@ namespace The_fifth_group_FinalProject.Controllers
                     Broadcast(JsonConvert.SerializeObject(new
                     {
                         userName = "客服",
-                        message = $"{Message}at {DateTime.Now}"
+                        message = $"{Message} at{DateTime.Now}",                        
                     }));
                 }
-                
 
                 res = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             }
