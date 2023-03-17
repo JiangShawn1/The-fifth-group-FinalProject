@@ -95,9 +95,9 @@
                             <td>{{ item.price }}</td>
                             <td>{{ item.qty }}</td>
                             <td>{{ item.subtotal }}</td>
-                            <!-- <td>
-                              <a class="btn btn-sm btn-danger" @@click="removeItem(index)">Delete</a>
-                            </td> -->
+                            <td>
+                              <a class="btn btn-sm btn-danger" @@click="removeItem(item.id)">刪除</a>
+                            </td> 
                         </tr>
                     </tbody>
                 </table>
@@ -143,14 +143,14 @@
             },
             mounted: function () {
                 let _this = this;
-                // _this.checkLogin();
+                _this.checkLogin();
                 _this.getAllOrders();
             },
             methods: {
                 getAllOrders: function () {
                     let _this = this;
                     let memberId = Cookies.get('MemberId');
-                    axios.get(`${webApiBaseAddress}/api/CartItems/3`).then(
+                    axios.get(`${webApiBaseAddress}/api/CartItems/${memberId}`).then(
                         res => {
                             console.log(res.data);
                             _this.cartItems = res.data;
@@ -175,6 +175,13 @@
                         window.location = "/home/Login";
                     }
                 },
+                removeItem(id) {
+					axios.delete(`${webApiBaseAddress}/api/CartItems/${id}`)
+						.then(response => {
+                            this.getAllOrders();
+							console.log("刪除 "+id);
+						})
+				},
             }
         }
         var app = Vue.createApp(vueApp).mount("#app");

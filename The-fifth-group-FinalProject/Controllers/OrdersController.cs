@@ -161,7 +161,6 @@ namespace The_fifth_group_FinalProject.Controllers
                     }
 
                     data.OrderItem = JsonConvert.DeserializeObject<List<OrderItem>>(data.OrderContent);
-                    ViewBag.orderItems = data.OrderItem;
 
                     return View(data);
                 }

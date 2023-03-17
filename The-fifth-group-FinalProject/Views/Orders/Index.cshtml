@@ -1,8 +1,4 @@
-﻿@section Styles{
-    <style>
-
-    </style>
-}
+﻿
 
 <div id="app">
     <div class="row" style="width:50%;margin-left:auto;margin-right:0">
@@ -122,14 +118,14 @@
             },
             mounted: function () {
                 let _this = this;
-                //_this.checkLogin();
+                _this.checkLogin();
                 _this.getAllOrders();
             },
             methods: {
                 getAllOrders: function () {
                     let _this = this;
                     let memberId = Cookies.get('MemberId');
-                    axios.get(`${webApiBaseAddress}/api/Orders?memberId=3`).then(
+                    axios.get(`${webApiBaseAddress}/api/Orders?memberId=${memberId}`).then(
                         response => {
                             console.log(response.data);
                             _this.Orders = response.data;

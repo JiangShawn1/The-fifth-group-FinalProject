@@ -36,16 +36,19 @@
                         <tr>
                             <th>商品名稱</th>
                             <th>數量</th>
+                            <th>單價</th>
                             <th>小計</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in ViewBag.orderItems)
+                        @foreach (var item in @Model.OrderItem)
                         {
                             <tr>
                                 <td>@item.ProductName</td>
                                 <td>@item.Amount</td>
                                 <td>@item.SubTotal</td>
+                                <td>@(item.Amount * item.SubTotal)
+                                </td>
                             </tr>
                         }
                     </tbody>
