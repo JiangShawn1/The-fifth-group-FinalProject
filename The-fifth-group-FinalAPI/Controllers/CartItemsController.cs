@@ -57,7 +57,27 @@ namespace The_fifth_group_FinalAPI.Controllers
 			}
 
 			return cartItemsDTOs;
-		}
+
+			//return new List<CartItemsDTO>()
+			//{
+			//	new CartItemsDTO()
+			//	{
+   //                 ProductName = "波奇塔",
+   //                 ImageUrl = "https://i.imgur.com/sSqc1ZN.gif",
+   //                 Qty = 10,
+   //                 Price = 100,
+   //             },
+
+   //             new CartItemsDTO()
+   //             {
+   //                 ProductName = "小小紅",
+   //                 ImageUrl = "https://i.imgur.com/sCRL4fF.gif",
+   //                 Qty = 5,
+   //                 Price = 50,
+   //             }
+   //         };
+
+        }
 
 
 		//完成

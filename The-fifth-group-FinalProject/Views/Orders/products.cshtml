@@ -4,91 +4,93 @@
 <html lang="en">
 
 <head>
-    <title></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- jquery CDN include -->
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <!-- CSS include -->
+	<title></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- jquery CDN include -->
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+			integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+	<!-- CSS include -->
 
 </head>
 
 <body>
-    <script>
-        let baseLoginPayUrl = 'https://localhost:7040/api/LinePay/';
-        function requestPayment() {
-            // 交易訂單假資料
-            payment = {
-                amount: @Model.EnterFee,
-                currency: "TWD",
-                orderId: Date.now().toString() + @Model.Id,
-                packages: [
-                    {
-                        id: "0",
-                        amount: @Model.EnterFee,
-                        name: "賽事報名",
-                        products: [
-                            {
-                                name: "賽事報名",
-                                imageUrl: "https://i.imgur.com/Cc3Q9RG.jpg",
-                                quantity: 1,
-                                price: @Model.EnterFee,
-                            }
-                        ]
-                    },
-                ],
-                RedirectUrls: {
-                    ConfirmUrl: "https://localhost:7123/Orders/confirm",
-                    CancelUrl: "https://localhost:7040/api/LinePay/Cancel",
-                },
-            };
+	<script>
+		let baseLoginPayUrl = 'https://localhost:7040/api/LinePay/';
+		function requestPayment() {
+			// 交易訂單假資料
+			payment = {
+				amount: @Model.EnterFee,
+				currency: "TWD",
+				orderId: Date.now().toString() + @Model.Id,
+				packages: [
+					{
+						id: "0",
+						amount: @Model.EnterFee,
+						name: "賽事報名",
+						products: [
+							{
+								name: "賽事報名",
+								imageUrl: "https://i.imgur.com/Cc3Q9RG.jpg",
+								quantity: 1,
+								price: @Model.EnterFee,
+							}
+						]
+					},
+				],
+				RedirectUrls: {
+					ConfirmUrl: "https://localhost:7123/Orders/confirm",
+					CancelUrl: "https://localhost:7040/api/LinePay/Cancel",
+				},
+			};
 
-            // 送出 交易申請至商家 server
-            $.post({
-                url: baseLoginPayUrl + "Create",
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify(payment),
-                success: (res) => {
-                    window.location = res.info.paymentUrl.web;
-                },
-                error: (err) => {
-                    console.log(err);
-                }
-            })
-        }
-    </script>
-    <!-- 商品畫面 -->
-    <center>
-        <table class="table">
-            <thead>
-                <tr>
-                    <td> @Model.Contests </td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><img src="https://i.imgur.com/Cc3Q9RG.jpg"></td>
-                </tr>
-                <tr>
-                    <td> 姓名 : @Model.Name </td>
-                </tr>
-                <tr>
-                    <td> 組別 : @Model.Category </td>
-                </tr>
-                <tr>
-                    <td> 距離 : @Model.Distance </td>
-                </tr>
-                <tr>
-                    <td> 費用 : @Model.EnterFee </td>
-                </tr>
-                <tr>
-                    <td><button onclick="requestPayment()"> Line Pay 付款</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </center>
+			// 送出 交易申請至商家 server
+			$.post({
+				url: baseLoginPayUrl + "Create",
+				dataType: "json",
+				contentType: "application/json",
+				data: JSON.stringify(payment),
+				success: (res) => {
+					window.location = res.info.paymentUrl.web;
+				},
+				error: (err) => {
+					console.log(err);
+				}
+			})
+		}
+	</script>
+	<!-- 商品畫面 -->
+	<center>
+		<div id="app">
+			<table class="table">
+				<thead>
+					<tr>
+						<td><h2>@Model.Contests</h2>  </td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><img src="https://i.imgur.com/Cc3Q9RG.jpg" height="500px"></td>
+					</tr>
+					<tr>
+						<td> 姓名 : @Model.Name </td>
+					</tr>
+					<tr>
+						<td> 組別 : @Model.Category </td>
+					</tr>
+					<tr>
+						<td> 距離 : @Model.Distance </td>
+					</tr>
+					<tr>
+						<td> 費用 : @Model.EnterFee </td>
+					</tr>
+					<tr>
+						<td><button class="btn btn-success" onclick="requestPayment()"> Line Pay 付款</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</center>
 </body>
 
 </html>

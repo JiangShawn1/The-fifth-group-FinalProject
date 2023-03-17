@@ -30,17 +30,4 @@ namespace The_fifth_group_FinalProject.Models
         public int Amount { get; set; }
         public int SubTotal { get; set; }
     }
-    public class PCartItem : OrderItem
-    {
-        public PCartItem() { }
-        public PCartItem(OrderItem order)
-        {
-            this.OrderId = order.OrderId;
-            this.ProductName = order.ProductName;
-            this.Amount = order.Amount;
-            this.SubTotal = order.SubTotal;
-        }
-        public Product Product { get; set; } //商品內容
-        public string imageSrc { get; set; } //商品圖片
-    }
 }
