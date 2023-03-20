@@ -37,6 +37,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
+			<button type="button" class="btn btn-light" @@click="inputValue">輸入</button>
 			<button type="button" class="btn btn-warning" @@click="close">關閉</button>
 			<button type="button" class="btn btn-primary" @@click="insert">新增</button>
 		</div>
@@ -110,6 +111,13 @@
 						alert("請先進行登入")
 						window.location = "/home/Login";
 					}
+				},
+				inputValue: function () {
+					let _this = this;
+					_this.name="吳參群";
+					_this.phone="0966541238";
+					_this.gender = true;
+					_this.address = "桃園市中壢區新生路二段421號";
 				},
 		    },
 		};

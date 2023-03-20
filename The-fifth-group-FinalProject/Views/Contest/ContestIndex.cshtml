@@ -1,316 +1,333 @@
 ﻿@section Styles{
-    <style>
-        .event-item {
-            position: relative;
-            display: inline-block;
-            font-size: .8125em;
-            color: #191823;
-            background-color: #E0E0E0;
-            padding: 4px 6px;
-            margin: 3px;
-            border-radius: 3px;
-        }
+	<style>
+		.event-item {
+			position: relative;
+			display: inline-block;
+			font-size: .8125em;
+			color: #191823;
+			background-color: #E0E0E0;
+			padding: 4px 6px;
+			margin: 3px;
+			border-radius: 3px;
+		}
 
-            .event-item:hover {
-                color: white;
-                background-color: black;
-            }
+			.event-item:hover {
+				color: white;
+				background-color: black;
+			}
 
-        .myMOUSE {
-            cursor: pointer;
-            color: black;
-            text-decoration: none
-        }
+		.myMOUSE {
+			cursor: pointer;
+			color: black;
+			text-decoration: none
+		}
 
-            .myMOUSE:hover {
-                color: black;
-            }
-    </style>
+			.myMOUSE:hover {
+				color: black;
+			}
+	</style>
 }
-    <div id="app">
-        @*篩選*@
-        <div class="row" style="width:100%;margin-left:auto;margin-right:5px;">
-            <button type="button" class="col-md-auto btn btn-primary" @@click="showModal">新增賽事</button>
-            <div class="col"></div>
-            <div class="col"><input class="form-control" v-model="Filter" placeholder="請輸入地區或活動名稱" /></div>
-            <div class="col-md-auto"><button class="btn btn-outline-primary" @@click="filterContestsDTOs">篩選</button></div>
-        </div>
+<div id="app">
+	@*篩選*@
+	<div class="row" style="width:100%;margin-left:auto;margin-right:5px;">
+		<button type="button" class="col-md-auto btn btn-primary" @@click="showModal">新增賽事</button>
+		<div class="col"></div>
+		<div class="col"><input class="form-control" v-model="Filter" placeholder="請輸入地區或活動名稱" /></div>
+		<div class="col-md-auto"><button class="btn btn-outline-primary" @@click="filterContestsDTOs">篩選</button></div>
+	</div>
 
-        <div class="row">
-            <div class="col-12 mt-2">
-                <table class="table table-striped table-hover ">
-                    <thead>
-                        <tr>
-                            <td>活動日期</td>
-                            <td>地區</td>
-                            <td>賽事/活動	</td>
-                            <td>項目</td>
-                            <td>活動狀態</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="item in ContestsDTOes">
-                            <td>{{item.contestDateString}}</td>
-                            <td>{{item.area}}</td>
-                            <td><a class="myMOUSE" @@click="selectContest(item.id)">{{item.name}}</a></td>
-                            <td><span class="event-item" v-for="distance in item.distance"> {{distance}}K </span> </td>
-                            <td>{{item.status}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+	<div class="row">
+		<div class="col-12 mt-2">
+			<table class="table table-striped table-hover ">
+				<thead>
+					<tr>
+						<td>活動日期</td>
+						<td>地區</td>
+						<td>賽事/活動	</td>
+						<td>項目</td>
+						<td>活動狀態</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="item in ContestsDTOes">
+						<td>{{item.contestDateString}}</td>
+						<td>{{item.area}}</td>
+						<td><a class="myMOUSE" @@click="selectContest(item.id)">{{item.name}}</a></td>
+						<td><span class="event-item" v-for="distance in item.distance"> {{distance}}K </span> </td>
+						<td>{{item.status}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 
-        <form ref="form">
-            <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title " id="exampleModalLabel">新增賽事/活動
-                                <br /> {{supplierName}}
-                            </h4>                            
-                           
-                            <button type="button" class="btn-close mb-5" data-bs-dismiss="modal" aria-label="Close"></button>
-                           
-                           
-                        </div>
-                        <div class="modal-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5 class="mt-3">賽事資料</h5>
-                                        <div class="form-group">
-                                            <label class="form-label">活動名稱:</label>
-                                            <input type="text" class="form-control" v-model="name" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">活動日期:</label>
-                                            <input type="date" class="form-control" v-model="contestDate" :min="todayDate" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">報名截止日:</label>
-                                            <input type="date" class="form-control"
-                                               v-model="registrationDeadline" :max="contestDate" :min="todayDate" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">活動地區:</label>
-                                            <input type="text" class="form-control" v-model="area" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">活動地點:</label>
-                                            <input type="text" class="form-control" v-model="location" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">地圖資訊:</label>
-                                            <input type="text" class="form-control" v-model="mapUrl" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">活動簡章:</label>
-                                            <textarea rows="7" class="form-control" v-model="detail" required></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5 class="mt-3">競賽項目</h5>
-                                        <div class="form-group">
-                                            <label class="form-label">項目1:</label>
-                                            <select class="form-select" v-model="categoryId1" required>
-                                                <option v-for="item in CategoriesDTOes" :value="item.id">
-                                                    {{item.category}}{{item.distance}}K
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">名額:</label>
-                                            <input type="text" class="form-control" v-model="quota1" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">金額:</label>
-                                            <input type="text" class="form-control" v-model="enterFee1" required />
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <label class="form-label">項目2:</label>
-                                            <select class="form-select" v-model="categoryId2">
-                                                <option v-for="item in CategoriesDTOes" :value="item.id">
-                                                    {{item.category}}{{item.distance}}K
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">名額:</label>
-                                            <input type="text" class="form-control" v-model="quota2" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">金額:</label>
-                                            <input type="text" class="form-control" v-model="enterFee2" />
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <label class="form-label">項目3:</label>
-                                            <select class="form-select" v-model="categoryId3">
-                                                <option v-for="item in CategoriesDTOes" :value="item.id">
-                                                    {{item.category}}{{item.distance}}K
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">名額:</label>
-                                            <input type="text" class="form-control" v-model="quota3" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">金額:</label>
-                                            <input type="text" class="form-control" v-model="enterFee3" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @@click="close">關閉</button>
-                            <button type="submit" class="btn btn-primary" @@click="validateAndInsert">新增</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    @section Scripts
-    {
-    <script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
-    <script>
-        var webApiBaseAddress = "https://localhost:7040";
-        var vueApp = {
-            data() {
-                return {
-                    Filter: "",
-                    ContestsDTOes: [],
-                    CategoriesDTOes: [],
-                    id: null,
-                    name: "",
-                    todayDate: new Date().toISOString().split('T')[0],
-                    contestDate: "",
-                    registrationDeadline: "",
-                    area: "",
-                    location: "",
-                    mapUrl: "",
-                    detail: "",
-                    categoryId1: "",
-                    categoryId2: "",
-                    categoryId3: "",
-                    quota1: "",
-                    quota2: "",
-                    quota3: "",
-                    enterFee1: "",
-                    enterFee2: "",
-                    enterFee3: "",
-                    supplierName:"",
-                };
-            },
-            mounted: function () {
-                let _this = this;
-                _this.getContestsDTOes();            
-            },
-            methods: {
-                getContestsDTOes: function () {
-                    let _this = this;
-                    axios.get(`${webApiBaseAddress}/api/Contests`).then(response => {
-                        _this.ContestsDTOes = response.data;
-                        for (var i = 0; i < _this.ContestsDTOes.length; i++) {
-                            _this.ContestsDTOes[i]['contestDateString'] = _this.ContestsDTOes[i].contestDate.substr(0, 10);
-                            var today = new Date();
-                            var DeadlineString = _this.ContestsDTOes[i].registrationDeadline.substr(0, 10);
-                            var registrationDeadline = new Date(DeadlineString);
-                            if (registrationDeadline > today) {
-                                _this.ContestsDTOes[i]['status'] = `報名中,${DeadlineString}截止`;
-                            }
-                            else {
-                                _this.ContestsDTOes[i]['status'] = "已截止報名";
-                            };
-                        };
-                        _this.ContestsDTOes = _this.ContestsDTOes.sort((a, b) => new Date(a.contestDate) - new Date(b.contestDate));
-                    });
-                },
+	<form ref="form">
+		<div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title " id="exampleModalLabel">
+							新增賽事/活動
+							<br /> {{supplierName}}
+						</h4>
 
-                selectContest: function (id) {
-                    window.location = `ContestDetail/#${id}`;
-                },
+						<button type="button" class="btn-close mb-5" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                filterContestsDTOs: function () {
-                    let _this = this;
-                    var request = {};
-                    request.Name = _this.Filter;
-                    axios.post(`${webApiBaseAddress}/api/Contests/Filter`, request).then(response => {
-                        _this.ContestsDTOes = response.data;
-                        for (var i = 0; i < _this.ContestsDTOes.length; i++) {
-                            _this.ContestsDTOes[i]['contestDateString'] = _this.ContestsDTOes[i].contestDate.substr(0, 10);
-                            var today = new Date();
-                            var DeadlineString = _this.ContestsDTOes[i].registrationDeadline.substr(0, 10);
-                            var registrationDeadline = new Date(DeadlineString);
-                            if (registrationDeadline > today) {
-                                _this.ContestsDTOes[i]['status'] = `報名中,${DeadlineString}截止`;
-                            }
-                            else {
-                                _this.ContestsDTOes[i]['status'] = "已截止報名";
-                            }
-                        };
-                        _this.ContestsDTOes = _this.ContestsDTOes.sort((a, b) => new Date(a.contestDate) - new Date(b.contestDate));
-                    });
-                },
 
-                showModal: function () {
-                    let _this = this;
-                    let supplierId = Cookies.get('SupplierId');
-                    if (!supplierId > 0) {
-                        alert("請先進行驗證")
-                        window.location = "/Supplier/Login";
-                    };
-                    axios.get(`${webApiBaseAddress}/api/Categories`).then(response => {
-                        _this.CategoriesDTOes = response.data;
-                    });
-                    axios.get(`${webApiBaseAddress}/api/Suppliers/${supplierId}`).then(response => {
-                        _this.supplierName = response.data.supplierName;
-                    });
-                    $("#insertModal").modal('show');
-                },
+					</div>
+					<div class="modal-body">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-6">
+									<h5 class="mt-3">賽事資料</h5>
+									<div class="form-group">
+										<label class="form-label">活動名稱:</label>
+										<input type="text" class="form-control" v-model="name" required />
+									</div>
+									<div class="form-group">
+										<label class="form-label">活動日期:</label>
+										<input type="date" class="form-control" v-model="contestDate" :min="todayDate" required />
+									</div>
+									<div class="form-group">
+										<label class="form-label">報名截止日:</label>
+										<input type="date" class="form-control"
+											   v-model="registrationDeadline" :max="contestDate" :min="todayDate" required />
+									</div>
+									<div class="form-group">
+										<label class="form-label">活動地區:</label>
+										<input type="text" class="form-control" v-model="area" required />
+									</div>
+									<div class="form-group">
+										<label class="form-label">活動地點:</label>
+										<input type="text" class="form-control" v-model="location" required />
+									</div>
+									<div class="form-group">
+										<label class="form-label">地圖資訊:</label>
+										<input type="text" class="form-control" v-model="mapUrl" required />
+									</div>
+									<div class="form-group">
+										<label class="form-label">活動簡章:</label>
+										<textarea rows="7" class="form-control" v-model="detail" required></textarea>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<h5 class="mt-3">競賽項目</h5>
+									<div class="form-group">
+										<label class="form-label">項目1:</label>
+										<select class="form-select" v-model="categoryId1" required>
+											<option v-for="item in CategoriesDTOes" :value="item.id">
+												{{item.category}}{{item.distance}}K
+											</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="form-label">名額:</label>
+										<input type="text" class="form-control" v-model="quota1" required />
+									</div>
+									<div class="form-group">
+										<label class="form-label">金額:</label>
+										<input type="text" class="form-control" v-model="enterFee1" required />
+									</div>
+									<div class="form-group mt-2">
+										<label class="form-label">項目2:</label>
+										<select class="form-select" v-model="categoryId2">
+											<option v-for="item in CategoriesDTOes" :value="item.id">
+												{{item.category}}{{item.distance}}K
+											</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="form-label">名額:</label>
+										<input type="text" class="form-control" v-model="quota2" />
+									</div>
+									<div class="form-group">
+										<label class="form-label">金額:</label>
+										<input type="text" class="form-control" v-model="enterFee2" />
+									</div>
+									<div class="form-group mt-2">
+										<label class="form-label">項目3:</label>
+										<select class="form-select" v-model="categoryId3">
+											<option v-for="item in CategoriesDTOes" :value="item.id">
+												{{item.category}}{{item.distance}}K
+											</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="form-label">名額:</label>
+										<input type="text" class="form-control" v-model="quota3" />
+									</div>
+									<div class="form-group">
+										<label class="form-label">金額:</label>
+										<input type="text" class="form-control" v-model="enterFee3" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-light" @@click="inputValue">輸入</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @@click="close">關閉</button>
+						<button type="submit" class="btn btn-primary" @@click="validateAndInsert">新增</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+@section Scripts
+	{
+	<script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
+	<script>
+		var webApiBaseAddress = "https://localhost:7040";
+		var vueApp = {
+			data() {
+				return {
+					Filter: "",
+					ContestsDTOes: [],
+					CategoriesDTOes: [],
+					id: null,
+					name: "",
+					todayDate: new Date().toISOString().split('T')[0],
+					contestDate: "",
+					registrationDeadline: "",
+					area: "",
+					location: "",
+					mapUrl: "",
+					detail: "",
+					categoryId1: "",
+					categoryId2: "",
+					categoryId3: "",
+					quota1: "",
+					quota2: "",
+					quota3: "",
+					enterFee1: "",
+					enterFee2: "",
+					enterFee3: "",
+					supplierName: "",
+				};
+			},
+			mounted: function () {
+				let _this = this;
+				_this.getContestsDTOes();
+			},
+			methods: {
+				getContestsDTOes: function () {
+					let _this = this;
+					axios.get(`${webApiBaseAddress}/api/Contests`).then(response => {
+						_this.ContestsDTOes = response.data;
+						for (var i = 0; i < _this.ContestsDTOes.length; i++) {
+							_this.ContestsDTOes[i]['contestDateString'] = _this.ContestsDTOes[i].contestDate.substr(0, 10);
+							var today = new Date();
+							var DeadlineString = _this.ContestsDTOes[i].registrationDeadline.substr(0, 10);
+							var registrationDeadline = new Date(DeadlineString);
+							if (registrationDeadline > today) {
+								_this.ContestsDTOes[i]['status'] = `報名中,${DeadlineString}截止`;
+							}
+							else {
+								_this.ContestsDTOes[i]['status'] = "已截止報名";
+							};
+						};
+						_this.ContestsDTOes = _this.ContestsDTOes.sort((a, b) => new Date(a.contestDate) - new Date(b.contestDate));
+					});
+				},
 
-                insert: function () {
-                    var _this = this;
-                    var request = {};
-                    request.Id = 0;
-                    request.SupplierId = Cookies.get('SupplierId');
-                    request.Name = _this.name;
-                    request.ContestDate = new Date(_this.contestDate);
-                    request.RegistrationDeadline = new Date(_this.registrationDeadline);
-                    request.Area = _this.area;
-                    request.Location = _this.location;
-                    request.MapUrl = _this.mapUrl.replace("<iframe ", "").replace("></iframe>", "");
-                    request.Detail = _this.detail;
-                    request.CategoryId = [_this.categoryId1, _this.categoryId2, _this.categoryId3].filter((n) => n);
-                    request.Quota = [_this.quota1, _this.quota2, _this.quota3].filter((n) => n);
-                    request.EnterFee = [_this.enterFee1, _this.enterFee2, _this.enterFee3].filter((n) => n);
-                    axios.post(`${webApiBaseAddress}/api/Contests`, request).then(response => {
-                        alert(response.data);
-                        Cookies.remove('SupplierId');
-                        window.location = "/Contest/ContestIndex";
-                    });
-                },
+				selectContest: function (id) {
+					window.location = `ContestDetail/#${id}`;
+				},
 
-                validateAndInsert: function () {
-                    var _this = this;
-                    if (_this.$refs.form.checkValidity()) {
-                        _this.insert();
-                    }
-                    else {
-                        alert("請填寫所有必填欄位");
-                    }
-                },
+				filterContestsDTOs: function () {
+					let _this = this;
+					var request = {};
+					request.Name = _this.Filter;
+					axios.post(`${webApiBaseAddress}/api/Contests/Filter`, request).then(response => {
+						_this.ContestsDTOes = response.data;
+						for (var i = 0; i < _this.ContestsDTOes.length; i++) {
+							_this.ContestsDTOes[i]['contestDateString'] = _this.ContestsDTOes[i].contestDate.substr(0, 10);
+							var today = new Date();
+							var DeadlineString = _this.ContestsDTOes[i].registrationDeadline.substr(0, 10);
+							var registrationDeadline = new Date(DeadlineString);
+							if (registrationDeadline > today) {
+								_this.ContestsDTOes[i]['status'] = `報名中,${DeadlineString}截止`;
+							}
+							else {
+								_this.ContestsDTOes[i]['status'] = "已截止報名";
+							}
+						};
+						_this.ContestsDTOes = _this.ContestsDTOes.sort((a, b) => new Date(a.contestDate) - new Date(b.contestDate));
+					});
+				},
 
-                close: function () {
-                    Cookies.remove('SupplierId');
-                },
-            },
-        };
-        var app = Vue.createApp(vueApp).mount("#app");
+				showModal: function () {
+					let _this = this;
+					let supplierId = Cookies.get('SupplierId');
+					if (!supplierId > 0) {
+						alert("請先進行驗證")
+						window.location = "/Supplier/Login";
+					};
+					axios.get(`${webApiBaseAddress}/api/Categories`).then(response => {
+						_this.CategoriesDTOes = response.data;
+					});
+					axios.get(`${webApiBaseAddress}/api/Suppliers/${supplierId}`).then(response => {
+						_this.supplierName = response.data.supplierName;
+					});
+					$("#insertModal").modal('show');
+				},
 
-    </script>
+				insert: function () {
+					var _this = this;
+					var request = {};
+					request.Id = 0;
+					request.SupplierId = Cookies.get('SupplierId');
+					request.Name = _this.name;
+					request.ContestDate = new Date(_this.contestDate);
+					request.RegistrationDeadline = new Date(_this.registrationDeadline);
+					request.Area = _this.area;
+					request.Location = _this.location;
+					request.MapUrl = _this.mapUrl.replace("<iframe ", "").replace("></iframe>", "");
+					request.Detail = _this.detail;
+					request.CategoryId = [_this.categoryId1, _this.categoryId2, _this.categoryId3].filter((n) => n);
+					request.Quota = [_this.quota1, _this.quota2, _this.quota3].filter((n) => n);
+					request.EnterFee = [_this.enterFee1, _this.enterFee2, _this.enterFee3].filter((n) => n);
+					axios.post(`${webApiBaseAddress}/api/Contests`, request).then(response => {
+						alert(response.data);
+						Cookies.remove('SupplierId');
+						window.location = "/Contest/ContestIndex";
+					});
+				},
+
+				validateAndInsert: function () {
+					var _this = this;
+					if (_this.$refs.form.checkValidity()) {
+						_this.insert();
+					}
+					else {
+						alert("請填寫所有必填欄位");
+					}
+				},
+
+				close: function () {
+					Cookies.remove('SupplierId');
+				},
+
+				inputValue: function () {
+					var _this = this;
+					_this.name = "2023太平山雲端漫步";					
+					_this.area = "宜蘭縣";
+					_this.location = "太平山山莊廣場"
+					_this.mapUrl = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3630.7241667272197!2d121.53362901544021!3d24.49501231583846!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346870b2dadc87e7%3A0xed1bc3bf708e8c80!2z5aSq5bmz5bGx6I6K!5e0!3m2!1szh-TW!2stw!4v1679304034547!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+					_this.detail="太平山是早期台灣四大林場之一，太平山景觀道路，沿著海拔約2千公尺的等高線修築的運材棧道，道路二側紅檜扁柏，蓊鬱蒼翠，林道就穿行在無邊的濃翠之中，生物、植物資源多樣，穿梭林道間，山巒層層起伏、雲霧縹緲， 猶如漫步雲端感受大地脈動，格外具有挑戰性。本活動因林道狹窄，不鼓勵競速，讓參加人員在森林中呼吸芬多精、吸收負離子，悠遊山林，享受山林之美!2021、2022年因為新冠疫情的影響、及颱風外圍環流的影響，我們的活動被迫停辦並延期，但為了關懷弱勢家庭，讓在困境中的家庭，得到照顧、感受社會的溫暖，因為疫情及颱風影響活動停辦了，但我們在2022年毅然捐出部分報名費10萬元協助澎湖惠民醫院重建，並累積捐款新臺幣2,103,977元給各社福團體。活動前一日112年5月5日(星期五)，如中央氣象局發佈“豪雨特報” 颱風預報或空軍氣象中心建議或遇人力不可抗拒之天然災害，為考量選手、志工及所有參與人員安全，本活動將立即公告與通知延至5月20日（星期六）同時段辦理。大會將以手機簡訊、社群網路通知所有參加人員，並於官網發佈取消、延期舉辦訊息。如照常舉行將不另通知。若兩日皆因天候因素而取消，本活動即取消辦理。";
+					_this.categoryId1=2;
+					_this.categoryId2=1;
+					_this.quota1="1200";
+					_this.quota2="400";
+					_this.enterFee1="1900";
+					_this.enterFee2="1300"
+				},
+			},
+		};
+		var app = Vue.createApp(vueApp).mount("#app");
+
+	</script>
 }
