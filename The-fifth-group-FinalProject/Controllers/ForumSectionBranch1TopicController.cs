@@ -29,7 +29,7 @@ namespace The_fifth_group_FinalProject.Controllers
 
 		public async Task<IActionResult> Index2()
 		{
-			var theFifthGroupOfTopicsContext = _context.ForumSectionBranch1Topics.Include(f => f.Branch).Where(f => f.BranchId == 2);
+			var theFifthGroupOfTopicsContext = _context.ForumSectionBranch1Topics.Include(f => f.Branch).Where(f => f.BranchId == 4);
 
 
 			return View(await theFifthGroupOfTopicsContext.ToListAsync());

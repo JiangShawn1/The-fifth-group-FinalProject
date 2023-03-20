@@ -44,7 +44,7 @@
 		@if (item.SectionNameId == 1)
 		{
 		<div>
-				<a href='https://localhost:7123/ForumSectionBranch1Topic/Index' +'>@Html.DisplayFor(modelItem => item.BranchName)</a>
+				<a href='https://localhost:7123/ForumSectionBranch1Topic/Index'+ @Html.DisplayFor(modelItem=> item.SectionNameId)>@Html.DisplayFor(modelItem => item.BranchName)</a>
 		</div>
 		}
 	}
@@ -60,7 +60,7 @@
 		@if (item.SectionNameId == 2)
 		{
 			<div>
-				<a href="https://localhost:7123/ForumSectionBranch1Topic/Index">@Html.DisplayFor(modelItem => item.BranchName)</a>
+				<a href='https://localhost:7123/ForumSectionBranch1Topic/Index2'+ @Html.DisplayFor(modelItem=> item.SectionNameId)>@Html.DisplayFor(modelItem => item.BranchName)</a>
 			</div>
 		}
 	}
@@ -76,7 +76,7 @@
 		@if (item.SectionNameId == 3)
 		{
 			<div>
-				<a id="topicurl" href="https://localhost:7123/ForumSectionBranch1Topic/Index">@Html.DisplayFor(modelItem => item.BranchName)</a>
+				<a id="topicurl" href='https://localhost:7123/ForumSectionBranch1Topic/Index'+ @Html.DisplayFor(modelItem=> item.SectionNameId)>@Html.DisplayFor(modelItem => item.BranchName)</a>
 			</div>
 		}
 	}
@@ -91,7 +91,7 @@
 		@if (item.SectionNameId == 4)
 		{
 			<div>
-				<a href="https://localhost:7123/ForumSectionBranch1Topic/Index">@Html.DisplayFor(modelItem => item.BranchName)</a>
+				<a href='https://localhost:7123/ForumSectionBranch1Topic/Index'+ @Html.DisplayFor(modelItem=> item.SectionNameId)>@Html.DisplayFor(modelItem => item.BranchName)</a>
 			</div>
 		}
 	}

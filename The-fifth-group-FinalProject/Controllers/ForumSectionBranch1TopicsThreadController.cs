@@ -73,8 +73,15 @@ namespace The_fifth_group_FinalProject.Controllers
 
 
 
-            //forumSectionBranch1TopicsThread.ReplyMember =
-            //    forumSectionBranch1TopicsThread.Topic = 
+            forumSectionBranch1TopicsThread.TopicId = 1;
+            forumSectionBranch1TopicsThread.TopicState = 1;
+            forumSectionBranch1TopicsThread.ReplyNumber = forumSectionBranch1TopicsThread.ReplyNumber;
+			var replyMember = await _context.Members.FindAsync(forumSectionBranch1TopicsThread.ReplyMemberId);
+			var topic = await _context.ForumSectionBranch1Topics.FindAsync(forumSectionBranch1TopicsThread.TopicId);
+
+			// 分配实体给虚拟导航属性
+			forumSectionBranch1TopicsThread.ReplyMember = replyMember;
+			forumSectionBranch1TopicsThread.Topic = topic;
 
 
 			if (ModelState.IsValid)
