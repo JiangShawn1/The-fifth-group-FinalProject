@@ -11,12 +11,15 @@
 		{
 			text-align:center;
 			display: inline;
-		
+			margin-bottom:20px;
+			
 		}
 
 		.pac{
 			display:inline-block;
 			width:200px;
+			margin:0;
+			padding:0;
 		}
 
 		.container-fluid{
@@ -25,67 +28,77 @@
 
 		}
 		.bb{
+			margin-top:20px;
 			width:200px;
-			display:inline;
+			display:inline-block;
 		}
 		#forumApp div{
 			text-align: center;	
 		}		
 	</style>
 }
+
+<div id="app">
 <div class="container-fluid d-flex " id="forumApp">
 	<div  class="pac">
 		<div class="modal-header ">
-		新手上路
-
-		</div class="bb">
+			新手上路
+		</div>
+		
+		<div class="bb" >
 		@foreach (var item in Model)
 		{	
 		@if (item.SectionNameId == 1)
 		{
-		<div>
+		<div >
 				<a href='https://localhost:7123/ForumSectionBranch1Topic/Index'+ @Html.DisplayFor(modelItem=> item.SectionNameId)>@Html.DisplayFor(modelItem => item.BranchName)</a>
 		</div>
 		}
 	}
+		</div>
 	</div>
 	
 	<div class="pac">
 	<div class="modal-header">
 	運動賽事	
-	</div>
-
+	</div >
+	<div class="bb">
 	@foreach (var item in Model)
 	{
 		@if (item.SectionNameId == 2)
 		{
-			<div>
+				<div >
 				<a href='https://localhost:7123/ForumSectionBranch1Topic/Index2'+ @Html.DisplayFor(modelItem=> item.SectionNameId)>@Html.DisplayFor(modelItem => item.BranchName)</a>
 			</div>
 		}
 	}
+
 	</div>
+		</div>
 
 	<div class="pac">
-	<div class="modal-header ">
-	心得分享			
-	</div>
-
+			<div class="modal-header ">
+			心得分享			
+			</div>
+		<div class="bb">
 	@foreach (var item in Model)
 	{
 		@if (item.SectionNameId == 3)
 		{
-			<div>
+				<div >
 				<a id="topicurl" href='https://localhost:7123/ForumSectionBranch1Topic/Index'+ @Html.DisplayFor(modelItem=> item.SectionNameId)>@Html.DisplayFor(modelItem => item.BranchName)</a>
-			</div>
+				</div>
 		}
 	}
+		</div>
 	</div>
 
 	<div class="pac">
 	<div class="modal-header ">
 		版務
 	</div>
+
+		<div class="bb">
 	@foreach (var item in Model)
 	{
 		@if (item.SectionNameId == 4)
@@ -95,9 +108,10 @@
 			</div>
 		}
 	}
+		</div>
 	</div>
 </div>
-
+</div>
 @*@foreach (var item in Model)
 { var max = ViewBag.Max(item.SectionNameId);
 
