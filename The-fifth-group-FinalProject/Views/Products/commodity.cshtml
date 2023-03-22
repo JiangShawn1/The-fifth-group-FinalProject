@@ -95,7 +95,7 @@
 					<h2 class="card-title">{{ commodity.productName }}</h2>
 					<p class="card-text">品牌: {{ commodity.brand }}</p>
 					<p class="card-text">顏色: {{ commodity.color }}</p>
-					<p class="card-text">價錢: {{ commodity.price }}</p>
+					<p class="card-text">價錢:$ {{ commodity.price }}</p>
 					<div style="max-width: 400px;">
 						<div class="row">
 							<div class="col-3 my-2 d-flex justify-content-center" v-for="size in sizes" :key="size.id">
@@ -112,7 +112,7 @@
 						<p class="m-0 mx-3">{{ qty }}</p>
 						<button @@click="qty++" class="btn btn-outline-secondary">+</button>
 					</div>
-					<button class="btn btn-primary mt-3" @@click="insert">Add to Cart</button>
+					<button class="btn btn-primary mt-3" @@click="insert">加入購物車</button>
 				</div>
 			</div>
 		</div>
